@@ -1,37 +1,30 @@
 module.exports = [
-    {
-        
-        "film": "Lord of the Rings",
-        "genres": "Fantasy"
-    },
-    {
-        
-        "film": "The Godfather",
-        "genres": "Classics"
-    },
-    {
-        
-        "film": "1917",
-        "genres": "War"
-    },
-    {
-        
-        "film": "John Wick",
-        "genres": "Action"
-    },
-    {
-        
-        "film": "Inside Out",
-        "genres": "Kids"
-    },
-    {
-        
-        "film": "Saw X",
-        "genres": "Horror"
-    },
-    {
-        
-        "film": "Love Actually",
-        "genres": "Rom-Com"
-    }
-]
+  {
+    film_title: "Lord of the Rings",
+    genre: "Fantasy",
+  },
+  {
+    film_title: "The Godfather",
+    genre: "Classics",
+  },
+  {
+    film_title: "1917",
+    genre: "War",
+  },
+  {
+    film_title: "John Wick",
+    genre: "Action",
+  },
+  {
+    film_title: "Inside Out",
+    genre: "Kids",
+  },
+  {
+    film_title: "Saw X",
+    genre: "Horror",
+  },
+  {
+    film_title: "Love Actually",
+    genre: "Rom-Com",
+  },
+];

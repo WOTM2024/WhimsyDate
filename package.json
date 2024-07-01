@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
+    "seed": "node ./db/seeds/run-seed.js",
     "view-db-test": "psql -f ./db/view-whimsy_date_test-db.sql > whimsy_date_test-db.txt",
     "test": "jest"
   },
