@@ -1,0 +1,6 @@
+exports.userData = require('./users.js')
+exports.activitiesData = require('./activities.js')
+exports.foodData = require('./food.js')
+exports.filmsData = require('./films.js')
+exports.tvShowsData = require('./tv-shows.js')
+exports.couples = require('./couples.js')
