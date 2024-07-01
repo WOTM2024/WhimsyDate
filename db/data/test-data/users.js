@@ -1,6 +1,6 @@
 module.exports = [
     {
-        "User_Id": "1",
+        
         "Username": "Bob",
         "Activities (act-id)": "[4]",
         "Food choices (food-id)": "[1, 2, 4]",
@@ -9,7 +9,7 @@ module.exports = [
         "User gen….": null
     },
     {
-        "User_Id": "2",
+        
         "Username": "Pirate Magoo",
         "Activities (act-id)": "[1, 2, 4]",
         "Food choices (food-id)": "[1, 2, 3, 4, 5, 6]",
@@ -18,7 +18,7 @@ module.exports = [
         "User gen….": null
     },
     {
-        "User_Id": "3",
+        
         "Username": "Toastie Toasterson",
         "Activities (act-id)": "[5]",
         "Food choices (food-id)": "[1, 6]",

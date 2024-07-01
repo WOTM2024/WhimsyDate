@@ -1,7 +1,7 @@
-\c whimsy_date_test
-SELECT * FROM users;
-SELECT * FROM activities;
-SELECT * FROM foods;
-SELECT * FROM films;
-SELECT * FROM tvShows;
-SELECT * FROM couples;
+\c whimsy_dates_test
+SELECT * FROM users_table;
+SELECT * FROM activities_table;
+SELECT * FROM foods_table;
+SELECT * FROM films_table;
+SELECT * FROM tv_shows_table;
+SELECT * FROM couples_table;

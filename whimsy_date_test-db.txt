@@ -1,1 +1,1 @@
-You are now connected to database "whimsy_date_test" as user "will".
+You are now connected to database "whimsy_dates_test" as user "will".
