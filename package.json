@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "setup-dbs": "psql -f ./db/setup.sql",
+    "view-db-test": "psql -f ./db/view-whimsy_date_test-db.sql > whimsy_date_test-db.txt",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
