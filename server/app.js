@@ -1,5 +1,6 @@
 const express = require("express");
-const movies = require("./routes/films");
+const movies = require("./routes/movie-route");
+const tvShows = require("./routes/tv-route");
 require("dotenv").config();
 const mongoose = require("mongoose");
 
@@ -8,7 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/movies", movies);
+app.use("/api/movies", movies);
+app.use("/api/tvShows", tvShows);
 
 mongoose
   .connect(process.env.DB_CONNECTION)
