@@ -27,12 +27,12 @@ export default function LoginScreen() {
         <TouchableOpacity className="border">
           <Text className="text-base text-center">Register</Text>
         </TouchableOpacity>
-        {/* Below is temp content */}
-        <View className="m-10" />
-        <TouchableOpacity onPress={onPressHandle_navWelcome} className="border">
-          <Text className="text-base">welcome screen</Text>
-        </TouchableOpacity>
       </View>
+      {/* Below is temp content */}
+      <View className="m-10" />
+      <TouchableOpacity onPress={onPressHandle_navWelcome} className="border">
+        <Text className="text-base">welcome screen</Text>
+      </TouchableOpacity>
     </View>
   );
 }

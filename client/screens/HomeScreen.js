@@ -11,12 +11,29 @@ export default function HomeScreen() {
     navigation.navigate("Activities");
   }
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home</Text>
-      <TouchableOpacity onPress={onPressHandle_navTieBreaker}>
+    <View className="flex-1 items-center ">
+      {/* <Text>Home</Text> */}
+      <View className="m-5" />
+      <Text className="text-3xl">Swipe left/right to spin</Text>
+      <View className="m-2" />
+      <View className="border w-96 h-96"></View>
+      <View className="m-2" />
+      <View className="w-52">
+        <TouchableOpacity className="border">
+          <Text className="text-base text-center">Veto</Text>
+        </TouchableOpacity>
+        <View className="m-1" />
+        <TouchableOpacity className="border">
+          <Text className="text-base text-center">Select</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Below is temp content */}
+      <View className="m-10" />
+      <TouchableOpacity onPress={onPressHandle_navTieBreaker} className="border">
         <Text>Go to tie breaker Screen</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onPressHandle_navActivities}>
+      <TouchableOpacity onPress={onPressHandle_navActivities} className="border">
         <Text>Go to activities Screen</Text>
       </TouchableOpacity>
     </View>
