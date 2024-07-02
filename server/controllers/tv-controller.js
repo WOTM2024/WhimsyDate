@@ -1,4 +1,4 @@
-const TvShow = require("../models/tv-model");
+const TvShow = require("../models/tv-shows-model");
 
 const getTvShows = async (req, res) => {
   try {
