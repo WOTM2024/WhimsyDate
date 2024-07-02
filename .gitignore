@@ -1,4 +1,9 @@
 node_modules
+======= feature_branch_02
 .env
 .env.*
 
+=======
+.env.*
+.env
+======= main
