@@ -34,6 +34,7 @@ export default function WelcomeScreen() {
         <Text className="text-2xl">Eat Out/In</Text>
       </View>
 
+      {/* Below is temp content */}
       <View className="m-10" />
       <View>
         <TouchableOpacity onPress={onPressHandle_navHome} className="border">
