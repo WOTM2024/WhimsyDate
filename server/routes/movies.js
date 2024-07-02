@@ -1,9 +1,9 @@
 const express = require("express");
-const { postMovies, getMovies } = require("../controllers/films-controller");
+const { postMovies, getMovies } = require("../controllers/movie-controller");
 
 router = express.Router();
 
 router.get("/", getMovies);
-router.post("/add", postMovies);
+router.post("/", postMovies);
 
 module.exports = router;

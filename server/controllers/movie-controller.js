@@ -1,9 +1,9 @@
-const Movie = require("../models/films-model");
+const Movie = require("../models/movies-model");
 
 const getMovies = async (req, res) => {
   try {
     const movies = await Movie.find();
-    console.log(movies);
+
     res.status(200).json({ success: true, data: movies });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error });
