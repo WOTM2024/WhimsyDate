@@ -1,19 +1,12 @@
 const mongoose = require("mongoose");
 
-const Media = new mongoose.Schema({
+const Movie = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
   genre: {
     type: String,
-    required: true,
-  },
-});
-
-const Movie = new mongoose.Schema({
-  movie: {
-    type: [Media],
     required: true,
   },
 });

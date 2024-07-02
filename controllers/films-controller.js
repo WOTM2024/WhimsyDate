@@ -12,16 +12,16 @@ const getMovies = async (req, res) => {
 
 const postMovies = async (req, res) => {
   try {
-    const { name } = req.body;
-    const { genre } = req.body;
+    const movies = req.body;
 
-    const newMovie = new Movie({
-      name: name,
-      genre: genre,
-    });
+    if (!Array.isArray(movies)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Input should be an array" });
+    }
 
-    const savedMovie = await newMovie.save();
-    res.status(201).json({ success: true, data: savedMovie });
+    const savedMovies = await Movie.insertMany(movies);
+    res.status(201).json({ success: true, data: savedMovies });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error });
   }
