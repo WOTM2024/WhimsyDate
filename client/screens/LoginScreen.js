@@ -8,10 +8,10 @@ export default function LoginScreen() {
     navigation.replace("Welcome");
   }
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Login</Text>
+    <View className="flex-1 items-center justify-center bg-white">
+      <Text className="text-5xl">Login</Text>
       <TouchableOpacity onPress={onPressHandle_navWelcome}>
-        <Text>Go to welcome screen</Text>
+        <Text className="text-base border-1">Go to welcome screen</Text>
       </TouchableOpacity>
     </View>
   );
