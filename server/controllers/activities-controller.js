@@ -1,9 +1,18 @@
 const Activity = require("../models/activities-model")
 
+
 const getActivities = async (req, res) => {
     try {
         
         const { category, cost, isCollaborative } = req.query;
+        
+        const validQueryParams = ['category', 'cost', 'isCollaborative'];
+        const invalidParams = Object.keys(req.query).filter(param => !validQueryParams.includes(param));
+        if(invalidParams.length > 0) {
+            return res.status(400).json({ success: false, message: "Invalid query parameter"});
+        }
+
+
 
         let filter = {};
         if(category) {
@@ -32,6 +41,19 @@ const postActivities = async (req, res) => {
         if (!Array.isArray(activities)) {
             return res.status(400)
             .json({ success: false, message: "Input should be an array"});
+        }
+
+        for (const activity of activities) {
+            if (!activity.activity_name || !activity.category || activity.isCollaborative === undefined || activity.cost === undefined) {
+                return res.status(400).json({ success: false, message: "Missing required fields"});
+            }
+        }
+
+        for(const activity of activities) {
+            const existingActivity = await Activity.findOne({ activity_name: activity.activity_name });
+            if (existingActivity) {
+                return res.status(409).json({ success: false, message: "This option already exists! Please use that one."})
+            }
         }
 
         const savedActivities = await Activity.insertMany(activities);
