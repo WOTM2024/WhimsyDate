@@ -20,6 +20,15 @@ app.use("/users", users);
 app.use("/activities", activities);
 app.use("/foods", foods);
 
+app.use((req, res, next) => {
+  res.status(404).json({ msg: "Invalid endpoint, please try again" });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ msg: "Internal server error", error: err.message });
+});
+
 mongoose
   .connect(process.env.DB_CONNECTION)
   .then(() => {

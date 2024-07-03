@@ -1,32 +1,40 @@
 const Food = require("../models/foods-model");
 
-const getFoods = async (req, res) =>{
+const getFoods = async (req, res) => {
     try {
         const foods = await Food.find();
-        console.log(foods)
         res.status(200).json({ success: true, data: foods });
-    } catch (error){
-        res.status(409).json({ success: false, data: [], error: error });
+    } catch (error) {
+        res.status(409).json({ success: false, data: [], error: error.message });
     }
 };
+
+
 
 const postFoods = async (req, res) => {
     try {
         const foods = req.body;
-        
+
         if (!Array.isArray(req.body)) {
-            return res
-              .status(400)
-              .json({ success: false, message: "Input should be an array" });
-          }
-          
-        
+            return res.status(400).json({ success: false, message: "Input should be an array" });
+        }
+
+        for (let food of foods) {
+            if (!food.food) {
+                return res.status(400).json({ success: false, message: "Don't forget to add the name of the food!" } );
+            }
+        }
+
+        const existingFoodOptions = await Food.find({ food: { $in: foods.map(foodOption => foodOption.food) } })
+        if(existingFoodOptions!==0){
+            return res.status(409).json({ success: false, message: "This option already exists in our database, please use that instead of adding it again."})
+        }
 
         const savedFood = await Food.insertMany(foods);
         res.status(201).json({ success: true, data: savedFood });
-    } catch  (error) {
+    } catch (error) {
         console.log(error)
-        res.status(409).json({ success: false, data: [], error: error });
+        res.status(409).json({ success: false, data: [], error: error.message });
     }
 }
 
