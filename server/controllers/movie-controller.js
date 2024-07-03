@@ -2,7 +2,14 @@ const Movie = require("../models/movies-model");
 
 const getMovies = async (req, res) => {
   try {
-    const movies = await Movie.find();
+    const { genre } = req.query;
+    let filteredGenre = {};
+
+    if (genre) {
+      filteredGenre.genre = genre;
+    }
+
+    const movies = await Movie.find(filteredGenre);
 
     res.status(200).json({ success: true, data: movies });
   } catch (error) {
