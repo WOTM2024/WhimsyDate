@@ -11,6 +11,8 @@ import ActivitiesScreen from "./screens/ActivitiesScreen";
 
 const Stack = createNativeStackNavigator();
 
+//https://tailwindcss.com/docs/customizing-colors#default-color-palette
+
 export default function App() {
   return (
     <NavigationContainer>
