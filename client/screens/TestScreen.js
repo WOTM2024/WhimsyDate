@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, Image, Dimensions } from "react-native";
 import { interpolate } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
+// https://reanimated-carousel.dev/
 
 const window = Dimensions.get("window");
 const scale = 0.7;
@@ -9,7 +10,7 @@ const PAGE_WIDTH = window.width * scale;
 const PAGE_HEIGHT = 240 * scale;
 
 export default function TestScreen() {
-  const animationStyle = React.useCallback((value) => {
+  const animationStyle = useCallback((value) => {
     "worklet";
 
     const zIndex = interpolate(value, [-1, 0, 1], [10, 20, 30]);
@@ -35,8 +36,8 @@ export default function TestScreen() {
         width={PAGE_WIDTH}
         height={PAGE_HEIGHT}
         autoPlay={true}
-        autoPlayInterval={300}
-        scrollAnimationDuration={300}
+        autoPlayInterval={100}
+        scrollAnimationDuration={100}
         data={images}
         onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ index }) => {
