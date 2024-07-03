@@ -1,4 +1,5 @@
 const Movie = require("../models/movies-model");
+const Counter = require("../models/counter-schema");
 
 const getMovies = async (req, res) => {
   try {
@@ -27,7 +28,19 @@ const postMovies = async (req, res) => {
         .json({ success: false, message: "Input should be an array" });
     }
 
-    const savedMovies = await Movie.insertMany(movies);
+    const updatedMovies = await Promise.all(
+      movies.map(async (movie) => {
+        const counter = await Counter.findOneAndUpdate(
+          { model: "Movie" },
+          { $inc: { seq: 1 } },
+          { new: true, upsert: true }
+        );
+        movie.movie_id = counter.seq;
+        return movie;
+      })
+    );
+
+    const savedMovies = await Movie.insertMany(updatedMovies);
     res.status(201).json({ success: true, data: savedMovies });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error });
