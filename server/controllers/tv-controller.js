@@ -2,8 +2,14 @@ const TvShow = require("../models/tv-shows-model");
 
 const getTvShows = async (req, res) => {
   try {
-    const tvShows = await TvShow.find();
+    const { genre } = req.query;
+    let filteredGenre = {};
 
+    if (genre) {
+      filteredGenre.genre = genre;
+    }
+
+    const tvShows = await TvShow.find(filteredGenre);
     res.status(200).json({ success: true, data: tvShows });
   } catch (error) {
     res.status(409).json({ sucess: false, data: [], error: error });
