@@ -29,6 +29,4 @@ mongoose
     console.error("Failed to connect to the database:", err);
   });
 
-app.listen(9091, () => {
-  console.log("Server running on port 9091...");
-});
+module.exports = app

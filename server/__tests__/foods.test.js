@@ -1,3 +1,6 @@
+const request = require('supertest');
+const app = require('../app');
+
 describe("GET: /foods", () => {
     test("200: responds with an array of all foods", () => {
         return request(app)
