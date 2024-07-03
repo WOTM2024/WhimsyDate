@@ -1,0 +1,18 @@
+[
+    {
+        "show": "Breaking Bad",
+        "genre": "Drama"
+    },
+    {
+        "show": "Game of Thrones",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "Bridgerton",
+        "genre": "Romance"
+    },
+    {
+        "show": "Taskmaster",
+        "genre": "Gameshow"
+    }
+]

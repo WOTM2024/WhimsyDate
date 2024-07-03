@@ -1,0 +1,50 @@
+[
+    {
+        "film": "Lord of the Rings",
+        "genre": "Fantasy"
+    },
+    {
+        "film": "The Godfather",
+        "genre": "Classics"
+    },
+    {
+        "film": "1917",
+        "genre": "War"
+    },
+    {
+        "film": "John Wick",
+        "genre": "Action"
+    },
+    {
+        "film": "Inside Out",
+        "genre": "Kids"
+    },
+    {
+        "film": "Saw X",
+        "genre": "Horror"
+    },
+    {
+        "film": "Love Actually",
+        "genre": "Rom-Com"
+    },
+    {
+        "name": "Inception",
+        "genre": "Sci-Fi"
+    },
+    {
+        "name": "Dunkirk",
+        "genre": "War"
+    },
+    {
+        "name": "Interstellar",
+        "genre": "Sci-Fi"
+    },
+    {
+        "name": "The Dark Knight",
+        "genre": "Action"
+    },
+    {
+        "name": "Harry potter",
+        "genre": "fantasy"
+    }
+]

@@ -1,0 +1,103 @@
+[
+    {
+        "activity_name": "skiing",
+        "category": "winter sport",
+        "isCollaborative": false,
+        "cost": true
+    },
+    {
+        "activity_name": "kayaking",
+        "category": "water sport",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "chess",
+        "category": "mind sport",
+        "isCollaborative": true,
+        "cost": false
+    },
+    {
+        "activity_name": "climbing",
+        "category": "extreme sport",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Rum-tasting",
+        "category": "leisure",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Kayaking",
+        "category": "Outdoor Persuits",
+        "isCollaborative": true
+    },
+    {
+        "activity_name": "Monopoly",
+        "category": "Board Games",
+        "isCollaborative": true,
+        "cost": false
+    },
+    {
+        "activity_name": "Pool",
+        "category": "Pub Games",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Rust",
+        "category": "Gaming",
+        "isCollaborative": true,
+        "cost": false
+    },
+    {
+        "activity_name": "Karting",
+        "category": "Outdoor Persuits",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Bowling",
+        "category": "Indoor Sports",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Salsa Dancing",
+        "category": "Indoor Sports",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Climbing",
+        "category": "Outdoor Persuits",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Kitesurfing",
+        "category": "Outdoor Persuits",
+        "isCollaborative": false,
+        "cost": true
+    },
+    {
+        "activity_name": "Axe Throwing",
+        "category": "Indoor Sports",
+        "isCollaborative": true,
+        "cost": true
+    },
+    {
+        "activity_name": "Limbo",
+        "category": "Indoor Sports",
+        "isCollaborative": true,
+        "cost": false
+    },
+    {
+        "activity_name": "Spelunking",
+        "category": "Outdoor Persuits",
+        "isCollaborative": true,
+        "cost": false
+    }
+]
