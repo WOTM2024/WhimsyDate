@@ -1,3 +1,4 @@
+// App.js
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,6 +11,8 @@ import LoginScreen from "./screens/LoginScreen";
 import ActivitiesScreen from "./screens/ActivitiesScreen";
 
 const Stack = createNativeStackNavigator();
+
+// https://tailwindcss.com/docs/customizing-colors#default-color-palette
 
 export default function App() {
   return (
