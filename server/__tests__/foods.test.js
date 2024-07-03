@@ -4,7 +4,10 @@ const mongoose = require("mongoose");
 const Food = require('../models/foods-model');
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.DB_CONNECTION);
+    await mongoose.connect(process.env.DB_CONNECTION, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 });
 
 afterAll(async () => {
@@ -59,7 +62,7 @@ describe("POST: /foods/add", () => {
             .expect(201)
             .then(({ body }) => {
                 expect(body.success).toBe(true);
-                expect(body.data[0]).toMatchObject({
+                expect(body.data).toMatchObject({
                     food: "Tofu Express",
                     vegetarian: true,
                     vegan: true,
@@ -68,6 +71,7 @@ describe("POST: /foods/add", () => {
                 });
             });
     });
+
     test("400: ERROR - responds with an error when required fields are missing", () => {
         const missingInfo = [
             {
@@ -85,26 +89,47 @@ describe("POST: /foods/add", () => {
                 expect(body.message).toBe("Don't forget to add the name of the food!");
             });
     });
-    test("409: ERROR - responds with an error when the food option is already in the database", () => {
+
+    test("201: Will avoid duplicating food options on the database, instead updating the existing entry", () => {
         const multipleFoodOption = [
             {
-            food: "Rio's Steakhouse",
-            vegetarian: false,
-            vegan: false,
-            meat: true,
-            allergies: true
+                food: "Rio's Steakhouse",
+                vegetarian: false,
+                vegan: false,
+                meat: true,
+                allergies: true
             }
         ];
 
         return request(app)
             .post("/foods/add")
             .send(multipleFoodOption)
-            .expect(409)
+            .expect(201)
             .then(({ body }) => {
-                expect(body.success).toBe(false);
-                expect(body.message).toBe("This option already exists in our database, please use that instead of adding it again.");
+                expect(body.success).toBe(true);
+                expect(body.data).toMatchObject({
+                    food: "Rio's Steakhouse",
+                    vegetarian: false,
+                    vegan: false,
+                    meat: true,
+                    allergies: true
                 });
-
+            })
+            .then(() => {
+                return request(app)
+                    .get("/foods")
+                    .expect(200)
+                    .then(({ body }) => {
+                        const foodEntries = body.data.filter(food => food.food === "Rio's Steakhouse");
+                        expect(foodEntries.length).toBe(1);
+                        expect(foodEntries[0]).toMatchObject({
+                            food: "Rio's Steakhouse",
+                            vegetarian: false,
+                            vegan: false,
+                            meat: true,
+                            allergies: true
+                        });
+                    });
+            });
     });
-
 });
