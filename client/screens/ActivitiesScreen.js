@@ -1,3 +1,4 @@
+// ActivitiesScreen.js
 import * as React from "react";
 import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";

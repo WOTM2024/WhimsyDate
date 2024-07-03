@@ -1,3 +1,4 @@
+// WelcomeScreen.js
 import * as React from "react";
 import { Text, View, TouchableOpacity, SafeAreaView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";

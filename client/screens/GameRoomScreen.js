@@ -1,3 +1,4 @@
+// GameRoomScreen.js
 import * as React from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
