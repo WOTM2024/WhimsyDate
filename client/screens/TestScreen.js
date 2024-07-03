@@ -1,31 +1,58 @@
-// TestScreen.js
-import * as React from "react";
-import { View, Text, Dimensions, Image } from "react-native";
+import React from "react";
+import { View, Image, Dimensions } from "react-native";
+import { interpolate } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 
+const window = Dimensions.get("window");
+const scale = 0.7;
+const PAGE_WIDTH = window.width * scale;
+const PAGE_HEIGHT = 240 * scale;
+
 export default function TestScreen() {
-  const width = Dimensions.get("window").width;
+  const animationStyle = React.useCallback((value) => {
+    "worklet";
+
+    const zIndex = interpolate(value, [-1, 0, 1], [10, 20, 30]);
+    const rotateZ = `${interpolate(value, [-1, 0, 1], [-45, 0, 45])}deg`;
+    const translateX = interpolate(value, [-1, 0, 1], [-window.width, 0, window.width]);
+
+    return {
+      transform: [{ rotateZ }, { translateX }],
+      zIndex,
+    };
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <Carousel
         loop
-        width={width}
-        height={width / 2}
+        style={{
+          width: window.width,
+          height: 240,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        width={PAGE_WIDTH}
+        height={PAGE_HEIGHT}
         autoPlay={true}
+        autoPlayInterval={300}
+        scrollAnimationDuration={300}
         data={images}
-        autoPlayInterval={3}
-        scrollAnimationDuration={150}
         onSnapToItem={(index) => console.log("current index:", index)}
-        renderItem={({ item, index }) => (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-            }}
-          >
-            <Image source={{ uri: item.uri }} style={{ width: "100%", height: "100%", resizeMode: "cover" }} />
-          </View>
-        )}
+        renderItem={({ index }) => {
+          return (
+            <View key={index}>
+              <Image
+                source={{ uri: images[index].uri }}
+                style={{
+                  width: PAGE_WIDTH,
+                  height: PAGE_HEIGHT,
+                }}
+              />
+            </View>
+          );
+        }}
+        customAnimation={animationStyle}
       />
     </View>
   );
