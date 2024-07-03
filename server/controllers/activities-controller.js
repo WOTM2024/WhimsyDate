@@ -2,7 +2,22 @@ const Activity = require("../models/activities-model")
 
 const getActivities = async (req, res) => {
     try {
-        const activities = await Activity.find();
+        
+        const { category, cost, isCollaborative } = req.query;
+
+        let filter = {};
+        if(category) {
+            filter.category = category;
+        }
+        if(cost) {
+            filter.cost = cost;
+        }
+        if(isCollaborative) {
+            filter.isCollaborative = isCollaborative;
+        }
+
+        
+        const activities = await Activity.find(filter);
         console.log(activities);
         res.status(200).json({ success: true, data: activities});
     } catch (error) {
