@@ -9,24 +9,36 @@ export default function LoginScreen() {
     navigation.navigate("Welcome");
   }
   return (
-    <View className="flex-1 items-center ">
+    <View className="flex-1 items-center bg-light_bg">
       {/* <Text className="text-5xl">Login</Text> */}
       <View className="m-6" />
-      <Image source={{ uri: "https://picsum.photos/300" }} className="w-72 h-72 rounded-full" />
+      <Image source={{ uri: "https://picsum.photos/500" }} className="w-72 h-72 rounded-full" />
       <View className="m-3" />
       <View className="w-52">
-        <TextInput placeholder="email" keyboardType="default" className="border m-2 p-1" />
-        <TextInput placeholder="username" keyboardType="default" className="border m-2 p-1" />
-        <TextInput placeholder="password" keyboardType="default" className="border m-2 p-1" />
+        <TextInput
+          placeholder="email"
+          keyboardType="default"
+          className="border border-light_border m-2 p-1 rounded-md"
+        />
+        <TextInput
+          placeholder="username"
+          keyboardType="default"
+          className="border border-light_border m-2 p-1 rounded-md"
+        />
+        <TextInput
+          placeholder="password"
+          keyboardType="default"
+          className="border border-light_border m-2 p-1 rounded-md"
+        />
       </View>
       <View className="m-3" />
       <View className="w-52">
-        <TouchableOpacity className="border">
-          <Text className="text-base text-center">Login</Text>
+        <TouchableOpacity className="border bg-light_button_background p-2 rounded-lg">
+          <Text className="text-base text-center text-light_button_text">Login</Text>
         </TouchableOpacity>
         <View className="m-1" />
-        <TouchableOpacity className="border">
-          <Text className="text-base text-center">Register</Text>
+        <TouchableOpacity className="border p-2 rounded-lg">
+          <Text className="text-base text-center text-light_text">Register</Text>
         </TouchableOpacity>
       </View>
       {/* Below is temp content */}
