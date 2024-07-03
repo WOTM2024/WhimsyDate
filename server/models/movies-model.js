@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
+const Counter = require("./counter-schema");
 
 const Movie = new mongoose.Schema({
-  name: {
+  movie_id: {
+    type: Number,
+    unique: true,
+  },
+  title: {
     type: String,
     required: true,
   },
