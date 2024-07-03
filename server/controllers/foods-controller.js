@@ -9,33 +9,35 @@ const getFoods = async (req, res) => {
     }
 };
 
-
-
 const postFoods = async (req, res) => {
     try {
-        const foods = req.body;
-
         if (!Array.isArray(req.body)) {
             return res.status(400).json({ success: false, message: "Input should be an array" });
         }
+        const [ foods ] = req.body;
 
-        for (let food of foods) {
-            if (!food.food) {
-                return res.status(400).json({ success: false, message: "Don't forget to add the name of the food!" } );
-            }
+        if (!foods.food) {
+            return res.status(400).json({ success: false, message: "Don't forget to add the name of the food!" });
         }
 
-        const existingFoodOptions = await Food.find({ food: { $in: foods.map(foodOption => foodOption.food) } })
-        if(existingFoodOptions!==0){
-            return res.status(409).json({ success: false, message: "This option already exists in our database, please use that instead of adding it again."})
-        }
+        await Food.updateOne(
+            { food: foods.food },
+            {
+                $set: {
+                    vegetarian: foods.vegetarian,
+                    vegan: foods.vegan,
+                    meat: foods.meat,
+                    allergies: foods.allergies
+                }
+            },
+            { upsert: true }
+        );
 
-        const savedFood = await Food.insertMany(foods);
-        res.status(201).json({ success: true, data: savedFood });
+        res.status(201).json({ success: true, data: foods });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(409).json({ success: false, data: [], error: error.message });
     }
-}
+};
 
-module.exports = { getFoods, postFoods }
+module.exports = { getFoods, postFoods };
