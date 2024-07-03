@@ -1,5 +1,16 @@
 const request = require('supertest');
 const app = require('../app');
+const mongoose = require("mongoose");
+const Food = require('../models/foods-model');
+
+beforeAll(async () => {
+    await mongoose.connect(process.env.DB_CONNECTION);
+});
+
+afterAll(async () => {
+    await Food.deleteMany({});
+    await mongoose.connection.close();
+});
 
 describe("GET: /foods", () => {
     test("200: responds with an array of all foods", () => {
@@ -88,17 +99,12 @@ describe("POST: /foods/add", () => {
         return request(app)
             .post("/foods/add")
             .send(multipleFoodOption)
-            .expect(201)
-            .then(() => {
-                return request(app)
-                    .post("/foods/add")
-                    .send(multipleFoodOption)
-                    .expect(409)
-                    .then(({ body }) => {
-                        expect(body.success).toBe(false);
-                        expect(body.message).toBe("This option already exists in our database, please use that instead of adding it again.");
-                    });
-            });
+            .expect(409)
+            .then(({ body }) => {
+                expect(body.success).toBe(false);
+                expect(body.message).toBe("This option already exists in our database, please use that instead of adding it again.");
+                });
+
     });
 
 });

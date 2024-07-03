@@ -25,11 +25,15 @@ const postFoods = async (req, res) => {
             }
         }
 
-        const existingFoodOptions = await Food.find({ food: { $in: foods.map(foodOption => foodOption.food) } })
-        if(existingFoodOptions!==0){
-            return res.status(409).json({ success: false, message: "This option already exists in our database, please use that instead of adding it again."})
+        const existingFoodOptions = await Food.find();
+        if(existingFoodOptions.length > 0){
+            for(let i = 0; i < existingFoodOptions.length; i++){
+                if(existingFoodOptions[i].food===foods[0].food){
+                    return res.status(409).json({ success: false, message: "This option already exists in our database, please use that instead of adding it again."})
+                }
+            }
         }
-
+        
         const savedFood = await Food.insertMany(foods);
         res.status(201).json({ success: true, data: savedFood });
     } catch (error) {
