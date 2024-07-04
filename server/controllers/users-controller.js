@@ -28,4 +28,15 @@ const postUsers = async (req, res) => {
  
 };
 
-module.exports = { postUsers, getUsers };
+const deleteUser = async (req, res) =>{
+  try{
+    const { username } = req.body
+    console.log(req.body)
+    Users.deleteOne({ username })
+    res.status(200).json({success: true, message: `${username} has been deleted from our account`})
+  }catch(error){
+    res.status(409).json({ success: false, data: [], error: error.message})
+  }
+}
+
+module.exports = { postUsers, getUsers, deleteUser };
