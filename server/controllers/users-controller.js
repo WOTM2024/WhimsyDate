@@ -1,4 +1,8 @@
 const Users = require("../models/users-model");
+const Activities = require("../models/activities-model");
+const Food = require("../models/foods-model");
+const Films = require("../models/movies-model");
+const Tv_Shows = require("../models/tv-shows-model");
 
 const getUsers = async (req, res) => {
   try {
@@ -9,34 +13,59 @@ const getUsers = async (req, res) => {
   }
 };
 
-const postUsers = async (req, res) => {
+const postUser = async (req, res) => {
   try {
-    const { username, user_activities, user_food_choices, user_films, user_tv_shows } = req.body;
+    const { username } = req.body[0];
 
-    const newUser = new Users({
-      username,
-      user_activities,
-      user_food_choices,
-      user_films,
-      user_tv_shows
-    });
+    if (username.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Bad Request - please enter a username with one or more characters",
+      });
+    }
 
-    const savedUser = await newUser.save();
+    const user_activities = await Activities.distinct("_id", {}, {});
+    const user_food_choices = await Food.distinct("_id", {}, {});
+    const user_films = await Films.distinct("_id", {}, {});
+    const user_tv_shows = await Tv_Shows.distinct("_id", {}, {});
+
+    if (!Array.isArray(req.body)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Input should be an array" });
+    }
+
+    const savedUser = await Users.updateOne(
+      { username },
+      {
+        $set: {
+          user_activities,
+          user_food_choices,
+          user_films,
+          user_tv_shows,
+        },
+      },
+      { upsert: true }
+    );
+
     res.status(201).json({ success: true, data: savedUser });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error.message });
+    res.status(409).json({ success: false, data: [], error: error });
   }
 };
 
 const deleteUser = async (req, res) => {
   try {
     const { _id } = req.body;
-    const userToDelete = await Users.findOne({ _id });
-    if (!userToDelete) {
-      return res.status(404).json({ success: false, message: "User not found" });
-    }
+    const [userToDelete] = await Users.find({ _id });
     await Users.deleteOne({ _id });
-    res.status(200).json({ success: true, message: `${userToDelete.username} has been deleted from our records` });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: `${userToDelete.username} has been deleted from our records`,
+      });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error.message });
   }
@@ -60,4 +89,4 @@ const getUserCategories = async (req, res) => {
   }
 };
 
-module.exports = { postUsers, getUsers, deleteUser, getUserCategories };
+module.exports = { postUser, getUsers, deleteUser, getUserCategories };
