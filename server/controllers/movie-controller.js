@@ -20,6 +20,8 @@ const getMovies = async (req, res) => {
 const postMovies = async (req, res) => {
   try {
     const movies = req.body;
+    const { _id } = req.params;
+    console.log(_id);
 
     if (!Array.isArray(movies)) {
       return res

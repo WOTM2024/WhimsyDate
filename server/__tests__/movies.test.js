@@ -53,7 +53,12 @@ describe("GET:/movies", () => {
 
 describe("POST:/", () => {
   test("201: should be able to post a new movie", () => {
-    const newMovie = [{ title: "Jumanji", genre: "Adventure" }];
+    const newMovie = [
+      {
+        title: "Jumanji",
+        genre: "Adventure",
+      },
+    ];
     return request(app)
       .post("/movies")
       .send(newMovie)
@@ -64,7 +69,6 @@ describe("POST:/", () => {
           title: newMovie[0].title,
           genre: newMovie[0].genre,
         });
-        console.log(body);
       });
   });
   test("400:Error - responds with an error when required fields are missing", () => {

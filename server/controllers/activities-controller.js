@@ -26,7 +26,7 @@ const getActivities = async (req, res) => {
     }
 
     const activities = await Activity.find(filter);
-    console.log(activities);
+
     res.status(200).json({ success: true, data: activities });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error });

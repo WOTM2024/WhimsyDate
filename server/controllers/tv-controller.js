@@ -3,6 +3,7 @@ const TvShow = require("../models/tv-shows-model");
 const getTvShows = async (req, res) => {
   try {
     const { genre } = req.query;
+
     let filteredGenre = {};
 
     if (genre) {
@@ -19,8 +20,6 @@ const getTvShows = async (req, res) => {
 const postTvShows = async (req, res) => {
   try {
     const tvshows = req.body;
-    const { _id } = req.params;
-    console.log(_id);
 
     if (!Array.isArray(tvshows)) {
       return res
@@ -31,10 +30,10 @@ const postTvShows = async (req, res) => {
     const tvshowsToInsert = [];
 
     for (let tvshow of tvshows) {
-      if (!tvshow.show || tvshow.genre) {
+      if (!tvshow.show || !tvshow.genre) {
         return res.status(400).json({
           success: false,
-          message: "Every TV show must have a name and genre",
+          message: "Every TV show must have a show name and genre",
         });
       }
 
@@ -44,10 +43,11 @@ const postTvShows = async (req, res) => {
       }
       tvshowsToInsert.push(tvshow);
     }
+    console.log(tvshowsToInsert);
 
     const savedTvshows = await TvShow.insertMany(tvshowsToInsert);
 
-    res.status(201).json({ succes: true, data: savedTvshows });
+    res.status(201).json({ success: true, data: savedTvshows });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error.message });
   }
