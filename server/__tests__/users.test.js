@@ -9,6 +9,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     await Users.deleteMany({username: "testUser"})
+    await Users.deleteMany({username: "Pam"})
     await mongoose.connection.close();
 });
 
@@ -45,22 +46,20 @@ describe("GET: /users", () => {
 
 describe("POST: /users/add", () => {
     test("201: Adds a new user", () => {
-        const newUser = [
-            { username: "Pam" ,
-                user_activities: [],
-                user_food_choices: [],
-                user_films: [],
-                user_tv_shows: [] }
-            ];
+        const newUser = {
+            username: "Pam",
+            user_activities: [],
+            user_food_choices: [],
+            user_films: [],
+            user_tv_shows: []
+        };
         return request(app)
             .post("/users/add")
             .send(newUser)
             .expect(201)
             .then(({ body }) => {
                 expect(body.success).toBe(true);
-                expect(body.data).toMatchObject({
-                    username: "testUser",
-                });
+                expect(body.data).toMatchObject(newUser);
             });
     });
 
@@ -81,8 +80,8 @@ describe("DELETE: /users/delete", () => {
     let deletableId;
 
     beforeEach(async () => {
-        const deletableUser = await Users.find({ username: "testUser" });
-        deletableId = deletableUser[0]._id;
+        const deletableUser = await Users.create({ username: "testUser" });
+        deletableId = deletableUser._id;
     });
 
     test("200: Deletes a user and responds with a success message", () => {
@@ -106,7 +105,7 @@ describe("DELETE: /users/delete", () => {
 
 describe("GET: users/categories", ()=>{
     test("200: Returns an array of the categories on a users profile", () => {
-       const userToSearch= { _id: "66857286aefba7db7e8a86bc" }
+       const userToSearch= { _id: "6686a925ef8cf2f1404012bf" }
         return request(app)
         .get("/users/categories")
         .send(userToSearch)
