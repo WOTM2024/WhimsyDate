@@ -93,4 +93,30 @@ describe("POST: /users/add", () => {
           });
       });
   });
+
+describe("DELETE: /users/delete", () => {
+    let deletableId;
+
+    beforeEach(async () => {
+        const deletableUser = await Users.find({ username: "testUser" });
+        deletableId = deletableUser[0]._id;
+    });
+
+    test("200: Deletes a user and responds with a success message", () => {
+        const userToDelete = { _id: deletableId };
+        return request(app)
+            .delete("/users/delete")
+            .send(userToDelete)
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.success).toBe(true);
+                expect(body.message).toBe(`testUser has been deleted from our records`);
+            })
+            .then(() => {
+                return Users.findById(deletableId);
+            })
+            .then((user) => {
+                expect(user).toBeNull();
+            });
+    });
 });

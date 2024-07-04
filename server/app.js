@@ -38,4 +38,4 @@ mongoose
     console.error("Failed to connect to the database:", err);
   });
 
-module.exports = app
+module.exports = app;

@@ -11,7 +11,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await Food.deleteMany({});
+    await Food.deleteMany({food: "Rio's Steakhouse", food: "Tofu Express"});
     await mongoose.connection.close();
 });
 

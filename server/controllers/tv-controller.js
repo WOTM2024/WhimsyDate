@@ -18,18 +18,38 @@ const getTvShows = async (req, res) => {
 
 const postTvShows = async (req, res) => {
   try {
-    const tvShows = req.body;
+    const tvshows = req.body;
+    const { _id } = req.params;
+    console.log(_id);
 
-    if (!Array.isArray(tvShows)) {
+    if (!Array.isArray(tvshows)) {
       return res
         .status(400)
-        .json({ sucess: false, message: "Input should be an array" });
+        .json({ success: false, message: "Input should be an array" });
     }
 
-    const savedTvShows = await TvShow.insertMany(tvShows);
-    res.status(201).json({ sucess: true, data: savedTvShows });
+    const tvshowsToInsert = [];
+
+    for (let tvshow of tvshows) {
+      if (!tvshow.show || tvshow.genre) {
+        return res.status(400).json({
+          success: false,
+          message: "Every TV show must have a name and genre",
+        });
+      }
+
+      const existingTvshow = await TvShow.findOne({ show: tvshow.show });
+      if (existingTvshow) {
+        continue;
+      }
+      tvshowsToInsert.push(tvshow);
+    }
+
+    const savedTvshows = await TvShow.insertMany(tvshowsToInsert);
+
+    res.status(201).json({ succes: true, data: savedTvshows });
   } catch (error) {
-    res.status(409).json({ sucess: false, data: [], error: error });
+    res.status(409).json({ success: false, data: [], error: error.message });
   }
 };
 
