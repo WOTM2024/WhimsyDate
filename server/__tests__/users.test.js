@@ -99,7 +99,8 @@ describe("DELETE: /users/delete", () => {
   let deletableId;
 
   beforeEach(async () => {
-    const deletableUser = await Users.find({ username: "testUser" });
+    const deletableUser = await Users.find({ username: "Pam" });
+    console.log(deletableUser);
     deletableId = deletableUser[0]._id;
   });
 
@@ -111,7 +112,7 @@ describe("DELETE: /users/delete", () => {
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
-        expect(body.message).toBe(`testUser has been deleted from our records`);
+        expect(body.message).toBe(`Pam has been deleted from our records`);
       })
       .then(() => {
         return Users.findById(deletableId);
