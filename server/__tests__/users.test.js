@@ -8,6 +8,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+    await Users.deleteMany({username: "testUser"})
     await mongoose.connection.close();
 });
 
@@ -102,3 +103,22 @@ describe("DELETE: /users/delete", () => {
             });
     });
 });
+
+describe("GET: users/categories", ()=>{
+    test("200: Returns an array of the categories on a users profile", () => {
+       const userToSearch= { _id: "66857286aefba7db7e8a86bc" }
+        return request(app)
+        .get("/users/categories")
+        .send(userToSearch)
+        .expect(200)
+        .then(({ body })=>{
+            expect(body.success).toBe(true);
+            expect(body.data).toMatchObject([
+                'user_activities',
+                'user_films',
+                'user_food_choices',
+                'user_tv_shows'
+            ])
+        })
+    })
+})

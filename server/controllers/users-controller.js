@@ -39,4 +39,21 @@ const deleteUser = async (req, res) =>{
   }
 }
 
-module.exports = { postUsers, getUsers, deleteUser };
+const getUserCategories = async (req, res) =>{
+  try {
+    const { _id } = req.body;
+    const userData = await Users.findOne({ _id })
+    const userDataAsObj = userData.toObject();
+    const userKeys = Object.keys(userDataAsObj)
+    const userCategories = userKeys.filter((cat)=>
+      cat !== "_id" && cat !== "username" && cat !== "__v"
+    )
+    res.status(200).json({ success: true, data: userCategories });
+  } catch(error){
+    res.status(409).json({ success: false, data: [], error: error }); 
+  }
+}
+
+
+
+module.exports = { postUsers, getUsers, deleteUser, getUserCategories };
