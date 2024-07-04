@@ -1,0 +1,14 @@
+{
+    "DELETE /users/delete" : {
+        "description" : "allows an account to be deleted based on unique ID",
+        "queries" : "A valid unique _id"
+    },
+
+    "GET /foods" : {
+        "description": "Serves an array of all foods on the database"
+    },
+    "POST /foods/add" : {
+        "description" : "allows a user to add a new food option to the DB",
+        "queries" : "food name, and booleans for vegetarian, vegan, meat and allergies"
+    }
+}
