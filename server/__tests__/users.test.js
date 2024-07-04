@@ -8,7 +8,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await Users.deleteMany({username: "testUser"});
+    // await Users.deleteMany({username: "testUser"});
     await mongoose.connection.close();
 });
 
@@ -18,7 +18,6 @@ describe("GET: /users", () => {
             .get("/users")
             .expect(200)
             .then(({ body }) => {
-                console.log(body)
                 expect(body.success).toBe(true);
                 expect(body.data).toBeInstanceOf(Array);
                 body.data.forEach((user) => {
@@ -47,7 +46,6 @@ describe("POST: /users/add", () => {
             .send(newUser)
             .expect(201)
             .then(({ body }) => {
-                console.log(body)
                 expect(body.success).toBe(true);
                 expect(body.data).toMatchObject({
                     username: "testUser",
@@ -69,25 +67,28 @@ describe("POST: /users/add", () => {
 });
 
 describe("DELETE: /users/delete", () => {
+    let deletableId;
+
     beforeEach(async () => {
-        await Users.create({ username: "DeleteMePlz" });
+        const deletableUser = await Users.find({ username: "testUser" });
+        deletableId = deletableUser[0]._id;
     });
 
     test("200: Deletes a user and responds with a success message", () => {
-        const userToDelete = { username: "DeleteMePlz" };
+        const userToDelete = { _id: deletableId };
         return request(app)
             .delete("/users/delete")
             .send(userToDelete)
             .expect(200)
             .then(({ body }) => {
                 expect(body.success).toBe(true);
-                expect(body.message).toBe(`${userToDelete.username} has been deleted from our records`);
+                expect(body.message).toBe(`testUser has been deleted from our records`);
             })
             .then(() => {
-                return Users.find({ username: "DeleteMePlz" });
+                return Users.findById(deletableId);
             })
-            .then((users) => {
-                expect(users.length).toBe(1);
+            .then((user) => {
+                expect(user).toBeNull();
             });
     });
 });
