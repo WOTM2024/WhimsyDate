@@ -56,15 +56,20 @@ const postUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) =>{
+const deleteUser = async (req, res) => {
   try {
     const { _id } = req.body;
-    const [ userToDelete ] = await Users.find({ _id });
+    const [userToDelete] = await Users.find({ _id });
     await Users.deleteOne({ _id });
-    res.status(200).json({success: true, message: `${userToDelete.username} has been deleted from our records`})
-  }catch(error){
-    res.status(409).json({ success: false, data: [], error: error.message})
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: `${userToDelete.username} has been deleted from our records`,
+      });
+  } catch (error) {
+    res.status(409).json({ success: false, data: [], error: error.message });
   }
-}
+};
 
-module.exports = { postUsers, getUsers, deleteUser };
+module.exports = { postUser, getUsers, deleteUser };
