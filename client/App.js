@@ -20,7 +20,7 @@ export default function App() {
     <GestureHandlerRootView>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Test" component={TestScreen} />
+          {/* <Stack.Screen name="Test" component={TestScreen} /> */}
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
