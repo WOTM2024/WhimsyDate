@@ -18,6 +18,13 @@ const postUser = async (req, res) => {
   try {
     const { username } = req.body[0];
 
+    if (username.length === 0) {
+      return res.status(409).json({
+        success: false,
+        message: "Username should not be an empty string",
+      });
+    }
+
     const user_activities = await Activities.distinct("_id", {}, {});
     const user_food_choices = await Food.distinct("_id", {}, {});
     const user_films = await Films.distinct("_id", {}, {});
@@ -44,7 +51,6 @@ const postUser = async (req, res) => {
 
     res.status(201).json({ success: true, data: savedUser });
   } catch (error) {
-    console.log(error);
     res.status(409).json({ success: false, data: [], error: error });
   }
 };
