@@ -10,5 +10,9 @@
     "POST /foods/add" : {
         "description" : "allows a user to add a new food option to the DB",
         "queries" : "food name, and booleans for vegetarian, vegan, meat and allergies"
+    },
+    "GET /users/categories" : {
+        "description" : "fetches the categories a user has on their profile",
+        "queries" : "A valid unique _id"
     }
 }
