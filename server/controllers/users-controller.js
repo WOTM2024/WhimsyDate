@@ -29,11 +29,11 @@ const postUsers = async (req, res) => {
 };
 
 const deleteUser = async (req, res) =>{
-  try{
-    const { username } = req.body
-    console.log(req.body)
-    Users.deleteOne({ username })
-    res.status(200).json({success: true, message: `${username} has been deleted from our account`})
+  try {
+    const { _id } = req.body;
+    const [ userToDelete ] = await Users.find({ _id });
+    await Users.deleteOne({ _id });
+    res.status(200).json({success: true, message: `${userToDelete.username} has been deleted from our records`})
   }catch(error){
     res.status(409).json({ success: false, data: [], error: error.message})
   }

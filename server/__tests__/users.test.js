@@ -8,7 +8,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    // await Users.deleteMany({username: "testUser"});
     await mongoose.connection.close();
 });
 
