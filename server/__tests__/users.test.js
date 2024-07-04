@@ -98,6 +98,7 @@ describe("POST: /users/add", () => {
 describe("DELETE: /users/delete", () => {
   let deletableId;
 
+
   beforeEach(async () => {
     const deletableUser = await Users.find({ username: "Pam" });
     console.log(deletableUser);
@@ -122,3 +123,22 @@ describe("DELETE: /users/delete", () => {
       });
   });
 });
+
+describe("GET: users/categories", ()=>{
+    test("200: Returns an array of the categories on a users profile", () => {
+       const userToSearch= { _id: "6686a925ef8cf2f1404012bf" }
+        return request(app)
+        .get("/users/categories")
+        .send(userToSearch)
+        .expect(200)
+        .then(({ body })=>{
+            expect(body.success).toBe(true);
+            expect(body.data).toMatchObject([
+                'user_activities',
+                'user_films',
+                'user_food_choices',
+                'user_tv_shows'
+            ])
+        })
+    })
+})

@@ -7,10 +7,9 @@ const Tv_Shows = require("../models/tv-shows-model");
 const getUsers = async (req, res) => {
   try {
     const users = await Users.find();
-
     res.status(200).json({ success: true, data: users });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error });
+    res.status(409).json({ success: false, data: [], error: error.message });
   }
 };
 
@@ -72,4 +71,22 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { postUser, getUsers, deleteUser };
+const getUserCategories = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    const userData = await Users.findOne({ _id });
+    if (!userData) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    const userDataAsObj = userData.toObject();
+    const userKeys = Object.keys(userDataAsObj);
+    const userCategories = userKeys.filter((cat) =>
+      cat !== "_id" && cat !== "username" && cat !== "__v"
+    );
+    res.status(200).json({ success: true, data: userCategories });
+  } catch (error) {
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+};
+
+module.exports = { postUser, getUsers, deleteUser, getUserCategories };

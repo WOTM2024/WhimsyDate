@@ -11,7 +11,7 @@ const Users = new mongoose.Schema({
   },
   user_food_choices: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "Food_choices",
+    ref: "Food",
   },
   user_films: {
     type: [mongoose.Schema.Types.ObjectId],
@@ -19,7 +19,7 @@ const Users = new mongoose.Schema({
   },
   user_tv_shows: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "Tv_shows",
+    ref: "TvShows",
   },
 });
 
