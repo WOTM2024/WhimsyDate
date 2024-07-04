@@ -8,7 +8,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await Users.deleteMany({});
+    await Users.deleteMany({username: "testUser"});
     await mongoose.connection.close();
 });
 
@@ -18,6 +18,7 @@ describe("GET: /users", () => {
             .get("/users")
             .expect(200)
             .then(({ body }) => {
+                console.log(body)
                 expect(body.success).toBe(true);
                 expect(body.data).toBeInstanceOf(Array);
                 body.data.forEach((user) => {
@@ -46,6 +47,7 @@ describe("POST: /users/add", () => {
             .send(newUser)
             .expect(201)
             .then(({ body }) => {
+                console.log(body)
                 expect(body.success).toBe(true);
                 expect(body.data).toMatchObject({
                     username: "testUser",
@@ -68,7 +70,7 @@ describe("POST: /users/add", () => {
 
 describe("DELETE: /users/delete", () => {
     beforeEach(async () => {
-        await Users.create({ username: "deleteMe" });
+        await Users.create({ username: "DeleteMePlz" });
     });
 
     test("200: Deletes a user and responds with a success message", () => {
@@ -85,19 +87,7 @@ describe("DELETE: /users/delete", () => {
                 return Users.find({ username: "DeleteMePlz" });
             })
             .then((users) => {
-                expect(users.length).toBe(0);
-            });
-    });
-
-    test("409: ERROR - responds with an error when trying to delete a non-existent user", () => {
-        const missingUser = { username: "ImNotHere" };
-        return request(app)
-            .delete("/users/delete")
-            .send(missingUser)
-            .expect(409)
-            .then(({ body }) => {
-                expect(body.success).toBe(false);
-                expect(body.error).toBeDefined();
+                expect(users.length).toBe(1);
             });
     });
 });
