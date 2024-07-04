@@ -11,6 +11,7 @@ afterAll(async () => {
     await mongoose.connection.close();
 });
 
+
 describe("GET: /users", () => {
     test("200: responds with an array of all users", () => {
         return request(app)
@@ -22,11 +23,15 @@ describe("GET: /users", () => {
                 body.data.forEach((user) => {
                     expect(user).toMatchObject({
                         username: expect.any(String),
+                        user_activities: expect.any(Array),
+                       user_food_choices:expect.any(Array),
+                       user_films: expect.any(Array),
+                       user_tv_shows: expect.any(Array),
+                        
                     });
                 });
             });
     });
-
     test("404: ERROR - responds with an error when endpoint does not exist", () => {
         return request(app)
             .get("/notAnEndpoint")
@@ -38,8 +43,14 @@ describe("GET: /users", () => {
 });
 
 describe("POST: /users/add", () => {
-    test("201: Adds a user and responds with the new user", () => {
-        const newUser = { username: "testUser" };
+    test("201: Adds a new user", () => {
+        const newUser = [
+            { username: "Pam" ,
+                user_activities: [],
+                user_food_choices: [],
+                user_films: [],
+                user_tv_shows: [] }
+            ];
         return request(app)
             .post("/users/add")
             .send(newUser)
