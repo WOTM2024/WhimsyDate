@@ -1,5 +1,16 @@
-const request = require('supertest')
+const request = require('supertest');
 const app = require('../app');
+const mongoose = require("mongoose");
+const Users = require('../models/users-model');
+
+beforeAll(async () => {
+    await mongoose.connect(process.env.DB_CONNECTION);
+});
+
+afterAll(async () => {
+    await mongoose.connection.close();
+});
+
 
 describe("GET: /users", () => {
     test("200: responds with an array of all users", () => {
@@ -7,7 +18,6 @@ describe("GET: /users", () => {
             .get("/users")
             .expect(200)
             .then(({ body }) => {
-                console.log(body);
                 expect(body.success).toBe(true);
                 expect(body.data).toBeInstanceOf(Array);
                 body.data.forEach((user) => {
@@ -22,8 +32,6 @@ describe("GET: /users", () => {
                 });
             });
     });
-
-
     test("404: ERROR - responds with an error when endpoint does not exist", () => {
         return request(app)
             .get("/notAnEndpoint")
@@ -33,6 +41,7 @@ describe("GET: /users", () => {
             });
     });
 });
+
 describe("POST: /users/add", () => {
     test("201: Adds a new user", () => {
         const newUser = [
@@ -42,45 +51,54 @@ describe("POST: /users/add", () => {
                 user_films: [],
                 user_tv_shows: [] }
             ];
-
-      
         return request(app)
             .post("/users/add")
             .send(newUser)
             .expect(201)
-            .then(( {  body } ) => {
-                console.log(body);
-                // console.log(body.text.success);
-                // console.log(body.text.data);
+            .then(({ body }) => {
                 expect(body.success).toBe(true);
-                expect(body.data[0]).toMatchObject({
-                    username: "Pam"
+                expect(body.data).toMatchObject({
+                    username: "testUser",
                 });
             });
     });
-   
-    test("409: ERROR - responds with an error when the username is already in the database", () => {
-        const multipleUserOption = [
-            {
-            username: "Hello" 
-            }
-        ];
 
+    test("409: ERROR - responds with an error when required fields are missing", () => {
+        const missingInfo = {};
         return request(app)
             .post("/users/add")
-            .send(multipleUserOption)
+            .send(missingInfo)
             .expect(409)
-            .then(() => {
-                return request(app)
-                    .post("/users/add")
-                    .send(multipleUserOption)
-                    .expect(409)
-                    .then(({ body }) => {
-                    //    console.log(body);
-                        expect(body.success).toBe(false);
-                        expect(body.message).toBe("This user already exists in our database.");
-                    });
+            .then(({ body }) => {
+                expect(body.success).toBe(false);
+                expect(body.error).toBeDefined();
             });
     });
+});
 
+describe("DELETE: /users/delete", () => {
+    let deletableId;
+
+    beforeEach(async () => {
+        const deletableUser = await Users.find({ username: "testUser" });
+        deletableId = deletableUser[0]._id;
+    });
+
+    test("200: Deletes a user and responds with a success message", () => {
+        const userToDelete = { _id: deletableId };
+        return request(app)
+            .delete("/users/delete")
+            .send(userToDelete)
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.success).toBe(true);
+                expect(body.message).toBe(`testUser has been deleted from our records`);
+            })
+            .then(() => {
+                return Users.findById(deletableId);
+            })
+            .then((user) => {
+                expect(user).toBeNull();
+            });
+    });
 });
