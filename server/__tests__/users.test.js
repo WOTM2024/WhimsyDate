@@ -21,7 +21,6 @@ describe("GET: /users", () => {
       .get("/users")
       .expect(200)
       .then(({ body }) => {
-        console.log(body);
         expect(body.success).toBe(true);
         expect(body.data).toBeInstanceOf(Array);
         body.data.forEach((user) => {
@@ -45,6 +44,7 @@ describe("GET: /users", () => {
       });
   });
 });
+
 describe("POST: /users/add", () => {
   test("201: Adds a new user", () => {
     const newUser = [
@@ -58,7 +58,6 @@ describe("POST: /users/add", () => {
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
-        console.log(body);
         expect(body.success).toBe(true);
         expect(body.data).toMatchObject({
           acknowledged: expect.any(Boolean),
@@ -70,7 +69,7 @@ describe("POST: /users/add", () => {
       });
   });
 
-  test.only("409: ERROR - responds with an error when the username is already in the database", () => {
+  test("400: ERROR - responds with an error when the user enters an empty username", () => {
     const multipleUserOption = [
       {
         username: "",
@@ -80,16 +79,17 @@ describe("POST: /users/add", () => {
     return request(app)
       .post("/users/add")
       .send(multipleUserOption)
-      .expect(409)
+      .expect(400)
       .then(() => {
         return request(app)
           .post("/users/add")
           .send(multipleUserOption)
-          .expect(409)
+          .expect(400)
           .then(({ body }) => {
-            console.log(body);
             expect(body.success).toBe(false);
-            expect(body.message).toBe("Username should not be an empty string");
+            expect(body.message).toBe(
+              "Bad Request - please enter a username with one or more characters"
+            );
           });
       });
   });

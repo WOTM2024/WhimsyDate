@@ -19,9 +19,10 @@ const postUser = async (req, res) => {
     const { username } = req.body[0];
 
     if (username.length === 0) {
-      return res.status(409).json({
+      return res.status(400).json({
         success: false,
-        message: "Username should not be an empty string",
+        message:
+          "Bad Request - please enter a username with one or more characters",
       });
     }
 
