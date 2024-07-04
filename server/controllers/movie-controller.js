@@ -1,5 +1,4 @@
 const Movie = require("../models/movies-model");
-const Counter = require("../models/counter-schema");
 
 const getMovies = async (req, res) => {
   try {
@@ -14,7 +13,7 @@ const getMovies = async (req, res) => {
 
     res.status(200).json({ success: true, data: movies });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error });
+    res.status(409).json({ success: false, data: [], error: error.message });
   }
 };
 
@@ -28,22 +27,28 @@ const postMovies = async (req, res) => {
         .json({ success: false, message: "Input should be an array" });
     }
 
-    const updatedMovies = await Promise.all(
-      movies.map(async (movie) => {
-        const counter = await Counter.findOneAndUpdate(
-          { model: "Movie" },
-          { $inc: { seq: 1 } },
-          { new: true, upsert: true }
-        );
-        movie.movie_id = counter.seq;
-        return movie;
-      })
-    );
+    const moviesToInsert = [];
 
-    const savedMovies = await Movie.insertMany(updatedMovies);
+    for (let movie of movies) {
+      if (!movie.title || !movie.genre) {
+        return res.status(400).json({
+          success: false,
+          message: "Every movie must have a title and genre",
+        });
+      }
+
+      const existingMovie = await Movie.findOne({ title: movie.title });
+      if (existingMovie) {
+        continue;
+      }
+      moviesToInsert.push(movie);
+    }
+
+    const savedMovies = await Movie.insertMany(moviesToInsert);
+
     res.status(201).json({ success: true, data: savedMovies });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error });
+    res.status(409).json({ success: false, data: [], error: error.message });
   }
 };
 

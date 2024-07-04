@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/tvshows", tvShows);
-app.use("/api/movies", movies);
+app.use("/movies", movies);
 app.use("/users", users);
 app.use("/activities", activities);
 app.use("/foods", foods);

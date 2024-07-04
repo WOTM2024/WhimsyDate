@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const TvShow = new mongoose.Schema({
-  name: {
+  show: {
     type: String,
     required: true,
   },
