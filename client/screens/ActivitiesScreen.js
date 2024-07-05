@@ -4,9 +4,27 @@ import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } fro
 import { useNavigation } from "@react-navigation/native";
 import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
+import { fetchActivities } from "../api";
 
 export default function ActivitiesScreen() {
   const navigation = useNavigation();
+  const [activities, setActivities] = React.useState([]);
+  const [error, setError] = React.useState(null);
+  const [category, setCategory] = React.useState('');
+  const [isCollaborative, setIsCollaborative] = React.useState('');
+  const [cost, setCost] = React.useState('');
+  
+  React.useEffect(() => {
+    fetchActivities(category, isCollaborative, cost)
+      .then((activitiesFromApi) => {
+        console.log(activitiesFromApi, "activities from api ")
+        setActivities(activitiesFromApi || []);
+      })
+      .catch((err) => {
+        setError(err.response.data.msg || "An error occurred");
+      });
+  }, []);
+  
   function onPressHandle_searchActivities() {
     console.log("Pressed Search");
   }
@@ -28,10 +46,10 @@ export default function ActivitiesScreen() {
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
-          {tempDate.map((item, index) => {
+          {activities.map((activity, index) => {
             return (
-              <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
-                <Text className="flex-1 font-bold text-light_text text-lg">{item}</Text>
+              <View key={activity._id} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                <Text className="flex-1 font-bold text-light_text text-lg">{activity.activity_name}</Text>
                 <MinusIcon
                   size={25}
                   color="#1E1E1E"
