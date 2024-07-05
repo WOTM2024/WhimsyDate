@@ -1,9 +1,11 @@
 const express = require("express");
-const { postCouple, getCouples } = require("../controllers/couples-controller");
+const { postCouple, getCouples, deleteCouple, getCoupleById } = require("../controllers/couples-controller");
 
 const router = express.Router();
 
 router.get("/", getCouples);
-// router.post("/add", postCouple);
+router.get("/:couple_id", getCoupleById);
+router.post("/add", postCouple);
+router.delete("/delete", deleteCouple);
 
 module.exports = router;
