@@ -100,6 +100,35 @@ const getUserCategories = async (req, res) => {
   }
 };
 
+const getUserCategoryEntries = async (req, res) =>{
+  const models = {
+    user_activities: Activities,
+    user_food_choices: Food,
+    user_films: Films,
+    user_tv_shows: Tv_Shows,
+  };
+  try{
+    const { user_id, category } = req.params;
+    const user = await Users.findById(user_id);
+    const categoryIds = user[category]
+
+    const categoryModel = models[category];
+
+    const categoryEntries = await Promise.all(categoryIds.map(async (categoryId) => {
+      const entry = await categoryModel.findById(categoryId);
+      return entry
+    }));
+    const filteredCategoryEntries = categoryEntries.filter((entry)=> entry!== null)
+
+    if(filteredCategoryEntries.length === 0){
+      return res.status(400).json({ success: False, message: "There are no entries in this category" })
+    }
+
+    res.status(200).json({ success: true, data: filteredCategoryEntries });
+  }catch(error){
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+}
 
 
-module.exports = { postUser, getUsers, deleteUser, getUserCategories, getUserById };
+module.exports = { postUser, getUsers, deleteUser, getUserCategories, getUserById, getUserCategoryEntries };
