@@ -5,6 +5,7 @@ const movies = require("./routes/movies");
 const users = require("./routes/users");
 const foods = require("./routes/foods");
 const activities = require("./routes/activities");
+const couples = require("./routes/couples");
 
 require("dotenv").config();
 const mongoose = require("mongoose");
@@ -19,6 +20,7 @@ app.use("/movies", movies);
 app.use("/users", users);
 app.use("/activities", activities);
 app.use("/foods", foods);
+app.use("/couples", couples);
 
 app.use((req, res, next) => {
   res.status(404).json({ msg: "Invalid endpoint, please try again" });
