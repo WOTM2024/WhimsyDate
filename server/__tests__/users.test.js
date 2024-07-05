@@ -45,7 +45,7 @@ describe("GET: /users", () => {
   });
 });
 
-describe("POST: /users/add", () => {
+describe("POST: /users", () => {
   test("201: Adds a new user", () => {
     const newUser = [
       {
@@ -54,7 +54,7 @@ describe("POST: /users/add", () => {
     ];
 
     return request(app)
-      .post("/users/add")
+      .post("/users")
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
@@ -77,12 +77,12 @@ describe("POST: /users/add", () => {
     ];
 
     return request(app)
-      .post("/users/add")
+      .post("/users")
       .send(multipleUserOption)
       .expect(400)
       .then(() => {
         return request(app)
-          .post("/users/add")
+          .post("/users")
           .send(multipleUserOption)
           .expect(400)
           .then(({ body }) => {
@@ -122,31 +122,31 @@ describe("DELETE: /users/delete", () => {
   });
 });
 
-describe("GET: /:user_id", ()=>{
-    test("200: returns a unique user based on a _id", ()=>{
-        return request(app)
-        .get("/users/6687c07f772a0d0c7edeb0dd")
-        .expect(200)
-        .then(({ body })=>{
-            expect(body.success).toBe(true);
-            expect(body.data).toMatchObject({
-                username: expect.any(String),
-                user_activities: expect.any(Array),
-                user_food_choices: expect.any(Array),
-                user_films: expect.any(Array),
-                user_tv_shows: expect.any(Array),
-            })
-        })
-    })
-    test("404: ERROR - responds with an error when user _id does not exist", () => {
-        return request(app)
-          .get("/111222333444555666777888999")
-          .expect(404)
-          .then(({ body }) => {
-            expect(body.msg).toBe("Invalid endpoint, please try again");
-          });
-    });
-})
+describe("GET: /:user_id", () => {
+  test("200: returns a unique user based on a _id", () => {
+    return request(app)
+      .get("/users/6687c07f772a0d0c7edeb0dd")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.success).toBe(true);
+        expect(body.data).toMatchObject({
+          username: expect.any(String),
+          user_activities: expect.any(Array),
+          user_food_choices: expect.any(Array),
+          user_films: expect.any(Array),
+          user_tv_shows: expect.any(Array),
+        });
+      });
+  });
+  test("404: ERROR - responds with an error when user _id does not exist", () => {
+    return request(app)
+      .get("/111222333444555666777888999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid endpoint, please try again");
+      });
+  });
+});
 
 describe("GET: :user_id/categories", () => {
   test("200: Returns an array of the categories on a users profile", () => {
@@ -159,29 +159,29 @@ describe("GET: :user_id/categories", () => {
           "user_activities",
           "user_films",
           "user_food_choices",
-          "user_tv_shows",
+          "user_tv_shows"
         );
       });
   });
 });
 
 describe("GET: :user_id/:category", () => {
-    test("200: Returns entries in a given category based on a user's profile", () => {
-      return request(app)
-        .get("/users/6687c07f772a0d0c7edeb0dd/user_activities")
-        .expect(200)
-        .then(({ body }) => {
-            expect(body.success).toBe(true);
-            expect(body.data).toBeInstanceOf(Array);
-            body.data.forEach((entry) => {
-              expect(entry).toMatchObject({
-                _id: expect.any(String),
-                activity_name: expect.any(String),
-                category: expect.any(String),
-                isCollaborative: expect.any(Boolean),
-                cost: expect.any(Boolean),
-                })
-            });
-        })   
-     })
-})
+  test("200: Returns entries in a given category based on a user's profile", () => {
+    return request(app)
+      .get("/users/6687c07f772a0d0c7edeb0dd/user_activities")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.success).toBe(true);
+        expect(body.data).toBeInstanceOf(Array);
+        body.data.forEach((entry) => {
+          expect(entry).toMatchObject({
+            _id: expect.any(String),
+            activity_name: expect.any(String),
+            category: expect.any(String),
+            isCollaborative: expect.any(Boolean),
+            cost: expect.any(Boolean),
+          });
+        });
+      });
+  });
+});
