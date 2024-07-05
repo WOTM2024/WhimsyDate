@@ -13,12 +13,10 @@ describe("GET/tvshows", () => {
         expect(body.success).toBe(true);
         expect(body.data).toBeInstanceOf(Array);
         body.data.forEach((tvshow) => {
-          console.log(tvshow);
           expect(tvshow).toMatchObject({
             show: expect.any(String),
             genre: expect.any(String),
           });
-          console.log(body);
         });
       });
   });

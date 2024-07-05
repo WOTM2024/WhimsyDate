@@ -100,7 +100,6 @@ describe("DELETE: /users/delete", () => {
 
   beforeEach(async () => {
     const deletableUser = await Users.find({ username: "Pam" });
-    console.log(deletableUser);
     deletableId = deletableUser[0]._id;
   });
 
@@ -141,3 +140,31 @@ describe("GET: users/categories", () => {
       });
   });
 });
+
+describe("GET: /:user_id", ()=>{
+    test("200: returns a unique user based on a _id", ()=>{
+        const userToSearch = { _id: "6686b45cef8cf2f1407c77e7" }
+        return request(app)
+        .get("/users/6686b45cef8cf2f1407c77e7")
+        .send(userToSearch)
+        .expect(200)
+        .then(({ body })=>{
+            expect(body.success).toBe(true);
+            expect(body.data).toMatchObject({
+                username: expect.any(String),
+                user_activities: expect.any(Array),
+                user_food_choices: expect.any(Array),
+                user_films: expect.any(Array),
+                user_tv_shows: expect.any(Array),
+            })
+        })
+    })
+    test("404: ERROR - responds with an error when user _id does not exist", () => {
+        return request(app)
+          .get("/111222333444555666777888999")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid endpoint, please try again");
+          });
+    });
+})

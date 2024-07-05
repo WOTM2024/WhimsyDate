@@ -64,7 +64,6 @@ describe("POST:/", () => {
           title: newMovie[0].title,
           genre: newMovie[0].genre,
         });
-        console.log(body);
       });
   });
   test("400:Error - responds with an error when required fields are missing", () => {

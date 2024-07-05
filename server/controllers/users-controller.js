@@ -89,4 +89,15 @@ const getUserCategories = async (req, res) => {
   }
 };
 
-module.exports = { postUser, getUsers, deleteUser, getUserCategories };
+const getUserById = async (req, res) =>{
+  try{
+    const { _id } = req.body;
+    const user = await Users.findOne({ _id })
+    res.status(200).json({ success: true, data: user })
+  }catch(error){
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+}
+
+
+module.exports = { postUser, getUsers, deleteUser, getUserCategories, getUserById };
