@@ -120,6 +120,10 @@ const getUserCategoryEntries = async (req, res) =>{
     }));
     const filteredCategoryEntries = categoryEntries.filter((entry)=> entry!== null)
 
+    if(filteredCategoryEntries.length === 0){
+      return res.status(400).json({ success: False, message: "There are no entries in this category" })
+    }
+
     res.status(200).json({ success: true, data: filteredCategoryEntries });
   }catch(error){
     res.status(409).json({ success: false, data: [], error: error.message });

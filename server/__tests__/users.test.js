@@ -183,5 +183,5 @@ describe("GET: :user_id/:category", () => {
                 })
             });
         })   
-     });
+     })
 })
