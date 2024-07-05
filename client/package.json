@@ -16,6 +16,7 @@
     "expo": "~51.0.17",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
+    "firebase": "^10.12.3",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.74.2",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "react-native-dotenv": "^3.4.11",
     "tailwindcss": "^3.3.2"
   },
   "private": true

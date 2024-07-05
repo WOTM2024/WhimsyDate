@@ -109,7 +109,7 @@ describe("GET: /activities", () => {
       });
   });
 });
-describe("POST: /activities/add", () => {
+describe("POST: /activities", () => {
   test("201: Adds a new activity and responds with the new activity", () => {
     const newActivities = [
       {
@@ -121,7 +121,7 @@ describe("POST: /activities/add", () => {
     ];
 
     return request(app)
-      .post("/activities/add")
+      .post("/activities")
       .send(newActivities)
       .expect(201)
       .then(({ body }) => {
@@ -144,7 +144,7 @@ describe("POST: /activities/add", () => {
     ];
 
     return request(app)
-      .post("/activities/add")
+      .post("/activities")
       .send(missingRequiredField)
       .expect(400)
       .then(({ body }) => {
@@ -162,7 +162,7 @@ describe("POST: /activities/add", () => {
       },
     ];
     return request(app)
-      .post("/activities/add")
+      .post("/activities")
       .send(duplicateActivity)
       .expect(201)
       .then(({ body }) => {

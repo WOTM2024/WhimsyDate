@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../app.js");
+const app = require("../app");
 const mongoose = require("mongoose");
 const Movie = require("../models/movies-model.js");
 
@@ -53,29 +53,45 @@ describe("GET:/movies", () => {
 
 describe("POST:/", () => {
   test("201: should be able to post a new movie", () => {
-    const newMovie = [{ title: "Jumanji", genre: "Adventure" }];
+    const newMovie = {
+      title: "Jumanji",
+      genre: "Adventure",
+    };
     return request(app)
       .post("/movies")
       .send(newMovie)
       .expect(201)
       .then(({ body }) => {
         expect(body.success).toBe(true);
-        expect(body.data[0]).toMatchObject({
-          title: newMovie[0].title,
-          genre: newMovie[0].genre,
+        expect(body.data).toMatchObject({
+          title: newMovie.title,
+          genre: newMovie.genre,
         });
-        console.log(body);
       });
   });
   test("400:Error - responds with an error when required fields are missing", () => {
-    const newMovie = [{ title: "Planet of the Apes" }];
+    const newMovie = { title: "Planet of the Apes" };
     return request(app)
       .post("/movies")
       .send(newMovie)
       .expect(400)
       .then(({ body }) => {
         expect(body.success).toBe(false);
-        expect(body.message).toBe("Every movie must have a title and genre");
+        expect(body.message).toBe("Movie must have a title and genre");
+      });
+  });
+  test("400: should get 400 BAD Request when inserting duplicates", () => {
+    const newMovie = {
+      title: "Jumanji",
+      genre: "Adventure",
+    };
+    return request(app)
+      .post("/movies")
+      .send(newMovie)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.success).toBe(false);
+        expect(body.message).toBe("Movie already exists");
       });
   });
 });
