@@ -59,12 +59,14 @@ describe("POST: /users", () => {
       .expect(201)
       .then(({ body }) => {
         expect(body.success).toBe(true);
-        expect(body.data).toMatchObject({
-          acknowledged: expect.any(Boolean),
-          modifiedCount: expect.any(Number),
-          upsertedId: expect.any(String),
-          upsertedCount: expect.any(Number),
-          matchedCount: expect.any(Number),
+        expect(body.data[0]).toMatchObject({
+          __v: 0,
+          _id: expect.any(String),
+          user_activities: expect.any(Array),
+          user_films: expect.any(Array),
+          user_food_choices: expect.any(Array),
+          user_tv_shows: expect.any(Array),
+          username: "Pam",
         });
       });
   });
