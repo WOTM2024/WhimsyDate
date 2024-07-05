@@ -52,31 +52,25 @@ describe("GET/tvshows", () => {
 
 describe("POST:/", () => {
   test("201: should be able to post a new tv show", () => {
-    const newTvshow = [
-      {
-        show: "Outlander",
-        genre: "Drama",
-      },
-    ];
+    const newTvshow = {
+      show: "Outlander",
+      genre: "Drama",
+    };
+
     return request(app)
       .post("/tvshows")
       .send(newTvshow)
       .expect(201)
       .then(({ body }) => {
-        console.log(body);
         expect(body.success).toBe(true);
-        expect(body.data[0]).toMatchObject({
-          show: newTvshow[0].show,
-          genre: newTvshow[0].genre,
+        expect(body.data).toMatchObject({
+          show: newTvshow.show,
+          genre: newTvshow.genre,
         });
       });
   });
   test("400:Error - responds with an error when required fields are missing", () => {
-    const newTvshow = [
-      {
-        show: "The Crown",
-      },
-    ];
+    const newTvshow = { show: "The Crown" };
     return request(app)
       .post("/tvshows")
       .send(newTvshow)
@@ -86,6 +80,20 @@ describe("POST:/", () => {
         expect(body.message).toBe(
           "Every TV show must have a show name and genre"
         );
+      });
+  });
+  test("400: should get 400 BAD Request when inserting duplicates", () => {
+    const newTvshow = {
+      show: "Outlander",
+      genre: "Drama",
+    };
+    return request(app)
+      .post("/tvshows")
+      .send(newTvshow)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.success).toBe(false);
+        expect(body.message).toBe("TV show already exists");
       });
   });
 });

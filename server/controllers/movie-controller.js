@@ -17,41 +17,38 @@ const getMovies = async (req, res) => {
   }
 };
 
-const postMovies = async (req, res) => {
+const postMovie = async (req, res) => {
   try {
-    const movies = req.body;
-    const { _id } = req.params;
-    console.log(_id);
-
-    if (!Array.isArray(movies)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Input should be an array" });
+    const { title, genre } = req.body;
+    if (!title || !genre) {
+      return res.status(400).json({
+        success: false,
+        message: "Movie must have a title and genre",
+      });
     }
 
-    const moviesToInsert = [];
+    const existingMovie = await Movie.findOne({
+      title: title,
+      genre: genre,
+    });
 
-    for (let movie of movies) {
-      if (!movie.title || !movie.genre) {
-        return res.status(400).json({
-          success: false,
-          message: "Every movie must have a title and genre",
-        });
-      }
-
-      const existingMovie = await Movie.findOne({ title: movie.title });
-      if (existingMovie) {
-        continue;
-      }
-      moviesToInsert.push(movie);
+    if (existingMovie) {
+      return res.status(400).json({
+        success: false,
+        message: "Movie already exists",
+      });
     }
 
-    const savedMovies = await Movie.insertMany(moviesToInsert);
+    const newMovie = new Movie({
+      title: title,
+      genre: genre,
+    });
 
-    res.status(201).json({ success: true, data: savedMovies });
+    const savedMovie = await newMovie.save();
+    res.status(201).json({ success: true, data: savedMovie });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error.message });
+    res.status(409).json({ success: false, data: {}, error: error.message });
   }
 };
 
-module.exports = { postMovies, getMovies };
+module.exports = { getMovies, postMovie };

@@ -17,40 +17,39 @@ const getTvShows = async (req, res) => {
   }
 };
 
-const postTvShows = async (req, res) => {
+const postTvShow = async (req, res) => {
   try {
-    const tvshows = req.body;
+    const { show, genre } = req.body;
 
-    if (!Array.isArray(tvshows)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Input should be an array" });
+    if (!show || !genre) {
+      return res.status(400).json({
+        success: false,
+        message: "Every TV show must have a show name and genre",
+      });
     }
 
-    const tvshowsToInsert = [];
+    const existingTvShow = await TvShow.findOne({
+      show: show,
+      genre: genre,
+    });
 
-    for (let tvshow of tvshows) {
-      if (!tvshow.show || !tvshow.genre) {
-        return res.status(400).json({
-          success: false,
-          message: "Every TV show must have a show name and genre",
-        });
-      }
-
-      const existingTvshow = await TvShow.findOne({ show: tvshow.show });
-      if (existingTvshow) {
-        continue;
-      }
-      tvshowsToInsert.push(tvshow);
+    if (existingTvShow) {
+      return res.status(400).json({
+        success: false,
+        message: "TV show already exists",
+      });
     }
-    console.log(tvshowsToInsert);
 
-    const savedTvshows = await TvShow.insertMany(tvshowsToInsert);
+    const newTvShow = new TvShow({
+      show: show,
+      genre: genre,
+    });
 
-    res.status(201).json({ success: true, data: savedTvshows });
+    const savedTvShow = await newTvShow.save();
+    res.status(201).json({ success: true, data: savedTvShow });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error.message });
+    res.status(409).json({ success: false, data: {}, error: error.message });
   }
 };
 
-module.exports = { getTvShows, postTvShows };
+module.exports = { getTvShows, postTvShow };
