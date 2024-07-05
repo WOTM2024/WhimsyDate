@@ -1,18 +1,151 @@
 {
-    "DELETE /users/delete" : {
-        "description" : "allows an account to be deleted based on unique ID",
-        "queries" : "A valid unique _id"
-    },
+  "GET /users/categories": {
+    "description": "fetches the categories a user has on their profile",
+    "queries": "A valid unique _id"
+  },
 
-    "GET /foods" : {
-        "description": "Serves an array of all foods on the database"
-    },
-    "POST /foods/add" : {
-        "description" : "allows a user to add a new food option to the DB",
-        "queries" : "food name, and booleans for vegetarian, vegan, meat and allergies"
-    },
-    "GET /users/categories" : {
-        "description" : "fetches the categories a user has on their profile",
-        "queries" : "A valid unique _id"
+  "DELETE /users/delete": {
+    "description": "allows an account to be deleted based on unique ID",
+    "queries": "A valid unique _id"
+  },
+
+  "GET /foods": {
+    "description": "Serves an array of all foods on the database",
+    "queries": [
+      "food name",
+      "booleans for vegetarian, vegan, meat and allergies"
+    ],
+    "exampleResponse": {
+      "success": "true",
+      "data": [
+        {
+          "_id": "6686aa83ef8cf2f140459ff5",
+          "food": "Rio's Steakhouse",
+          "__v": 0,
+          "allergies": true,
+          "meat": true,
+          "vegan": false,
+          "vegetarian": false
+        }
+      ]
     }
+  },
+  "POST /foods/add": {
+    "description": "allows a user to add a new food option to the database",
+    "exampleRequest": {
+      "food": "Vegan Burrito",
+      "vegetarian": true,
+      "vegan": true,
+      "meat": false,
+      "allergies": false
+    },
+    "exampleResponse": {
+      "success": true,
+      "data": {
+        "_id": "6687bb6b06be486e73b8767d",
+        "food": "Vegan Burrito",
+        "vegetarian": true,
+        "vegan": true,
+        "meat": false,
+        "allergies": false
+      }
+    }
+  },
+
+  "GET /movies": {
+    "description": "Serves an array of all the movies",
+    "queries": ["genre"],
+    "exampleResponse": {
+      "success": "true",
+      "data": [
+        {
+          "_id": "6686a87164598b424aa5fe54",
+          "title": "The Godfather",
+          "genre": "Classics"
+        }
+      ]
+    }
+  },
+
+  "POST / movies": {
+    "description": "Posts a new movie to the database",
+    "exampleRequest": {
+      "title": "1917",
+      "genre": "War"
+    },
+    "exampleResponse": {
+      "success": "true",
+      "data": {
+        "title": "1917",
+        "genre": "War",
+        "_id": "6686a87164598b424aa5fe4f",
+        "v": 0
+      }
+    }
+  },
+  "GET /tvshows": {
+    "description": "Serves an array of all the tv shows",
+    "queries": ["genre"],
+    "exampleResponse": {
+      "success": "true",
+      "data": [
+        {
+          "_id": "66854b31b3b5bf698cc8c27f",
+          "show": "Breaking Bad",
+          "genre": "Drama"
+        }
+      ]
+    }
+  },
+  "POST /tvshows": {
+    "description": "Posts a new tv show to the database",
+    "exampleRequest": {
+      "show": "Game of Thrones",
+      "genre": "Fantasy"
+    },
+    "exampleResponse": {
+      "success": "true",
+      "data": {
+        "show": "Game of Thrones",
+        "genre": "Fantasy",
+        "_id": "6686a87164598b424aa5fe4f",
+        "v": 0
+      }
+    }
+  },
+  "GET /activities": {
+    "description": "Serves an array of all the activities",
+    "queries": [" category", "cost", "isCollaborative"],
+    "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "6685484eb3b5bf698cc8c250",
+          "activity_name": "skiing",
+          "category": "winter sport",
+          "isCollaborative": false,
+          "cost": true
+        }
+      ]
+    }
+  },
+  "POST /activities": {
+    "description": "Posts a new activity to the database",
+    "exampleRequest": {
+      "activity_name": "Escape Room",
+      "category": "Indoor",
+      "isCollaborative": true,
+      "cost": true
+    },
+    "exampleResponse": {
+      "success": true,
+      "data": {
+        "_id": "6687c58006be486e73efd045",
+        "activity_name": "Escape Room",
+        "category": "Indoor",
+        "isCollaborative": true,
+        "cost": true
+      }
+    }
+  }
 }
