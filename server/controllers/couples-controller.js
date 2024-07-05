@@ -42,9 +42,7 @@ const postUser = async (req, res) => {
     const user_tv_shows = await Tv_Shows.distinct("_id", {}, {});
 
     if (!Array.isArray(req.body)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Input should be an array" });
+      return res.status(400).json({ success: false, message: "Input should be an array" });
     }
 
     const savedUser = await Users.updateOne(
