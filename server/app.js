@@ -22,6 +22,7 @@ app.use("/foods", foods);
 
 app.use((req, res, next) => {
   res.status(404).json({ msg: "Invalid endpoint, please try again" });
+  next();
 });
 
 app.use((err, req, res, next) => {
