@@ -111,15 +111,13 @@ describe("GET: /activities", () => {
 });
 describe("POST: /activities", () => {
   test("201: Adds a new activity and responds with the new activity", () => {
-    const newActivities = [
-      {
-        activity_name: "chess",
-        category: "Board Games",
-        isCollaborative: true,
-        cost: false,
-      },
-    ];
-
+    const newActivities = {
+      activity_name: "Kayaking",
+      category: "Water Sport",
+      isCollaborative: true,
+      cost: false,
+    };
+    console.log(newActivities, "<<<<<<<")
     return request(app)
       .post("/activities")
       .send(newActivities)
@@ -127,13 +125,14 @@ describe("POST: /activities", () => {
       .then(({ body }) => {
         expect(body.success).toBe(true);
         expect(body.data).toMatchObject({
-          activity_name: "chess",
-          category: "Board Games",
-          isCollaborative: true,
-          cost: false,
+          activity_name: newActivities.activity_name,
+          category: newActivities.category,
+          isCollaborative: newActivities.isCollaborative,
+          cost: newActivities.cost,
         });
       });
   });
+
   test("400: responds with an error if required fields are missing", () => {
     const missingRequiredField = [
       {
@@ -152,44 +151,20 @@ describe("POST: /activities", () => {
         expect(body.message).toBe("Missing required fields");
       });
   });
-  test("201: Will avoid duplicating activity options in the database, will instead update the existing entry", () => {
-    const duplicateActivity = [
-      {
-        activity_name: "Kayaking",
-        category: "water sport",
-        isCollaborative: true,
-        cost: true,
-      },
-    ];
+  test("400: Error - responds with a bad request when trying to insert duplicates", () => {
+    const duplicateActivity = {
+      activity_name: "Yahtzee",
+      category: "Board Games",
+      isCollaborative: true,
+      cost: false,
+    };
+
     return request(app)
       .post("/activities")
       .send(duplicateActivity)
-      .expect(201)
+      .expect(400)
       .then(({ body }) => {
-        expect(body.success).toBe(true);
-        expect(body.data).toMatchObject({
-          activity_name: "Kayaking",
-          category: "water sport",
-          isCollaborative: true,
-          cost: true,
-        });
-      })
-      .then(() => {
-        return request(app)
-          .get("/activities")
-          .expect(200)
-          .then(({ body }) => {
-            const activityEntries = body.data.filter(
-              (activity) => activity.activity_name === "Kayaking"
-            );
-            expect(activityEntries.length).toBe(1);
-            expect(activityEntries[0]).toMatchObject({
-              activity_name: "Kayaking",
-              category: "water sport",
-              isCollaborative: true,
-              cost: true,
-            });
-          });
+        expect(body.success).toBe(false);
       });
   });
 });

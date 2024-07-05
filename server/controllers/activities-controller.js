@@ -32,42 +32,46 @@ const getActivities = async (req, res) => {
   }
 };
 
-const postActivities = async (req, res) => {
+const postActivity = async (req, res) => {
   try {
-    if (!Array.isArray(req.body)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Input should be an array" });
-    }
-    const [activities] = req.body;
-
+    const { activity_name, category, isCollaborative, cost } = req.body;
     if (
-      !activities.activity_name ||
-      !activities.category ||
-      activities.isCollaborative === undefined ||
-      activities.cost === undefined
+      !activity_name ||
+      !category ||
+      isCollaborative === undefined ||
+      cost === undefined
     ) {
       return res
         .status(400)
         .json({ success: false, message: "Missing required fields" });
     }
 
-    await Activity.updateOne(
-      { activity_name: activities.activity_name },
-      {
-        $set: {
-          category: activities.category,
-          isCollaborative: activities.isCollaborative,
-          cost: activities.cost,
-        },
-      },
-      { upsert: true }
-    );
+    const existingActivity = await Activity.findOne({
+      activity_name: activity_name,
+      category: category,
+      isCollaborative: isCollaborative,
+      cost: cost,
+    });
 
-    res.status(201).json({ success: true, data: activities });
+    if (existingActivity) {
+      return res.status(400).json({
+        success: false,
+        message: "Activity already exists in our database",
+      });
+    }
+
+    const newActivity = new Activity({
+      activity_name: activity_name,
+      category: category,
+      isCollaborative: isCollaborative,
+      cost: cost,
+    });
+
+    const savedActivity = await newActivity.save();
+    res.status(201).json({ success: true, data: savedActivity });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error.message });
   }
 };
 
-module.exports = { getActivities, postActivities };
+module.exports = { getActivities, postActivity };
