@@ -45,7 +45,7 @@ describe("GET: /foods", () => {
     });
 });
 
-describe("POST: /foods/add", () => {
+describe("POST: /foods", () => {
     test("201: Adds a food option and responds with the new food option", () => {
         const newFood = [
             {
@@ -57,7 +57,7 @@ describe("POST: /foods/add", () => {
             }
         ];
         return request(app)
-            .post("/foods/add")
+            .post("/foods")
             .send(newFood)
             .expect(201)
             .then(({ body }) => {
@@ -81,7 +81,7 @@ describe("POST: /foods/add", () => {
             }
         ];
         return request(app)
-            .post("/foods/add")
+            .post("/foods")
             .send(missingInfo)
             .expect(400)
             .then(({ body }) => {
@@ -102,7 +102,7 @@ describe("POST: /foods/add", () => {
         ];
 
         return request(app)
-            .post("/foods/add")
+            .post("/foods")
             .send(multipleFoodOption)
             .expect(201)
             .then(({ body }) => {
