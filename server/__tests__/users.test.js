@@ -18,7 +18,7 @@ afterAll(async () => {
 describe("GET: /users", () => {
   test("200: responds with an array of all users", () => {
     return request(app)
-      .get("/users")
+      .get("/api/users")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -37,7 +37,7 @@ describe("GET: /users", () => {
 
   test("404: ERROR - responds with an error when endpoint does not exist", () => {
     return request(app)
-      .get("/notAnEndpoint")
+      .get("/api/notAnEndpoint")
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Invalid endpoint, please try again");
@@ -54,7 +54,7 @@ describe("POST: /users/add", () => {
     ];
 
     return request(app)
-      .post("/users/add")
+      .post("/api/users/add")
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
@@ -77,7 +77,7 @@ describe("POST: /users/add", () => {
     ];
 
     return request(app)
-      .post("/users/add")
+      .post("/api/users/add")
       .send(multipleUserOption)
       .expect(400)
       .then(() => {
@@ -106,7 +106,7 @@ describe("DELETE: /users/delete", () => {
   test("200: Deletes a user and responds with a success message", () => {
     const userToDelete = { _id: deletableId };
     return request(app)
-      .delete("/users/delete")
+      .delete("/api/users/delete")
       .send(userToDelete)
       .expect(200)
       .then(({ body }) => {
@@ -125,7 +125,7 @@ describe("DELETE: /users/delete", () => {
 describe("GET: /:user_id", ()=>{
     test("200: returns a unique user based on a _id", ()=>{
         return request(app)
-        .get("/users/6687c083772a0d0c7edeb0e9")
+        .get("/api/users/6687c083772a0d0c7edeb0e9")
         .expect(200)
         .then(({ body })=>{
             expect(body.success).toBe(true);
@@ -151,7 +151,7 @@ describe("GET: /:user_id", ()=>{
 describe("GET: :user_id/categories", () => {
   test("200: Returns an array of the categories on a users profile", () => {
     return request(app)
-      .get("/users/6687c083772a0d0c7edeb0e9/categories")
+      .get("/api/users/6687c083772a0d0c7edeb0e9/categories")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -168,7 +168,7 @@ describe("GET: :user_id/categories", () => {
 describe("GET: :user_id/:category", () => {
     test("200: Returns entries in a given category based on a user's profile", () => {
       return request(app)
-        .get("/users/6687c083772a0d0c7edeb0e9/user_activities")
+        .get("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
         .expect(200)
         .then(({ body }) => {
             expect(body.success).toBe(true);
@@ -191,7 +191,7 @@ describe("PATCH /users/:user_id/:category", () => {
   test("200: successfully removes an entry from the user's category", async () => {
     const entryId = {entryId :"6685484eb3b5bf698cc8c252"}
     const response = await request(app)
-    .patch("/users/6687c083772a0d0c7edeb0e9/user_activities")
+    .patch("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
     .send(entryId)
     .expect(200)
     expect(response.body.success).toBe(true);
@@ -204,7 +204,7 @@ describe("POST: :user_id/:category", ()=>{
   test("200: returns an array that has been updated to show the new list of entries on the account after an entry has been added", async ()=>{
     const entryId = {entryId: "6685484eb3b5bf698cc8c252"}
     const response = await request(app)
-      .post("/users/6687c083772a0d0c7edeb0e9/user_activities")
+      .post("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
       .send(entryId)
       .expect(200)
       expect(response.body.success).toBe(true)
