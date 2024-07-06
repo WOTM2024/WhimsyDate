@@ -24,7 +24,10 @@ afterEach(async () => {
 //////////////////////////////////////////
 describe("GET: /couples", () => {
   test("200: responds with an array of all couples", async () => {
-    const dummyData = await createDummyUsers("erty123", "ytre321");
+    const dummyData = await createDummyUsers(
+      { username: "user1", fb_id: "user_1" },
+      { username: "user2", fb_id: "user_2" }
+    );
     await createDummyCouple(dummyData[0], dummyData[1]);
     return request(app)
       .get("/couples")
@@ -47,7 +50,10 @@ describe("GET: /couples", () => {
 
 describe("GET: /couples/:couple_id", () => {
   test("200: responds with the couple details when the couple is found", async () => {
-    const dummyData = await createDummyUsers("user1", "user2");
+    const dummyData = await createDummyUsers(
+      { username: "user1", fb_id: "user_1" },
+      { username: "user2", fb_id: "user_2" }
+    );
     const coupleId = await createDummyCouple(dummyData[0], dummyData[1]);
 
     return request(app)
@@ -83,7 +89,10 @@ describe("GET: /couples/:couple_id", () => {
 //////////////////////////////////////////
 describe("POST: /couples/add", () => {
   test("201: Creates a couple and responds with the new couple", async () => {
-    const dummyData = await createDummyUsers("abcd123", "dcba321");
+    const dummyData = await createDummyUsers(
+      { username: "user1", fb_id: "user_1" },
+      { username: "user2", fb_id: "user_2" }
+    );
     const newCouple = {
       userOneId: dummyData[0].toString(),
       userTwoId: dummyData[1].toString(),
@@ -105,7 +114,10 @@ describe("POST: /couples/add", () => {
   });
 
   test("400: Responds with an error when trying to add a duplicate couple", async () => {
-    const dummyData = await createDummyUsers("abcd123", "dcba321");
+    const dummyData = await createDummyUsers(
+      { username: "user1", fb_id: "user_1" },
+      { username: "user2", fb_id: "user_2" }
+    );
     createDummyCouple(dummyData[0], dummyData[1]);
     const duplicateCouple = {
       userOneId: dummyData[0].toString(),
@@ -126,7 +138,10 @@ describe("POST: /couples/add", () => {
 //////////////////////////////////////////
 describe("DELETE: /couples/delete", () => {
   test("200: Deletes a couple and responds with a success message", async () => {
-    const dummyData = await createDummyUsers("abcd123", "dcba321");
+    const dummyData = await createDummyUsers(
+      { username: "user1", fb_id: "user_1" },
+      { username: "user2", fb_id: "user_2" }
+    );
     const coupleId = await createDummyCouple(dummyData[0], dummyData[1]);
     return request(app)
       .delete("/couples/delete")
@@ -154,18 +169,30 @@ describe("DELETE: /couples/delete", () => {
 ///////////////////////////////////////////
 // Create dummy users and couple
 //////////////////////////////////////////
-async function createDummyUsers(username1, username2) {
-  let userOne = await Users.findOne({ username: username1 });
+async function createDummyUsers(user1, user2) {
+  let userOne = await Users.findOne({
+    username: user1.username,
+    fb_id: user1.fb_id,
+  });
   if (!userOne) {
-    userOne = await Users.create({ username: username1 });
+    userOne = await Users.create({
+      username: user1.username,
+      fb_id: user1.fb_id,
+    });
   }
-  userOneID = userOne._id;
+  const userOneID = userOne._id;
 
-  let userTwo = await Users.findOne({ username: username2 });
+  let userTwo = await Users.findOne({
+    username: user2.username,
+    fb_id: user2.fb_id,
+  });
   if (!userTwo) {
-    userTwo = await Users.create({ username: username2 });
+    userTwo = await Users.create({
+      username: user2.username,
+      fb_id: user2.fb_id,
+    });
   }
-  userTwoID = userTwo._id;
+  const userTwoID = userTwo._id;
 
   return [userOneID, userTwoID];
 }
