@@ -17,7 +17,8 @@ const getUsers = async (req, res) => {
 
 const postUser = async (req, res) => {
   try {
-    const { username, fb_id } = req.body[0];
+    const [user] = req.body;
+    const { username, fb_id } = user;
 
     if (username.length === 0) {
       return res.status(400).json({
@@ -69,7 +70,7 @@ const postUser = async (req, res) => {
     const user_food_choices = convertToIdArr(food_choices);
     const user_tv_shows = convertToIdArr(tv_shows);
 
-    const user = new Users({
+    const newUser = new Users({
       username,
       fb_id,
       user_activities,
@@ -78,7 +79,7 @@ const postUser = async (req, res) => {
       user_tv_shows,
     });
 
-    const savedUser = await user.save();
+    const savedUser = await newUser.save();
 
     res.status(201).json({ success: true, data: savedUser });
   } catch (error) {
