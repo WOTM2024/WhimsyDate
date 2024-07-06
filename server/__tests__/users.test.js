@@ -215,7 +215,7 @@ describe("GET: :user_id/:category", () => {
   });
 });
 
-describe.only("PATCH: /users/:user_id/username", () => {
+describe("PATCH: /users/:user_id/username", () => {
   test("200: Returns an array of the user's information with their new username", () => {
     const newUsername = [
       {
