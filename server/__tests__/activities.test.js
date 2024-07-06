@@ -117,7 +117,6 @@ describe("POST: /activities", () => {
       isCollaborative: true,
       cost: false,
     };
-    console.log(newActivities, "<<<<<<<")
     return request(app)
       .post("/activities")
       .send(newActivities)

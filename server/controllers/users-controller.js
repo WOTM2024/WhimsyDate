@@ -17,9 +17,8 @@ const getUsers = async (req, res) => {
 
 const postUser = async (req, res) => {
   try {
-    const { username, fb_id } = req.body[0];
-
-    console.log(fb_id);
+    const [user] = req.body;
+    const { username, fb_id } = user;
 
     if (username.length === 0) {
       return res.status(400).json({
@@ -71,18 +70,16 @@ const postUser = async (req, res) => {
     const user_food_choices = convertToIdArr(food_choices);
     const user_tv_shows = convertToIdArr(tv_shows);
 
-    const user = [
-      {
-        username,
-        fb_id,
-        user_activities,
-        user_food_choices,
-        user_films,
-        user_tv_shows,
-      },
-    ];
+    const newUser = new Users({
+      username,
+      fb_id,
+      user_activities,
+      user_food_choices,
+      user_films,
+      user_tv_shows,
+    });
 
-    const savedUser = await Users.insertMany(user);
+    const savedUser = await newUser.save();
 
     res.status(201).json({ success: true, data: savedUser });
   } catch (error) {
@@ -172,6 +169,52 @@ const getUserCategoryEntries = async (req, res) => {
   }
 };
 
+const patchUsernameById = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+
+    const userData = await Users.findOne({ _id: user_id });
+
+    if (!userData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const { newUsername } = req.body[0];
+
+    if (typeof newUsername !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "incorrect type",
+      });
+    }
+
+    if (newUsername.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "malformed body/missing required fields",
+      });
+    }
+
+    await Users.updateOne(
+      { _id: user_id },
+      { $set: { username: newUsername } },
+      { upsert: true }
+    );
+
+    const NewNamedUserData = await Users.findOne({
+      _id: user_id,
+      username: newUsername,
+    });
+
+    res.status(200).json({ success: true, data: NewNamedUserData });
+  } catch (error) {
+    console.log(error);
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+};
+
 module.exports = {
   postUser,
   getUsers,
@@ -179,4 +222,5 @@ module.exports = {
   getUserCategories,
   getUserById,
   getUserCategoryEntries,
+  patchUsernameById,
 };
