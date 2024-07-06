@@ -130,5 +130,80 @@ const getUserCategoryEntries = async (req, res) =>{
   }
 }
 
+const postEntryToUserCategory = async (req, res) => {
+  const { user_id, category } = req.params;
+  const { entryId } = req.body;
 
-module.exports = { postUser, getUsers, deleteUser, getUserCategories, getUserById, getUserCategoryEntries };
+  try {
+    const user = await Users.findById(user_id);
+
+    console.log(user_id, category, entryId)
+    
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    console.log(user[category])
+    
+    if (user[category].includes(entryId)) {
+      return res.status(409).json({ success: false, message: "You already have this entry on your profile" });
+    }
+    
+    user[category].push(entryId);
+    await user.save();
+    
+    console.log(user)
+
+    res.status(200).json({ success: true, data: user[category] });
+  } catch (error) {
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+};
+
+
+
+const patchUserEntriesByEntryId = async (req, res) => {
+  try {
+    const { user_id, category } = req.params;
+    const { entryId } = req.body;
+    const user = await Users.findOne({_id: user_id})
+    // const user = await Users.findOne({_id: user_id});
+    
+
+    console.log(user_id, category, "<---userId & cat")
+    console.log(entryId, "<---entryId")
+    // console.log(user, "<---user")
+
+    // if (!user[category].includes(entryId)) {
+    //   return Promise.reject({ status:409, message: "This entry is not in your profile yet"})
+    //   // return res.status(409).json({ success: false, message: "This entry is not in your profile yet" })
+    // }
+    // console.log(user[category], "<---user category")
+    // const newEntries = user[category].filter((entry) => entry !== entryId);
+    // console.log(newEntries)
+
+    // await Users.updateOne(
+    //   { _id: user_id },
+    //   { $set: { [category]: newEntries } }
+    // );
+
+  
+
+    res.status(200).json({ success: true, data: "hello"}) 
+
+  }catch(error){
+    console.log(error)
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+}
+
+
+module.exports = { 
+  postUser, 
+  getUsers, 
+  deleteUser, 
+  getUserCategories, 
+  getUserById, 
+  getUserCategoryEntries,
+  postEntryToUserCategory, 
+  patchUserEntriesByEntryId 
+};

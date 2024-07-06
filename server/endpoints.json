@@ -1,5 +1,5 @@
 {
-  "GET /users/categories": {
+  "GET /users/:user_id/categories": {
     "description": "fetches the categories a user has on their profile",
     "queries": "A valid unique _id"
   },
@@ -7,6 +7,10 @@
   "DELETE /users/delete": {
     "description": "allows an account to be deleted based on unique ID",
     "queries": "A valid unique _id"
+  },
+
+  "GET /users/:user_id/:category": {
+    "description" : "Gets all entries for a user in a given category"
   },
 
   "GET /foods": {
