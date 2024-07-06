@@ -19,8 +19,6 @@ const postUser = async (req, res) => {
   try {
     const { username, fb_id } = req.body[0];
 
-    console.log(fb_id);
-
     if (username.length === 0) {
       return res.status(400).json({
         success: false,
@@ -71,18 +69,16 @@ const postUser = async (req, res) => {
     const user_food_choices = convertToIdArr(food_choices);
     const user_tv_shows = convertToIdArr(tv_shows);
 
-    const user = [
-      {
-        username,
-        fb_id,
-        user_activities,
-        user_food_choices,
-        user_films,
-        user_tv_shows,
-      },
-    ];
+    const user = new Users({
+      username,
+      fb_id,
+      user_activities,
+      user_food_choices,
+      user_films,
+      user_tv_shows,
+    });
 
-    const savedUser = await Users.insertMany(user);
+    const savedUser = await user.save();
 
     res.status(201).json({ success: true, data: savedUser });
   } catch (error) {
