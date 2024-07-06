@@ -214,3 +214,59 @@ describe("GET: :user_id/:category", () => {
       });
   });
 });
+
+describe.only("PATCH: /users/:user_id/username", () => {
+  test("200: Returns an array of the user's information with their new username", () => {
+    const newUsername = [
+      {
+        newUsername: "Bobby",
+      },
+    ];
+    return request(app)
+      .patch("/users/6689409253bcad9607a78a30/username")
+      .send(newUsername)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.success).toBe(true);
+        expect(body.data).toMatchObject({
+          __v: 0,
+          _id: expect.any(String),
+          user_activities: expect.any(Array),
+          user_films: expect.any(Array),
+          user_food_choices: expect.any(Array),
+          user_tv_shows: expect.any(Array),
+          username: "Bobby",
+        });
+      });
+  });
+  test("400: Returns an error message of malformed body/missing required fields when username is not given", () => {
+    const newUsername = [
+      {
+        newUsername: "",
+      },
+    ];
+    return request(app)
+      .patch("/users/6689409253bcad9607a78a30/username")
+      .send(newUsername)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.success).toBe(false);
+        expect(body.message).toBe("malformed body/missing required fields");
+      });
+  });
+  test("400: Returns an error message of incorrect type", () => {
+    const newUsername = [
+      {
+        newUsername: NaN,
+      },
+    ];
+    return request(app)
+      .patch("/users/6689409253bcad9607a78a30/username")
+      .send(newUsername)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.success).toBe(false);
+        expect(body.message).toBe("incorrect type");
+      });
+  });
+});

@@ -169,6 +169,52 @@ const getUserCategoryEntries = async (req, res) => {
   }
 };
 
+const patchUsernameById = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+
+    const userData = await Users.findOne({ _id: user_id });
+
+    if (!userData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const { newUsername } = req.body[0];
+
+    if (typeof newUsername !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "incorrect type",
+      });
+    }
+
+    if (newUsername.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "malformed body/missing required fields",
+      });
+    }
+
+    await Users.updateOne(
+      { _id: user_id },
+      { $set: { username: newUsername } },
+      { upsert: true }
+    );
+
+    const NewNamedUserData = await Users.findOne({
+      _id: user_id,
+      username: newUsername,
+    });
+
+    res.status(200).json({ success: true, data: NewNamedUserData });
+  } catch (error) {
+    console.log(error);
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+};
+
 module.exports = {
   postUser,
   getUsers,
@@ -176,4 +222,5 @@ module.exports = {
   getUserCategories,
   getUserById,
   getUserCategoryEntries,
+  patchUsernameById,
 };
