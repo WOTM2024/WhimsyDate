@@ -110,6 +110,7 @@ const getUserCategoryEntries = async (req, res) =>{
   try{
     const { user_id, category } = req.params;
     const user = await Users.findById(user_id);
+
     const categoryIds = user[category]
 
     const categoryModel = models[category];
@@ -159,42 +160,24 @@ const postEntryToUserCategory = async (req, res) => {
   }
 };
 
-
-
 const patchUserEntriesByEntryId = async (req, res) => {
-  try {
-    const { user_id, category } = req.params;
-    const { entryId } = req.body;
-    const user = await Users.findOne({_id: user_id})
-    // const user = await Users.findOne({_id: user_id});
-    
-
-    console.log(user_id, category, "<---userId & cat")
-    console.log(entryId, "<---entryId")
-    // console.log(user, "<---user")
-
-    // if (!user[category].includes(entryId)) {
-    //   return Promise.reject({ status:409, message: "This entry is not in your profile yet"})
-    //   // return res.status(409).json({ success: false, message: "This entry is not in your profile yet" })
-    // }
-    // console.log(user[category], "<---user category")
-    // const newEntries = user[category].filter((entry) => entry !== entryId);
-    // console.log(newEntries)
-
-    // await Users.updateOne(
-    //   { _id: user_id },
-    //   { $set: { [category]: newEntries } }
-    // );
-
+  const { user_id, category } = req.params;
+  const { entryId } = req.body
   
+  try{
+  await Users.updateOne(
+    {_id: user_id},
+    { $pull: { [category]: entryId } }
+  )
 
-    res.status(200).json({ success: true, data: "hello"}) 
-
+    res.status(200).json({ success: true, message: `That option has been removed from ${category}` });
   }catch(error){
     console.log(error)
     res.status(409).json({ success: false, data: [], error: error.message });
-  }
 }
+}
+
+
 
 
 module.exports = { 

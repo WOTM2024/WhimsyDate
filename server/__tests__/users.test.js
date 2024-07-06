@@ -125,7 +125,7 @@ describe("DELETE: /users/delete", () => {
 describe("GET: /:user_id", ()=>{
     test("200: returns a unique user based on a _id", ()=>{
         return request(app)
-        .get("/users/6687c07f772a0d0c7edeb0dd")
+        .get("/users/6687c083772a0d0c7edeb0e9")
         .expect(200)
         .then(({ body })=>{
             expect(body.success).toBe(true);
@@ -151,7 +151,7 @@ describe("GET: /:user_id", ()=>{
 describe("GET: :user_id/categories", () => {
   test("200: Returns an array of the categories on a users profile", () => {
     return request(app)
-      .get("/users/6687c07f772a0d0c7edeb0dd/categories")
+      .get("/users/6687c083772a0d0c7edeb0e9/categories")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -188,7 +188,7 @@ describe("GET: :user_id/:category", () => {
 
 
 describe("PATCH /users/:user_id/:category", () => {
-  test.only("200: successfully removes an entry from the user's category", async () => {
+  test("200: successfully removes an entry from the user's category", async () => {
     const entryId = {entryId :"6685484eb3b5bf698cc8c252"}
     request(app)
     .patch("/users/6687c083772a0d0c7edeb0e9/user_activities")
@@ -197,7 +197,7 @@ describe("PATCH /users/:user_id/:category", () => {
     .then(({ body }) => {
         console.log(body)
         expect(body.success).toBe(true);
-        expect(body.data).not.toContain(entryId.entryId);
+        expect(body.message).toBe(`That option has been removed from user_activities`);
     });
   })
   test("409: returns error when entry is not in user's category", async () => {
@@ -214,32 +214,32 @@ describe("PATCH /users/:user_id/:category", () => {
   })
 })
   
-// describe("POST: :user_id/:category", ()=>{
-//   test("200: returns an array that has been updated to show the new list of entries on the account after an entry has been added", ()=>{
-//     const entryId = {entryId: "6685484eb3b5bf698cc8c252"}
-//     return request(app)
-//       .post("/users/6687c07f772a0d0c7edeb0dd/user_activities")
-//       .send(entryId)
-//       .expect(200)
-//       .then(({ body })=>{
-//         expect(body.success).toBe(true)
-//         console.log(body)
-//         expect(response.body.data).toContain("6685484eb3b5bf698cc8c252");
-//       })
-//   })
-//   test("409: ERROR returns message when the user attempts to add an event that is already in their category", ()=>{
-//     const entryId = {entryId: "6685484eb3b5bf698cc8c252"}
-//     return request(app)
-//       .post("/users/6687c07f772a0d0c7edeb0dd/user_activities")
-//       .send(entryId)
-//       .expect(409)
-//       .then(({ body })=>{
-//         console.log(body)
-//         expect(body.success).toBe(false)
-//         expect(body.message).toBe("You already have this entry on your profile")
-//       })
-//   })
-// })
+describe("POST: :user_id/:category", async ()=>{
+  test("200: returns an array that has been updated to show the new list of entries on the account after an entry has been added", ()=>{
+    const entryId = {entryId: "6685484eb3b5bf698cc8c252"}
+    return request(app)
+      .post("/users/6687c083772a0d0c7edeb0e9/user_activities")
+      .send(entryId)
+      .expect(200)
+      .then(({ body })=>{
+        expect(body.success).toBe(true)
+        console.log(body)
+        expect(response.body.data).toContain("6685484eb3b5bf698cc8c252");
+      })
+  })
+  test("409: ERROR returns message when the user attempts to add an event that is already in their category", ()=>{
+    const entryId = {entryId: "6685484eb3b5bf698cc8c252"}
+    return request(app)
+      .post("/users/6687c083772a0d0c7edeb0e9/user_activities")
+      .send(entryId)
+      .expect(409)
+      .then(({ body })=>{
+        console.log(body)
+        expect(body.success).toBe(false)
+        expect(body.message).toBe("You already have this entry on your profile")
+      })
+  })
+})
 
 
 
