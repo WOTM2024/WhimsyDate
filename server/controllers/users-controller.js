@@ -137,13 +137,10 @@ const postEntryToUserCategory = async (req, res) => {
 
   try {
     const user = await Users.findById(user_id);
-
-    console.log(user_id, category, entryId)
     
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
-    console.log(user[category])
     
     if (user[category].includes(entryId)) {
       return res.status(409).json({ success: false, message: "You already have this entry on your profile" });
@@ -151,8 +148,6 @@ const postEntryToUserCategory = async (req, res) => {
     
     user[category].push(entryId);
     await user.save();
-    
-    console.log(user)
 
     res.status(200).json({ success: true, data: user[category] });
   } catch (error) {
@@ -172,7 +167,6 @@ const patchUserEntriesByEntryId = async (req, res) => {
 
     res.status(200).json({ success: true, message: `That option has been removed from ${category}` });
   }catch(error){
-    console.log(error)
     res.status(409).json({ success: false, data: [], error: error.message });
 }
 }
