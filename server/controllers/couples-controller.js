@@ -6,6 +6,7 @@ const getCouples = async (req, res) => {
     const couples = await Couples.find();
     res.status(200).json({ success: true, data: couples });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
@@ -52,13 +53,23 @@ const postCouple = async (req, res) => {
       .lean()
       .exec();
     if (existingCouple) {
-      return res.status(400).json({ success: false, message: "couple already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "couple already exists" });
     }
 
-    const combinedActivities = Array.from(new Set([...userOne.user_activities, ...userTwo.user_activities]));
-    const combinedFoodChoices = Array.from(new Set([...userOne.user_food_choices, ...userTwo.user_food_choices]));
-    const combinedFilms = Array.from(new Set([...userOne.user_films, ...userTwo.user_films]));
-    const combinedTVShows = Array.from(new Set([...userOne.user_tv_shows, ...userTwo.user_tv_shows]));
+    const combinedActivities = Array.from(
+      new Set([...userOne.user_activities, ...userTwo.user_activities])
+    );
+    const combinedFoodChoices = Array.from(
+      new Set([...userOne.user_food_choices, ...userTwo.user_food_choices])
+    );
+    const combinedFilms = Array.from(
+      new Set([...userOne.user_films, ...userTwo.user_films])
+    );
+    const combinedTVShows = Array.from(
+      new Set([...userOne.user_tv_shows, ...userTwo.user_tv_shows])
+    );
 
     const couple = new Couples({
       user_one: userOneId,
@@ -92,7 +103,9 @@ const deleteCouple = async (req, res) => {
 
     await Couples.findByIdAndDelete(id);
 
-    res.status(200).json({ success: true, message: "couple deleted successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "couple deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
