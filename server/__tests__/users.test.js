@@ -60,7 +60,7 @@ describe("POST: /users", () => {
       .expect(201)
       .then(({ body }) => {
         expect(body.success).toBe(true);
-        expect(body.data[0]).toMatchObject({
+        expect(body.data).toMatchObject({
           __v: 0,
           _id: expect.any(String),
           user_activities: expect.any(Array),
