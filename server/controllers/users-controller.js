@@ -17,13 +17,22 @@ const getUsers = async (req, res) => {
 
 const postUser = async (req, res) => {
   try {
-    const { username } = req.body[0];
+    const { username, fb_id } = req.body[0];
+
+    console.log(fb_id);
 
     if (username.length === 0) {
       return res.status(400).json({
         success: false,
         message:
           "Bad Request - please enter a username with one or more characters",
+      });
+    }
+
+    if (fb_id === undefined || fb_id.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Bad Request - fb_id is an empty string or undefined",
       });
     }
 
@@ -65,6 +74,7 @@ const postUser = async (req, res) => {
     const user = [
       {
         username,
+        fb_id,
         user_activities,
         user_food_choices,
         user_films,
