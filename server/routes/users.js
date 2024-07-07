@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get("/", getUsers);
 router.post("/", postUser);
-router.delete("/delete", deleteUser);
+router.delete("/:user_id/delete", deleteUser);
 router.get("/:user_id", getUserById);
 router.patch("/:user_id/username", patchUsernameById);
 router.get("/:user_id/categories", getUserCategories);
