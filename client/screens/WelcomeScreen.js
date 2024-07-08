@@ -70,7 +70,7 @@ export default function WelcomeScreen() {
         </View>
         <View className="m-2" />
         <View className="flex-row items-center">
-          <TouchableOpacity onPress={handlePrev}>
+          <TouchableOpacity onPress={handlePrev} className="rounded-full bg-gray-800/30">
             <ChevronLeftIcon size={40} color="#FFFFFF" />
           </TouchableOpacity>
           {/* <Image source={{ uri: "https://picsum.photos/300" }} className="w-72 h-72 rounded-xl" /> */}
@@ -108,7 +108,7 @@ export default function WelcomeScreen() {
             />
           </View>
 
-          <TouchableOpacity onPress={handleNext}>
+          <TouchableOpacity onPress={handleNext} className="rounded-full bg-gray-800/30">
             <ChevronRightIcon size={40} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
