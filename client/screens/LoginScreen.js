@@ -1,7 +1,16 @@
 // LoginScreen.js
 // rnfes
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  KeyboardAvoidingView,
+  Pressable,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import trimmedLogo from "../assets/trimmed_logo.png";
@@ -17,7 +26,7 @@ export default function LoginScreen() {
   const [isLogin, setIsLogin] = useState(false);
 
   function onPressHandle_navWelcome() {
-    navigation.navigate("Welcome");
+    navigation.navigate("Tabs");
   }
 
   useEffect(() => {
@@ -74,7 +83,8 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
-      <View className="flex-1 items-center">
+      <SafeAreaView className="flex-1 items-center">
+        <View className="m-8" />
         {/* <Text className="text-5xl">Login</Text> */}
         <View className="m-6" />
         <Image source={trimmedLogo} className="w-52 h-52 rounded-full" />
@@ -168,11 +178,11 @@ export default function LoginScreen() {
           )}
         </View>
         {/* Below is temp content */}
-        {/* <View className="m-10" />
+        <View className="m-10" />
         <TouchableOpacity onPress={onPressHandle_navWelcome} className="border">
-          <Text className="text-base">welcome screen</Text>
-        </TouchableOpacity> */}
-      </View>
+          <Text className="text-base">skip login for dev</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     </LinearGradient>
   );
 }

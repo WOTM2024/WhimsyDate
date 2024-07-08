@@ -1,6 +1,6 @@
 // App.js
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
@@ -27,7 +27,11 @@ export default function App() {
   return (
     <GestureHandlerRootView>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerTransparent: true,
+          }}
+        >
           {/* <Stack.Screen name="Test" component={TestScreen} /> */}
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Tabs" component={TabsNavigator} options={{ headerShown: false }} />
@@ -43,7 +47,12 @@ export default function App() {
 
 function TabsNavigator() {
   return (
-    <Tab.Navigator initialRouteName="Welcome">
+    <Tab.Navigator
+      initialRouteName="Welcome"
+      screenOptions={{
+        headerTransparent: true,
+      }}
+    >
       <Tab.Screen name="Welcome" component={WelcomeScreen} />
       <Tab.Screen
         name="Home"
