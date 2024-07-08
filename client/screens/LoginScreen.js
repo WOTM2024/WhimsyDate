@@ -33,7 +33,7 @@ export default function LoginScreen() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         const uid = user.uid;
-        console.log(uid);
+        // console.log(uid);
         navigation.navigate("Tabs");
       } else {
         // signed out
@@ -57,7 +57,7 @@ export default function LoginScreen() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        // console.log(user);
         console.log("Logged in as: " + user.email);
       })
       .catch((error) => {
