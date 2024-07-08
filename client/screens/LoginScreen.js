@@ -26,7 +26,7 @@ export default function LoginScreen() {
   const [isLogin, setIsLogin] = useState(false);
 
   function onPressHandle_navWelcome() {
-    navigation.navigate("Welcome");
+    navigation.navigate("Tabs");
   }
 
   useEffect(() => {
@@ -178,10 +178,10 @@ export default function LoginScreen() {
           )}
         </View>
         {/* Below is temp content */}
-        {/* <View className="m-10" />
+        <View className="m-10" />
         <TouchableOpacity onPress={onPressHandle_navWelcome} className="border">
-          <Text className="text-base">welcome screen</Text>
-        </TouchableOpacity> */}
+          <Text className="text-base">skip login for dev</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </LinearGradient>
   );
