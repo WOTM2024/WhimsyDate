@@ -102,7 +102,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Below is temp content */}
-        <View className="m-10" />
+        <View className="m-5" />
         <TouchableOpacity onPress={onPressHandle_navTieBreaker} className="border">
           <Text>Go to tie breaker Screen</Text>
         </TouchableOpacity>

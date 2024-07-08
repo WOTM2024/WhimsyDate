@@ -24,12 +24,13 @@ export default function LoginScreen() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         const uid = user.uid;
-        navigation.navigate("Welcome");
+        console.log(uid);
+        navigation.navigate("Tabs");
       } else {
         // signed out
       }
     });
-    return unsubscribe;
+    return unsubscribe; // clean up listener on unmount
   }, []);
 
   const handleSignUp = () => {
@@ -37,7 +38,6 @@ export default function LoginScreen() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("Signed up as: " + user.email);
-        navigation.navigate("Welcome");
       })
       .catch((error) => {
         setTempErrorMessage(`${error.code}`);
@@ -50,7 +50,6 @@ export default function LoginScreen() {
         const user = userCredential.user;
         console.log(user);
         console.log("Logged in as: " + user.email);
-        navigation.navigate("Welcome");
       })
       .catch((error) => {
         // console.error(error.code);
@@ -59,7 +58,7 @@ export default function LoginScreen() {
   };
 
   function checkLoginValidation(state) {
-    if (!email || !username || !password) {
+    if (!email || (!username && !isLogin) || !password) {
       setTempErrorMessage("* Please fill in all fields");
       return;
     } else {
@@ -169,10 +168,10 @@ export default function LoginScreen() {
           )}
         </View>
         {/* Below is temp content */}
-        <View className="m-10" />
+        {/* <View className="m-10" />
         <TouchableOpacity onPress={onPressHandle_navWelcome} className="border">
           <Text className="text-base">welcome screen</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </LinearGradient>
   );
