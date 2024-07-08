@@ -26,7 +26,7 @@ afterAll(async () => {
 describe("GET: /activities", () => {
   test("200: responds with an array of all activities", () => {
     return request(app)
-      .get("/activities")
+      .get("/api/activities")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -43,7 +43,7 @@ describe("GET: /activities", () => {
   });
   test("200: responds with an array of activities filtered by category", () => {
     return request(app)
-      .get("/activities?category=Board%20Games")
+      .get("/api/activities?category=Board%20Games")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -55,7 +55,7 @@ describe("GET: /activities", () => {
   });
   test("200: responds with an array of activities filtered by cost", () => {
     return request(app)
-      .get("/activities?cost=false")
+      .get("/api/activities?cost=false")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -67,7 +67,7 @@ describe("GET: /activities", () => {
   });
   test("200: responds with an array of activities filtered by wether or not they are collaborative or not", () => {
     return request(app)
-      .get("/activities?isCollaborative=false")
+      .get("/api/activities?isCollaborative=false")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -79,7 +79,9 @@ describe("GET: /activities", () => {
   });
   test("200: responds with an array of activities filtered by category cost and IsCollaborative", () => {
     return request(app)
-      .get("/activities?category=Board%20Games&cost=false&isCollaborative=true")
+      .get(
+        "/api/activities?category=Board%20Games&cost=false&isCollaborative=true"
+      )
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -93,7 +95,7 @@ describe("GET: /activities", () => {
   });
   test("400: responds with an error for invalid query parameters", () => {
     return request(app)
-      .get("/activities?invalidQuery=nonsense")
+      .get("/api/activities?invalidQuery=nonsense")
       .expect(400)
       .then(({ body }) => {
         expect(body.success).toBe(false);
@@ -118,7 +120,7 @@ describe("POST: /activities", () => {
       cost: false,
     };
     return request(app)
-      .post("/activities")
+      .post("/api/activities")
       .send(newActivities)
       .expect(201)
       .then(({ body }) => {
@@ -142,7 +144,7 @@ describe("POST: /activities", () => {
     ];
 
     return request(app)
-      .post("/activities")
+      .post("/api/activities")
       .send(missingRequiredField)
       .expect(400)
       .then(({ body }) => {
@@ -159,7 +161,7 @@ describe("POST: /activities", () => {
     };
 
     return request(app)
-      .post("/activities")
+      .post("/api/activities")
       .send(duplicateActivity)
       .expect(400)
       .then(({ body }) => {
