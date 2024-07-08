@@ -2,13 +2,17 @@
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { initializeAuth, getAuth, getReactNativePersistence } from "firebase/auth";
-import { FIREBASE_APIKEY } from "@env";
+import {
+  initializeAuth,
+  getAuth,
+  getReactNativePersistence,
+} from "firebase/auth";
+// import { FIREBASE_APIKEY } from "@env";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: FIREBASE_APIKEY,
+  apiKey: process.env.FIREBASE_APIKEY,
   authDomain: "whimsydate.firebaseapp.com",
   projectId: "whimsydate",
   storageBucket: "whimsydate.appspot.com",
