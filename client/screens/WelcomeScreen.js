@@ -3,6 +3,7 @@ import * as React from "react";
 import { Text, View, TouchableOpacity, SafeAreaView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { auth } from "../firebase";
 
 // ICONS
 import { ChevronLeftIcon, ChevronRightIcon } from "react-native-heroicons/outline";
@@ -14,9 +15,13 @@ export default function WelcomeScreen() {
   const navigation = useNavigation();
   const tempUser = "user";
 
-  function onPressHandle_navHome() {
-    navigation.navigate("Home");
-  }
+  const handleSignOut = () => {
+    auth.signOut().then(() => {
+      // navigation.replace("Login");
+      navigation.navigate("Login");
+    });
+  };
+
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
@@ -40,8 +45,8 @@ export default function WelcomeScreen() {
         {/* Below is temp content */}
         <View className="m-10" />
         <View>
-          <TouchableOpacity onPress={onPressHandle_navHome} className="border">
-            <Text>Go to home screen</Text>
+          <TouchableOpacity onPress={handleSignOut} className="border">
+            <Text>sign out</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

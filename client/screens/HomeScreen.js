@@ -16,9 +16,6 @@ const tempImage = require("../assets/placeholder_img.png");
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  function onPressHandle_navTieBreaker() {
-    navigation.navigate("Tie Breaker");
-  }
   function onPressHandle_navActivities() {
     navigation.navigate("Activities");
   }
@@ -103,9 +100,6 @@ export default function HomeScreen() {
 
         {/* Below is temp content */}
         <View className="m-5" />
-        <TouchableOpacity onPress={onPressHandle_navTieBreaker} className="border">
-          <Text>Go to tie breaker Screen</Text>
-        </TouchableOpacity>
         <TouchableOpacity onPress={onPressHandle_navActivities} className="border">
           <Text>Go to activities Screen</Text>
         </TouchableOpacity>
