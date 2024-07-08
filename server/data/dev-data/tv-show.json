@@ -1,0 +1,338 @@
+[
+    {
+        "show": "Breaking Bad",
+        "genre": "Crime"
+    },
+    {
+        "show": "Game of Thrones",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "Friends",
+        "genre": "Comedy"
+    },
+    {
+        "show": "The Office (US)",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Stranger Things",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "The Mandalorian",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "The Crown",
+        "genre": "Biography"
+    },
+    {
+        "show": "The Simpsons",
+        "genre": "Animation"
+    },
+    {
+        "show": "The Big Bang Theory",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Sherlock",
+        "genre": "Crime"
+    },
+    {
+        "show": "Westworld",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "The Walking Dead",
+        "genre": "Horror"
+    },
+    {
+        "show": "Grey's Anatomy",
+        "genre": "Drama"
+    },
+    {
+        "show": "House of Cards",
+        "genre": "Drama"
+    },
+    {
+        "show": "The Sopranos",
+        "genre": "Crime"
+    },
+    {
+        "show": "Better Call Saul",
+        "genre": "Crime"
+    },
+    {
+        "show": "Black Mirror",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "Dexter",
+        "genre": "Crime"
+    },
+    {
+        "show": "The Witcher",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "The Handmaid's Tale",
+        "genre": "Drama"
+    },
+    {
+        "show": "Narcos",
+        "genre": "Biography"
+    },
+    {
+        "show": "West Wing",
+        "genre": "Drama"
+    },
+    {
+        "show": "Suits",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Mad Men",
+        "genre": "Drama"
+    },
+    {
+        "show": "How I Met Your Mother",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Parks and Recreation",
+        "genre": "Comedy"
+    },
+    {
+        "show": "The Marvelous Mrs. Maisel",
+        "genre": "Comedy"
+    },
+    {
+        "show": "The X-Files",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "Lost",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "Buffy the Vampire Slayer",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "The West Wing",
+        "genre": "Drama"
+    },
+    {
+        "show": "Twin Peaks",
+        "genre": "Mystery"
+    },
+    {
+        "show": "Fargo",
+        "genre": "Crime"
+    },
+    {
+        "show": "True Detective",
+        "genre": "Crime"
+    },
+    {
+        "show": "Orange Is the New Black",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Homeland",
+        "genre": "Thriller"
+    },
+    {
+        "show": "The Boys",
+        "genre": "Sci-Fi/Action"
+    },
+    {
+        "show": "Rick and Morty",
+        "genre": "Animation"
+    },
+    {
+        "show": "Seinfeld",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Bojack Horseman",
+        "genre": "Animation"
+    },
+    {
+        "show": "The Twilight Zone",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "The Expanse",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "This Is Us",
+        "genre": "Drama"
+    },
+    {
+        "show": "House",
+        "genre": "Drama"
+    },
+    {
+        "show": "24",
+        "genre": "Action"
+    },
+    {
+        "show": "The Good Place",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Ozark",
+        "genre": "Crime"
+    },
+    {
+        "show": "The Umbrella Academy",
+        "genre": "Action"
+    },
+    {
+        "show": "Brooklyn Nine-Nine",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Big Little Lies",
+        "genre": "Drama"
+    },
+    {
+        "show": "Peaky Blinders",
+        "genre": "Crime"
+    },
+    {
+        "show": "Sons of Anarchy",
+        "genre": "Crime"
+    },
+    {
+        "show": "Vikings",
+        "genre": "Action"
+    },
+    {
+        "show": "Mindhunter",
+        "genre": "Crime"
+    },
+    {
+        "show": "The Haunting of Hill House",
+        "genre": "Horror"
+    },
+    {
+        "show": "GLOW",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Gilmore Girls",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Supernatural",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "Riverdale",
+        "genre": "Crime"
+    },
+    {
+        "show": "Gossip Girl",
+        "genre": "Drama"
+    },
+    {
+        "show": "The 100",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "Skins",
+        "genre": "Drama"
+    },
+    {
+        "show": "Downton Abbey",
+        "genre": "Drama"
+    },
+    {
+        "show": "The Vampire Diaries",
+        "genre": "Drama"
+    },
+    {
+        "show": "Arrow",
+        "genre": "Action"
+    },
+    {
+        "show": "The Flash",
+        "genre": "Action"
+    },
+    {
+        "show": "Lucifer",
+        "genre": "Crime"
+    },
+    {
+        "show": "Shadow and Bone",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "The Sandman",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "Fleabag",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Killing Eve",
+        "genre": "Thriller"
+    },
+    {
+        "show": "Euphoria",
+        "genre": "Drama"
+    },
+    {
+        "show": "Schitt's Creek",
+        "genre": "Comedy"
+    },
+    {
+        "show": "The Queen's Gambit",
+        "genre": "Drama"
+    },
+    {
+        "show": "The Witcher: Blood Origin",
+        "genre": "Fantasy"
+    },
+    {
+        "show": "Ted Lasso",
+        "genre": "Comedy"
+    },
+    {
+        "show": "Bridgerton",
+        "genre": "Drama"
+    },
+    {
+        "show": "Lovecraft Country",
+        "genre": "Horror"
+    },
+    {
+        "show": "The Morning Show",
+        "genre": "Drama"
+    },
+    {
+        "show": "Watchmen",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "The Boys",
+        "genre": "Action"
+    },
+    {
+        "show": "Umbrella Academy",
+        "genre": "Action"
+    },
+    {
+        "show": "The Last of Us",
+        "genre": "Sci-Fi"
+    },
+    {
+        "show": "Invincible",
+        "genre": "Animation"
+    }
+]

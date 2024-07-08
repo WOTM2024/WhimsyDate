@@ -1,0 +1,362 @@
+[
+    {
+        "film": "The Godfather",
+        "genres": "Crime"
+    },
+    {
+        "film": "The Shawshank Redemption",
+        "genres": "Drama"
+    },
+    {
+        "film": "The Dark Knight",
+        "genres": "Action"
+    },
+    {
+        "film": "Pulp Fiction",
+        "genres": "Crime"
+    },
+    {
+        "film": "Schindler's List",
+        "genres": "Biography"
+    },
+    {
+        "film": "The Lord of the Rings: The Return of the King",
+        "genres": "Fantasy"
+    },
+    {
+        "film": "Star Wars: Episode IV - A New Hope",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Inception",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Fight Club",
+        "genres": "Drama"
+    },
+    {
+        "film": "Forrest Gump",
+        "genres": "Drama"
+    },
+    {
+        "film": "The Matrix",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Goodfellas",
+        "genres": "Biography"
+    },
+    {
+        "film": "The Silence of the Lambs",
+        "genres": "Thriller"
+    },
+    {
+        "film": "The Godfather: Part II",
+        "genres": "Crime"
+    },
+    {
+        "film": "The Empire Strikes Back",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "One Flew Over the Cuckoo's Nest",
+        "genres": "Drama"
+    },
+    {
+        "film": "Interstellar",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Parasite",
+        "genres": "Drama"
+    },
+    {
+        "film": "Gladiator",
+        "genres": "Action"
+    },
+    {
+        "film": "Saving Private Ryan",
+        "genres": "War"
+    },
+    {
+        "film": "The Green Mile",
+        "genres": "Crime"
+    },
+    {
+        "film": "Braveheart",
+        "genres": "Biography"
+    },
+    {
+        "film": "The Departed",
+        "genres": "Crime"
+    },
+    {
+        "film": "The Lion King",
+        "genres": "Animation"
+    },
+    {
+        "film": "The Prestige",
+        "genres": "Mystery"
+    },
+    {
+        "film": "Django Unchained",
+        "genres": "Drama"
+    },
+    {
+        "film": "Titanic",
+        "genres": "Drama"
+    },
+    {
+        "film": "Avatar",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Avengers: Endgame",
+        "genres": "Action"
+    },
+    {
+        "film": "Back to the Future",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Se7en",
+        "genres": "Crime"
+    },
+    {
+        "film": "The Usual Suspects",
+        "genres": "Crime"
+    },
+    {
+        "film": "The Shining",
+        "genres": "Horror"
+    },
+    {
+        "film": "La La Land",
+        "genres": "Musical"
+    },
+    {
+        "film": "Blade Runner 2049",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Mad Max: Fury Road",
+        "genres": "Action"
+    },
+    {
+        "film": "The Social Network",
+        "genres": "Biography"
+    },
+    {
+        "film": "Joker",
+        "genres": "Crime"
+    },
+    {
+        "film": "The Great Dictator",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Casablanca",
+        "genres": "Drama"
+    },
+    {
+        "film": "Lawrence of Arabia",
+        "genres": "Biography"
+    },
+    {
+        "film": "A Clockwork Orange",
+        "genres": "Sci-Fi"
+    },
+    {
+        "film": "Apocalypse Now",
+        "genres": "War"
+    },
+    {
+        "film": "The Grand Budapest Hotel",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Big Lebowski",
+        "genres": "Comedy"
+    },
+    {
+        "film": "A Beautiful Mind",
+        "genres": "Biography"
+    },
+    {
+        "film": "Whiplash",
+        "genres": "Drama"
+    },
+    {
+        "film": "The Sixth Sense",
+        "genres": "Thriller"
+    },
+    {
+        "film": "Memento",
+        "genres": "Mystery"
+    },
+    {
+        "film": "The Wolf of Wall Street",
+        "genres": "Biography"
+    },
+    {
+        "film": "12 Years a Slave",
+        "genres": "Biography"
+    },
+    {
+        "film": "Slumdog Millionaire",
+        "genres": "Drama"
+    },
+    {
+        "film": "The Notebook",
+        "genres": "Drama"
+    },
+    {
+        "film": "Pride and Prejudice",
+        "genres": "Drama"
+    },
+    {
+        "film": "Crazy, Stupid, Love.",
+        "genres": "Comedy"
+    },
+    {
+        "film": "When Harry Met Sally...",
+        "genres": "Comedy"
+    },
+    {
+        "film": "10 Things I Hate About You",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Notting Hill",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Princess Bride",
+        "genres": "Fantasy"
+    },
+    {
+        "film": "Love Actually",
+        "genres": "Comedy"
+    },
+    {
+        "film": "A Star is Born",
+        "genres": "Drama"
+    },
+    {
+        "film": "Silver Linings Playbook",
+        "genres": "Comedy"
+    },
+    {
+        "film": "500 Days of Summer",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Eternal Sunshine of the Spotless Mind",
+        "genres": "Drama"
+    },
+    {
+        "film": "The Proposal",
+        "genres": "Comedy"
+    },
+    {
+        "film": "About Time",
+        "genres": "Drama"
+    },
+    {
+        "film": "Sleepless in Seattle",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Pretty Woman",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Holiday",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Fault in Our Stars",
+        "genres": "Drama"
+    },
+    {
+        "film": "Me Before You",
+        "genres": "Drama"
+    },
+    {
+        "film": "To All the Boys I've Loved Before",
+        "genres": "Comedy"
+    },
+    {
+        "film": "A Walk to Remember",
+        "genres": "Drama"
+    },
+    {
+        "film": "The Big Sick",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Midnight in Paris",
+        "genres": "Comedy"
+    },
+    {
+        "film": "While You Were Sleeping",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Before Sunrise",
+        "genres": "Drama"
+    },
+    {
+        "film": "Before Sunset",
+        "genres": "Drama"
+    },
+    {
+        "film": "To Catch a Thief",
+        "genres": "Crime"
+    },
+    {
+        "film": "Moonrise Kingdom",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Chocolat",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Crazy Rich Asians",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Vow",
+        "genres": "Drama"
+    },
+    {
+        "film": "Shakespeare in Love",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Best Exotic Marigold Hotel",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Lake House",
+        "genres": "Drama"
+    },
+    {
+        "film": "You've Got Mail",
+        "genres": "Comedy"
+    },
+    {
+        "film": "The Spectacular Now",
+        "genres": "Drama"
+    },
+    {
+        "film": "Hitch",
+        "genres": "Comedy"
+    },
+    {
+        "film": "Always Be My Maybe",
+        "genres": "Comedy"
+    }
+]
