@@ -1,12 +1,14 @@
-// ActivitiesScreen.js
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function InspirationScreen() {
+export default function ActivitiesScreen() {
   const navigation = useNavigation();
+  const [searchForQuery, setSearchForQuery] = useState("");
+  const [filteredData, setFilteredData] = useState(tempData);
 
   function onPressHandle_searchActivities() {
     console.log("Pressed Search");
@@ -19,18 +21,33 @@ export default function InspirationScreen() {
   function onPressHandle_addActivity(itemName) {
     console.log("Pressed add activity");
   }
+
+  useEffect(() => {
+    if (searchForQuery === "") {
+      setFilteredData(tempData);
+    } else {
+      setFilteredData(tempData.filter((item) => item.toLowerCase().includes(searchForQuery.toLowerCase())));
+    }
+  }, [searchForQuery]);
+
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
         <View className="m-8" />
         <View className="w-full items-center p-1">
           <View className="w-full flex-row items-center m-2 border border-light_border border-2 rounded-md ">
-            <TextInput placeholder="Search an activity" keyboardType="default" className="flex-1 p-1 mx-2" />
+            <TextInput
+              placeholder="Search an activity"
+              keyboardType="default"
+              className="flex-1 p-1 mx-2"
+              value={searchForQuery}
+              onChangeText={setSearchForQuery}
+            />
             <MagnifyingGlassIcon size={25} color="#1E1E1E" className="ml-2" onPress={onPressHandle_searchActivities} />
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
-          {tempDate.map((item, index) => {
+          {filteredData.map((item, index) => {
             return (
               <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
                 <Text className="flex-1 font-bold text-light_text text-lg">{item}</Text>
@@ -52,7 +69,7 @@ export default function InspirationScreen() {
   );
 }
 
-const tempDate = [
+const tempData = [
   "Sushi",
   "Chinese",
   "Indian",
