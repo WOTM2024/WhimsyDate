@@ -81,13 +81,13 @@ describe("POST:/", () => {
       });
   });
   test("400: should get 400 BAD Request when inserting duplicates", () => {
-    const newMovie = {
+    const duplicateMovie = {
       title: "Jumanji",
       genre: "Adventure",
     };
     return request(app)
       .post("/api/movies")
-      .send(newMovie)
+      .send(duplicateMovie)
       .expect(400)
       .then(({ body }) => {
         expect(body.success).toBe(false);
