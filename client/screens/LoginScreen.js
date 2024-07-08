@@ -24,6 +24,7 @@ export default function LoginScreen() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         const uid = user.uid;
+        console.log(uid);
         navigation.navigate("Tabs");
       } else {
         // signed out
