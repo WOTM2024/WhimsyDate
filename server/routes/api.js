@@ -1,11 +1,11 @@
 const express = require("express");
 
-const tvShows = require("./routes/tvshows");
-const movies = require("./routes/movies");
-const users = require("./routes/users");
-const foods = require("./routes/foods");
-const activities = require("./routes/activities");
-const couples = require("./routes/couples");
+const tvShows = require("./tvshows");
+const movies = require("./movies");
+const users = require("./users");
+const foods = require("./foods");
+const activities = require("./activities");
+const couples = require("./couples");
 
 const router = express.Router();
 
