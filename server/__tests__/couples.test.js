@@ -30,7 +30,7 @@ describe("GET: /couples", () => {
     );
     await createDummyCouple(dummyData[0], dummyData[1]);
     return request(app)
-      .get("/couples")
+      .get("/api/couples")
       .expect(200)
       .then(({ body }) => {
         expect(body.data).toBeInstanceOf(Array);
@@ -57,7 +57,7 @@ describe("GET: /couples/:couple_id", () => {
     const coupleId = await createDummyCouple(dummyData[0], dummyData[1]);
 
     return request(app)
-      .get(`/couples/${coupleId}`)
+      .get(`/api/couples/${coupleId}`)
       .expect(200)
       .then(({ body }) => {
         expect(body.data).toMatchObject({
@@ -76,7 +76,7 @@ describe("GET: /couples/:couple_id", () => {
     const invalidId = new mongoose.Types.ObjectId();
 
     return request(app)
-      .get(`/couples/${invalidId}`)
+      .get(`/api/couples/${invalidId}`)
       .expect(404)
       .then(({ body }) => {
         expect(body.message).toBe("couple not found");
@@ -98,7 +98,7 @@ describe("POST: /couples/add", () => {
       userTwoId: dummyData[1].toString(),
     };
     return request(app)
-      .post("/couples/add")
+      .post("/api/couples/add")
       .send(newCouple)
       .expect(201)
       .then(async ({ body }) => {
@@ -124,7 +124,7 @@ describe("POST: /couples/add", () => {
       userTwoId: dummyData[1].toString(),
     };
     return request(app)
-      .post("/couples/add")
+      .post("/api/couples/add")
       .send(duplicateCouple)
       .expect(400)
       .then(({ body }) => {
@@ -144,7 +144,7 @@ describe("DELETE: /couples/delete", () => {
     );
     const coupleId = await createDummyCouple(dummyData[0], dummyData[1]);
     return request(app)
-      .delete("/couples/delete")
+      .delete("/api/couples/delete")
       .send({ id: coupleId })
       .expect(200)
       .then(async ({ body }) => {
@@ -157,7 +157,7 @@ describe("DELETE: /couples/delete", () => {
   test("404: Responds with an error when the couple does not exist", async () => {
     const invalidId = new mongoose.Types.ObjectId();
     return request(app)
-      .delete("/couples/delete")
+      .delete("/api/couples/delete")
       .send({ id: invalidId })
       .expect(404)
       .then(({ body }) => {
