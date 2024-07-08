@@ -13,6 +13,10 @@ export default function GameRoomScreen() {
   // invite to send your partner your room/game invite.
   // pairing code is your partners unique id
 
+  function onPressHandle_FlappyBird() {
+    navigation.navigate("FlappyBird");
+  }
+
   return (
     <LinearGradient colors={["#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -29,7 +33,7 @@ export default function GameRoomScreen() {
             <Text className="text-base text-center text-light_button_text font-semibold">Invite</Text>
           </TouchableOpacity>
           <View className="m-2"></View>
-          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg">
+          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_FlappyBird}>
             <Text className="text-base text-center text-light_button_text font-semibold">Start Game</Text>
           </TouchableOpacity>
         </View>
