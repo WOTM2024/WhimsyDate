@@ -5,6 +5,10 @@ const Users = new mongoose.Schema({
     type: String,
     ref: "Users",
   },
+  fb_id: {
+    type: String,
+    required: true,
+  },
   user_activities: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Activities",

@@ -1,67 +1,114 @@
-const Couples = require("../models/couples-model");
-const Activities = require("../models/activities-model");
-const Food = require("../models/foods-model");
-const Films = require("../models/movies-model");
-const Tv_Shows = require("../models/tv-shows-model");
 const Users = require("../models/users-model");
+const Couples = require("../models/couples-model");
 
 const getCouples = async (req, res) => {
   try {
     const couples = await Couples.find();
-    res.status(200).json({ success: true, data: Couples });
+    res.status(200).json({ success: true, data: couples });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error.message });
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
-const postUser = async (req, res) => {
-  try {
-    const { userOneName, userTwoName } = req.body;
+const getCoupleById = async (req, res) => {
+  const { couple_id } = req.params;
 
-    if (req.body.length === 0) {
-      return res.status(400).json({
+  try {
+    const couple = await Couples.findById(couple_id);
+
+    if (!couple) {
+      return res.status(404).json({
         success: false,
-        message: "Bad Request - please enter two usernames",
+        message: "couple not found",
       });
     }
 
-    const userOne = await Users.find({ username: userOneName });
-    const userTwo = await Users.find({ username: userTwoName });
+    res.status(200).json({ success: true, data: couple });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+const postCouple = async (req, res) => {
+  const { userOneId, userTwoId } = req.body;
+
+  try {
+    const userOne = await Users.findById(userOneId).lean().exec();
+    const userTwo = await Users.findById(userTwoId).lean().exec();
 
     if (!userOne || !userTwo) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
-        message: "Bad Request - please enter two valid usernames",
+        message: "one or both users not found",
       });
     }
-
-    const couple = [userOne._id, userTwo._id];
-    const user_activities = await Activities.distinct("_id", {}, {});
-    const user_food_choices = await Food.distinct("_id", {}, {});
-    const user_films = await Films.distinct("_id", {}, {});
-    const user_tv_shows = await Tv_Shows.distinct("_id", {}, {});
-
-    if (!Array.isArray(req.body)) {
-      return res.status(400).json({ success: false, message: "Input should be an array" });
+    //https://www.mongodb.com/docs/manual/reference/operator/query/or/
+    const existingCouple = await Couples.findOne({
+      $or: [
+        { user_one: userOneId, user_two: userTwoId },
+        { user_one: userTwoId, user_two: userOneId },
+      ],
+    })
+      .lean()
+      .exec();
+    if (existingCouple) {
+      return res
+        .status(400)
+        .json({ success: false, message: "couple already exists" });
     }
 
-    const savedUser = await Users.updateOne(
-      {
-        $set: {
-          couple,
-          user_activities,
-          user_food_choices,
-          user_films,
-          user_tv_shows,
-        },
-      },
-      { upsert: true }
+    const combinedActivities = Array.from(
+      new Set([...userOne.user_activities, ...userTwo.user_activities])
+    );
+    const combinedFoodChoices = Array.from(
+      new Set([...userOne.user_food_choices, ...userTwo.user_food_choices])
+    );
+    const combinedFilms = Array.from(
+      new Set([...userOne.user_films, ...userTwo.user_films])
+    );
+    const combinedTVShows = Array.from(
+      new Set([...userOne.user_tv_shows, ...userTwo.user_tv_shows])
     );
 
-    res.status(201).json({ success: true, data: savedUser });
+    const couple = new Couples({
+      user_one: userOneId,
+      user_two: userTwoId,
+      couple_activities: combinedActivities,
+      couple_food_choices: combinedFoodChoices,
+      couple_films: combinedFilms,
+      couple_tv_shows: combinedTVShows,
+    });
+
+    await couple.save();
+
+    res.status(201).json({ success: true, data: couple });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error });
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
-module.exports = { postUser, getCouples };
+const deleteCouple = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const couple = await Couples.findById(id);
+
+    if (!couple) {
+      return res.status(404).json({
+        success: false,
+        message: "couple not found",
+      });
+    }
+
+    await Couples.findByIdAndDelete(id);
+
+    res
+      .status(200)
+      .json({ success: true, message: "couple deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+module.exports = { getCouples, postCouple, deleteCouple, getCoupleById };
