@@ -25,7 +25,7 @@ export default function WelcomeScreen() {
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
-        <View className="m-5" />
+        <View className="m-12" />
         <View>
           <Text className="text-center text-7xl text-light_text font-bold">Welcome</Text>
           <Text className="text-center text-7xl text-light_text font-bold">{tempUser}!</Text>
