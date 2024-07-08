@@ -18,12 +18,12 @@ export default function TieBreakerScreen() {
         {/* <Text>Tie Breaker</Text> */}
         <View className=" w-96 h-3/4 relative">
           <Image source={flappydemoimage} className="object-cover w-full h-full drop-shadow-2xl" />
-          <View className="absolute left-0 top-1/2 transform -translate-y-1/2">
+          <TouchableOpacity className="absolute left-0 top-1/2 transform -translate-y-1/2 rounded-full bg-gray-800/30">
             <ChevronLeftIcon size={40} color="#1E1E1E" />
-          </View>
-          <View className="absolute right-0 top-1/2 transform -translate-y-1/2">
+          </TouchableOpacity>
+          <TouchableOpacity className="absolute right-0 top-1/2 transform -translate-y-1/2 rounded-full bg-gray-800/30">
             <ChevronRightIcon size={40} color="#1E1E1E" />
-          </View>
+          </TouchableOpacity>
         </View>
         <View className="m-4" />
         <View>
@@ -44,3 +44,5 @@ export default function TieBreakerScreen() {
     </LinearGradient>
   );
 }
+
+className = "rounded-full bg-gray-800/30";
