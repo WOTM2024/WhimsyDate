@@ -1,11 +1,22 @@
 // ActivitiesScreen.js
 import * as React from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
+import {
+  MagnifyingGlassIcon,
+  MinusIcon,
+  PlusCircleIcon,
+} from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function InspirationScreen() {
+export default function ActivitiesScreen() {
   const navigation = useNavigation();
 
   function onPressHandle_searchActivities() {
@@ -22,18 +33,31 @@ export default function InspirationScreen() {
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
-        <View className="m-8" />
         <View className="w-full items-center p-1">
           <View className="w-full flex-row items-center m-2 border border-light_border border-2 rounded-md ">
-            <TextInput placeholder="Search an activity" keyboardType="default" className="flex-1 p-1 mx-2" />
-            <MagnifyingGlassIcon size={25} color="#1E1E1E" className="ml-2" onPress={onPressHandle_searchActivities} />
+            <TextInput
+              placeholder="Search an activity"
+              keyboardType="default"
+              className="flex-1 p-1 mx-2"
+            />
+            <MagnifyingGlassIcon
+              size={25}
+              color="#1E1E1E"
+              className="ml-2"
+              onPress={onPressHandle_searchActivities}
+            />
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
           {tempDate.map((item, index) => {
             return (
-              <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
-                <Text className="flex-1 font-bold text-light_text text-lg">{item}</Text>
+              <View
+                key={index}
+                className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+              >
+                <Text className="flex-1 font-bold text-light_text text-lg">
+                  {item}
+                </Text>
                 <MinusIcon
                   size={25}
                   color="#1E1E1E"
@@ -45,7 +69,11 @@ export default function InspirationScreen() {
           })}
         </ScrollView>
         <View>
-          <PlusCircleIcon size={75} color="#1E1E1E" onPress={onPressHandle_addActivity} />
+          <PlusCircleIcon
+            size={75}
+            color="#1E1E1E"
+            onPress={onPressHandle_addActivity}
+          />
         </View>
       </SafeAreaView>
     </LinearGradient>

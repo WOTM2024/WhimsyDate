@@ -1,14 +1,17 @@
-// ActivitiesScreen.js
+// InspirationScreen.js
 import * as React from "react";
 import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
-import { fetchActivities } from "../api";
+import { fetchActivities, fetchFoods, fetchMovies, fetchTvShows } from "../api";
 
 export default function InspirationScreen() {
   const navigation = useNavigation();
   const [activities, setActivities] = React.useState([]);
+  const [foods, setFoods] = React.useState([]);
+  const [tvShows, setTvShows] = React.useState([]);
+  const [movies, setMovies] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [category, setCategory] = React.useState('');
   const [isCollaborative, setIsCollaborative] = React.useState('');
@@ -22,7 +25,31 @@ export default function InspirationScreen() {
       })
       .catch((err) => {
         setError(err.response.data.msg || "An error occurred");
-      });
+      })
+
+      fetchFoods()
+      .then((foodsFromApi) => {
+        setFoods(foodsFromApi || []);
+      })
+      .catch((err) => {
+        setError(err.response.data.msg || "An error occurred")
+      })
+
+      fetchTvShows()
+      .then((tvShowsFromApi) => {
+        setTvShows(tvShowsFromApi || []);
+      })
+      .catch((err) => {
+        setError(err.response.data.msg || "An error occurred")
+      })
+
+      fetchMovies()
+      .then((moviesFromApi) => {
+        setMovies(moviesFromApi || []);
+      })
+      .catch((err) => {
+        setError(err.response.data.msg || "An error occurred")
+      })
   }, []);
   
   function onPressHandle_searchActivities() {
@@ -46,6 +73,7 @@ export default function InspirationScreen() {
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
+        <Text className="text-xl font-bold mb-2">Activities</Text>
           {activities.map((activity, index) => {
             return (
               <View key={activity._id} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
@@ -59,6 +87,57 @@ export default function InspirationScreen() {
               </View>
             );
           })}
+            <Text className="text-xl font-bold mb-2">Foods</Text>
+          {foods.map((food, index) => (
+            <View
+              key={food._id}
+              className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+            >
+              <Text className="flex-1 font-bold text-light_text text-lg">
+                {food.food_name}
+              </Text>
+              <MinusIcon
+                size={25}
+                color="#1E1E1E"
+                className="ml-2"
+                onPress={() => onPressHandle_removeActivity(food.food_name)}
+              />
+            </View>
+          ))}
+            <Text className="text-xl font-bold mb-2">Tv Shows</Text>
+          {tvShows.map((tvShow, index) => (
+            <View
+              key={tvShow._id}
+              className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+            >
+              <Text className="flex-1 font-bold text-light_text text-lg">
+                {tvShow.show}
+              </Text>
+              <MinusIcon
+                size={25}
+                color="#1E1E1E"
+                className="ml-2"
+                onPress={() => onPressHandle_removeActivity(tvShow.show)}
+              />
+            </View>
+          ))}
+           <Text className="text-xl font-bold mb-2">Movies</Text>
+          {movies.map((movie, index) => (
+            <View
+              key={movie._id}
+              className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+            >
+              <Text className="flex-1 font-bold text-light_text text-lg">
+                {movie.title}
+              </Text>
+              <MinusIcon
+                size={25}
+                color="#1E1E1E"
+                className="ml-2"
+                onPress={() => onPressHandle_removeActivity(movie.title)}
+              />
+            </View>
+          ))}
         </ScrollView>
         <View>
           <PlusCircleIcon size={75} color="#1E1E1E" onPress={onPressHandle_addActivity} />
@@ -68,39 +147,4 @@ export default function InspirationScreen() {
   );
 }
 
-const tempDate = [
-  "Sushi",
-  "Chinese",
-  "Indian",
-  "Kebab",
-  "Thai",
-  "Jamaican",
-  "Italian",
-  "Fast Food",
-  "Rock Climbing",
-  "Swimming",
-  "Badminton",
-  "Football",
-  "Basketball",
-  "Netflix & Chill",
-  "Movies",
-  "TV Shows",
-  "Hiking",
-  "Camping",
-  "Biking",
-  "Picnic",
-  "Board Games",
-  "Video Games",
-  "Reading",
-  "Painting",
-  "Drawing",
-  "Cooking",
-  "Baking",
-  "Photography",
-  "Yoga",
-  "Pilates",
-  "Meditation",
-  "Gardening",
-  "Birdwatching",
-  "Volunteering",
-];
+

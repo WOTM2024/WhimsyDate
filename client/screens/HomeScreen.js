@@ -1,6 +1,6 @@
 // HomeScreen.js
 import React, { useCallback, useState } from "react";
-import { View, Text, TouchableOpacity, Dimensions, Image, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, Dimensions, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -18,6 +18,9 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   function onPressHandle_navActivities() {
     navigation.navigate("Activities");
+  }
+  function onPressHandle_navInspiration() {
+    navigation.navigate("Inspiration")
   }
 
   const animationStyle = useCallback((value) => {
@@ -42,10 +45,11 @@ export default function HomeScreen() {
   const [imageUris, setImageUris] = useState(images);
   return (
     <LinearGradient colors={["#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
-      <SafeAreaView className="flex-1 items-center ">
-        <View className="m-10" />
+      <View className="flex-1 items-center ">
         {/* <Text>Home</Text> */}
+        <View className="m-5" />
         <Text className="text-3xl font-semibold">Swipe left/right to spin</Text>
+        <View className="m-2" />
 
         <Carousel
           loop
@@ -102,7 +106,10 @@ export default function HomeScreen() {
         <TouchableOpacity onPress={onPressHandle_navActivities} className="border">
           <Text>Go to activities Screen</Text>
         </TouchableOpacity>
-      </SafeAreaView>
+        <TouchableOpacity onPress={onPressHandle_navInspiration} className="border">
+          <Text>Go to inspiration Screen</Text>
+        </TouchableOpacity>
+      </View>
     </LinearGradient>
   );
 }
