@@ -35,10 +35,10 @@ export default function TieBreakerScreen() {
         </View>
 
         {/* Below is temp content */}
-        <View className="m-5" />
+        {/* <View className="m-5" />
         <TouchableOpacity onPress={onPressHandle_navGameRoom} className="border">
           <Text>Go to game room Screen</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </LinearGradient>
   );

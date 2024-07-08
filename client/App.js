@@ -16,6 +16,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { HomeIcon } from "react-native-heroicons/solid";
 import UserProfileScreen from "./screens/UserProfileScreen";
+import FlappyBirdScreen from "./screens/FlappyBirdScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,6 +34,7 @@ export default function App() {
           <Stack.Screen name="Activities" component={ActivitiesScreen} />
           <Stack.Screen name="Inspiration" component={InspirationScreen} />
           <Stack.Screen name="Game Room" component={GameRoomScreen} />
+          <Stack.Screen name="FlappyBird" component={FlappyBirdScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
