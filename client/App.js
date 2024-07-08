@@ -15,6 +15,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { HomeIcon } from "react-native-heroicons/solid";
+import UserProfileScreen from "./screens/UserProfileScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,6 +52,7 @@ function TabsNavigator() {
         }}
       />
       <Tab.Screen name="Tie Breaker" component={TieBreakerScreen} />
+      <Tab.Screen name="User Profile" component={UserProfileScreen} />
     </Tab.Navigator>
   );
 }
