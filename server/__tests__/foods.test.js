@@ -10,13 +10,25 @@ beforeAll(async () => {
   });
 });
 
+afterEach(async () => {
+  await Food.deleteMany({});
+});
+
 afterAll(async () => {
-  await Food.deleteMany({ food: "Rio's Steakhouse", food: "Tofu Express" });
   await mongoose.connection.close();
 });
 
 describe("GET: /api/foods", () => {
-  test("200: responds with an array of all foods", () => {
+  test("200: responds with an array of all foods", async () => {
+    await Food.create([
+      {
+        food: "Rio's Steakhouse",
+        vegetarian: false,
+        vegan: false,
+        meat: true,
+        allergies: true,
+      },
+    ]);
     return request(app)
       .get("/api/foods")
       .expect(200)
@@ -46,28 +58,26 @@ describe("GET: /api/foods", () => {
 });
 
 describe("POST: /api/foods", () => {
-  test("201: Adds a food option and responds with the new food option", () => {
-    const newFood = [
-      {
-        food: "Tofu Express",
-        vegetarian: true,
-        vegan: true,
-        meat: false,
-        allergies: false,
-      },
-    ];
+  test("201: should be able to post a new food option", () => {
+    const newFood = {
+      food: "Tofu Express",
+      vegetarian: true,
+      vegan: true,
+      meat: false,
+      allergies: false,
+    };
     return request(app)
-      .post("/foods")
+      .post("/api/foods")
       .send(newFood)
       .expect(201)
       .then(({ body }) => {
         expect(body.success).toBe(true);
         expect(body.data).toMatchObject({
-          food: "Tofu Express",
-          vegetarian: true,
-          vegan: true,
-          meat: false,
-          allergies: false,
+          food: newFood.food,
+          vegetarian: newFood.vegetarian,
+          vegan: newFood.vegan,
+          meat: newFood.meat,
+          allergies: newFood.allergies,
         });
       });
   });
@@ -86,52 +96,62 @@ describe("POST: /api/foods", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.success).toBe(false);
-        expect(body.message).toBe("Don't forget to add the name of the food!");
+        expect(body.message).toBe("Missing required fields");
       });
   });
 
-  test("201: Will avoid duplicating food options on the database, instead updating the existing entry", () => {
-    const multipleFoodOption = [
-      {
-        food: "Rio's Steakhouse",
-        vegetarian: false,
-        vegan: false,
-        meat: true,
-        allergies: true,
-      },
-    ];
+  test("400: should get 400 BAD Request when inserting duplicates", async () => {
+    const toInsert = new Food({
+      food: "Tofu Express",
+      vegetarian: true,
+      vegan: true,
+      meat: false,
+      allergies: false,
+    });
+    await toInsert.save();
+
+    const duplicateFood = {
+      food: "Tofu Express",
+      vegetarian: true,
+      vegan: true,
+      meat: false,
+      allergies: false,
+    };
+    return request(app)
+      .post("/api/foods")
+      .send(duplicateFood)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.success).toBe(false);
+        expect(body.message).toBe("Food option already exists");
+      });
+  });
+});
+
+describe("PATCH /api/foods/:id", () => {
+  test("PATCH:200 - should be able to update the existing food option", async () => {
+    const toInsert = new Food({
+      food: "Rio's Steakhouse",
+      vegetarian: false,
+      vegan: false,
+      meat: true,
+      allergies: true,
+    });
+    await toInsert.save();
 
     return request(app)
-      .post("/foods")
-      .send(multipleFoodOption)
-      .expect(201)
+      .patch(`/api/foods/${toInsert._id}`)
+      .send({ food: "Rio's Fabulous Steakhouse" })
+      .expect(200)
       .then(({ body }) => {
-        expect(body.success).toBe(true);
         expect(body.data).toMatchObject({
-          food: "Rio's Steakhouse",
+          food: "Rio's Fabulous Steakhouse",
           vegetarian: false,
           vegan: false,
           meat: true,
           allergies: true,
         });
-      })
-      .then(() => {
-        return request(app)
-          .get("/foods")
-          .expect(200)
-          .then(({ body }) => {
-            const foodEntries = body.data.filter(
-              (food) => food.food === "Rio's Steakhouse"
-            );
-            expect(foodEntries.length).toBe(1);
-            expect(foodEntries[0]).toMatchObject({
-              food: "Rio's Steakhouse",
-              vegetarian: false,
-              vegan: false,
-              meat: true,
-              allergies: true,
-            });
-          });
+        expect(body.data.food).toEqual("Rio's Fabulous Steakhouse");
       });
   });
 });

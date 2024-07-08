@@ -70,7 +70,7 @@ const postActivity = async (req, res) => {
     const savedActivity = await newActivity.save();
     res.status(201).json({ success: true, data: savedActivity });
   } catch (error) {
-    res.status(409).json({ success: false, data: [], error: error.message });
+    res.status(409).json({ success: false, data: {}, error: error.message });
   }
 };
 
