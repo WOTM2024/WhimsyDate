@@ -18,7 +18,7 @@ afterAll(async () => {
 describe("GET:/movies", () => {
   test("200: responds with an array of movies", () => {
     return request(app)
-      .get("/movies")
+      .get("/api/movies")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -41,7 +41,7 @@ describe("GET:/movies", () => {
 
   test("200: should returnn movies by genre", () => {
     return request(app)
-      .get("/movies?genre=Sci-Fi")
+      .get("/api/movies?genre=Sci-Fi")
       .expect(200)
       .then(({ body }) => {
         body.data.forEach((movie) => {
@@ -58,7 +58,7 @@ describe("POST:/", () => {
       genre: "Adventure",
     };
     return request(app)
-      .post("/movies")
+      .post("/api/movies")
       .send(newMovie)
       .expect(201)
       .then(({ body }) => {
@@ -72,7 +72,7 @@ describe("POST:/", () => {
   test("400:Error - responds with an error when required fields are missing", () => {
     const newMovie = { title: "Planet of the Apes" };
     return request(app)
-      .post("/movies")
+      .post("/api/movies")
       .send(newMovie)
       .expect(400)
       .then(({ body }) => {
@@ -86,7 +86,7 @@ describe("POST:/", () => {
       genre: "Adventure",
     };
     return request(app)
-      .post("/movies")
+      .post("/api/movies")
       .send(newMovie)
       .expect(400)
       .then(({ body }) => {

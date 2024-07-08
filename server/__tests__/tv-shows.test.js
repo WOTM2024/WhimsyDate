@@ -18,7 +18,7 @@ afterAll(async () => {
 describe("GET/tvshows", () => {
   test("200:responds with an array of tv shows", () => {
     return request(app)
-      .get("/tvshows")
+      .get("/api/tvshows")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -40,7 +40,7 @@ describe("GET/tvshows", () => {
   });
   test("200:should return tv show by genre", () => {
     return request(app)
-      .get("/tvshows?genre=Drama")
+      .get("/api/tvshows?genre=Drama")
       .expect(200)
       .then(({ body }) => {
         body.data.forEach((tvshow) => {
@@ -58,7 +58,7 @@ describe("POST:/", () => {
     };
 
     return request(app)
-      .post("/tvshows")
+      .post("/api/tvshows")
       .send(newTvshow)
       .expect(201)
       .then(({ body }) => {
@@ -72,7 +72,7 @@ describe("POST:/", () => {
   test("400:Error - responds with an error when required fields are missing", () => {
     const newTvshow = { show: "The Crown" };
     return request(app)
-      .post("/tvshows")
+      .post("/api/tvshows")
       .send(newTvshow)
       .expect(400)
       .then(({ body }) => {
@@ -88,7 +88,7 @@ describe("POST:/", () => {
       genre: "Drama",
     };
     return request(app)
-      .post("/tvshows")
+      .post("/api/tvshows")
       .send(newTvshow)
       .expect(400)
       .then(({ body }) => {
