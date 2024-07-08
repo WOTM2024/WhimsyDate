@@ -1,0 +1,100 @@
+[
+    {
+        "food": "Mexican",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Indian",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Italian",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Japanese",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "American",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Thai",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "French",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Jamaican",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Turkish",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Greek",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Spanish",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Lebanese",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "British",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    },
+    {
+        "food": "Chinese",
+        "vegetarian": "true",
+        "vegan": "true",
+        "meat": "true",
+        "allergies": "true"
+    }
+]

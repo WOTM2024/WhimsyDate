@@ -1,0 +1,176 @@
+[
+    {
+        "activity_name": "Painting",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Pottery",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Flower arranging",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Woodworking class",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Sewing class",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Glass blowing",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Candle making",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Scrap book and photo albums",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Mosaic class",
+        "category": "Arts and Crafts",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Museum visit",
+        "category": "Outdoor Activities",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Scavenger hunt",
+        "category": "Outdoor Activities",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Picnic",
+        "category": "Outdoor Activities",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Road trip",
+        "category": "Outdoor Activities",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Scenic drive",
+        "category": "Outdoor Activities",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Casual walk",
+        "category": "Outdoor Activities",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Bike ride",
+        "category": "Outdoor Activities",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Dancing",
+        "category": "Social and Entertainment",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Trivia",
+        "category": "Social and Entertainment",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Book club",
+        "category": "Social and Entertainment",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Bowling",
+        "category": "Social and Entertainment",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Pub",
+        "category": "Social and Entertainment",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Shopping",
+        "category": "Social and Entertainment",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Board games",
+        "category": "Games",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Computer games",
+        "category": "Games",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Puzzles",
+        "category": "Games",
+        "isCollaborative": "true",
+        "cost": "false"
+    },
+    {
+        "activity_name": "Cooking class",
+        "category": "Food and Drink",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Cocktail making",
+        "category": "Food and Drink",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Spa",
+        "category": "Relaxation",
+        "isCollaborative": "true",
+        "cost": "true"
+    },
+    {
+        "activity_name": "Home renovation",
+        "category": "Home Improvement",
+        "isCollaborative": "true",
+        "cost": "true"
+    }
+]
