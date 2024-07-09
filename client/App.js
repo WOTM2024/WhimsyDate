@@ -17,6 +17,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeIcon } from "react-native-heroicons/solid";
 import UserProfileScreen from "./screens/UserProfileScreen";
 import FlappyBirdScreen from "./screens/FlappyBirdScreen";
+import { UserProvider } from "./contexts/UserContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,17 +27,23 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <GestureHandlerRootView>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {/* <Stack.Screen name="Test" component={TestScreen} /> */}
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Tabs" component={TabsNavigator} options={{ headerShown: false }} />
-          <Stack.Screen name="Activities" component={ActivitiesScreen} />
-          <Stack.Screen name="Inspiration" component={InspirationScreen} />
-          <Stack.Screen name="Game Room" component={GameRoomScreen} />
-          <Stack.Screen name="FlappyBird" component={FlappyBirdScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <UserProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            {/* <Stack.Screen name="Test" component={TestScreen} /> */}
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen
+              name="Tabs"
+              component={TabsNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Activities" component={ActivitiesScreen} />
+            <Stack.Screen name="Inspiration" component={InspirationScreen} />
+            <Stack.Screen name="Game Room" component={GameRoomScreen} />
+            <Stack.Screen name="FlappyBird" component={FlappyBirdScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserProvider>
     </GestureHandlerRootView>
   );
 }
