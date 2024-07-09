@@ -7,7 +7,7 @@ const {
   getUserById,
   getUserCategoryEntries,
   postEntryToUserCategory, 
-  patchUserEntriesByEntryId 
+  patchUserEntriesByEntryId,
   patchUsernameById,
 } = require("../controllers/users-controller");
 
