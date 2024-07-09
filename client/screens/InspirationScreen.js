@@ -128,7 +128,7 @@ export default function InspirationScreen() {
               className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
             >
               <Text className="flex-1 font-bold text-light_text text-lg">
-                {movie.title}
+                {movie.film}
               </Text>
               <MinusIcon
                 size={25}
