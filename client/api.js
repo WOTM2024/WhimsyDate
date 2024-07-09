@@ -15,7 +15,7 @@ export const fetchActivities = (category, isCollaborative, cost) => {
   if (isCollaborative) query.push(`isCollaborative=${isCollaborative}`);
   if (cost) query.push(`cost=${cost}`);
   const queryString = query.length ? `?${query.join("&")}` : "";
-  const url = `api/activities${queryString}`;
+  const url = `/activities${queryString}`;
 
   return api
     .get(url)
@@ -30,7 +30,7 @@ export const fetchActivities = (category, isCollaborative, cost) => {
 
 export const fetchFoods = () => {
   return api
-    .get("/api/foods")
+    .get("/foods")
     .then(({ data }) => {
       return data.data;
     })
@@ -41,7 +41,7 @@ export const fetchFoods = () => {
 };
 export const fetchTvShows = () => {
   return api
-    .get("/api/tvshows")
+    .get("/tvshows")
     .then(({ data }) => {
       return data.data;
     })
@@ -52,7 +52,7 @@ export const fetchTvShows = () => {
 };
 export const fetchMovies = () => {
   return api
-    .get("/api/movies")
+    .get("/movies")
     .then(({ data }) => {
       return data.data;
     })
