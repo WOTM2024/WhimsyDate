@@ -1,10 +1,8 @@
 import axios from "axios";
 import { API_KEY } from "@env";
 
-
-
 const api = axios.create({
-  baseURL: `https://eu-west-2.aws.data.mongodb-api.com/app/data-gcmynou/endpoint`,
+  baseURL: `https://whimsydate.onrender.com/api`,
   headers: {
     "Content-Type": "application/json",
     "api-key": API_KEY,
@@ -22,11 +20,39 @@ export const fetchActivities = (category, isCollaborative, cost) => {
   return api
     .get(url)
     .then((response) => {
-      console.log(response.data, "API response <<<<<<")
+      console.log(response.data, "API response <<<<<<");
       return response.data.data;
     })
     .catch((err) => {
       console.error("API error", err);
       throw err;
+    });
+};
+
+export const addUserToDB = (reg_username, fb_uid) => {
+  const userData = [{ username: reg_username, fb_id: fb_uid }];
+  const convertedUserData = JSON.stringify(userData);
+  // console.log(jsonData);
+
+  return api
+    .post("/users", convertedUserData)
+    .then((response) => {
+      // console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
+};
+
+export const fetchUserByUID = (uid) => {
+  return api
+    .get(`/users/${uid}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
     });
 };
