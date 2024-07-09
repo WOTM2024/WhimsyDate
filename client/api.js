@@ -92,3 +92,14 @@ export const fetchUserByUID = (uid) => {
       throw error;
     });
 };
+
+export const deleteUserByUID = (uid) => {
+  return api
+    .delete(`/users/${uid}`)
+    .then((response) => {
+      return { error: null };
+    })
+    .catch((error) => {
+      return { error: error };
+    });
+};
