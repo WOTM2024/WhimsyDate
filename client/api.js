@@ -61,3 +61,31 @@ export const fetchMovies = () => {
       throw err;
     });
 };
+
+export const addUserToDB = (reg_username, fb_uid) => {
+  const userData = [{ username: reg_username, fb_id: fb_uid }];
+  const convertedUserData = JSON.stringify(userData);
+  // console.log(jsonData);
+
+  return api
+    .post("/users", convertedUserData)
+    .then((response) => {
+      // console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
+};
+
+export const fetchUserByUID = (uid) => {
+  return api
+    .get(`/users/${uid}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
+};
