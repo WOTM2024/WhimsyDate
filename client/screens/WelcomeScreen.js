@@ -1,5 +1,5 @@
 // WelcomeScreen.js
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -7,7 +7,7 @@ import { auth } from "../firebase";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { ChevronLeftIcon, ChevronRightIcon } from "react-native-heroicons/outline";
 import { fetchUserByUID } from "../api";
-
+import { UserContext } from "../contexts/UserContext";
 const { width: PAGE_WIDTH } = Dimensions.get("window");
 
 // https://heroicons.com/outline
@@ -17,7 +17,8 @@ const { width: PAGE_WIDTH } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
-  const tempUser = "user";
+  const { username } = useContext(UserContext);
+  console.log("WelcomeScreen - Username:", username); // Debugging line
   const carouselRef = useRef(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [displayText, setDisplayText] = useState(images[0].name);
@@ -27,7 +28,7 @@ export default function WelcomeScreen() {
   // Temp Demo
   //////////////////
 
-  const [username, setUsername] = useState("");
+//   const [username, setUsername] = useState("");
 
   // useEffect(() => {
   //   // console.log(auth.currentUser?.uid);

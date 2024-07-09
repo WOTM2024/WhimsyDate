@@ -16,29 +16,38 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeIcon, UserIcon, TrophyIcon, RocketLaunchIcon } from "react-native-heroicons/solid";
 import UserProfileScreen from "./screens/UserProfileScreen";
 import FlappyBirdScreen from "./screens/FlappyBirdScreen";
+
+import { UserProvider } from "./contexts/UserContext";
+
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
+    <GestureHandlerRootView>
+      <UserProvider>
+        <NavigationContainer>
+          <Stack.Navigator 
+    screenOptions={{
             headerTransparent: true,
-          }}
-        >
-          {/* <Stack.Screen name="Test" component={TestScreen} /> */}
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Tabs" component={TabsNavigator} options={{ headerShown: false }} />
-          <Stack.Screen name="Activities" component={ActivitiesScreen} />
-          <Stack.Screen name="Inspiration" component={InspirationScreen} />
-          <Stack.Screen name="Game Room" component={GameRoomScreen} />
-          <Stack.Screen name="FlappyBird" component={FlappyBirdScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+          }}>
+            {/* <Stack.Screen name="Test" component={TestScreen} /> */}
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen
+              name="Tabs"
+              component={TabsNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Activities" component={ActivitiesScreen} />
+            <Stack.Screen name="Inspiration" component={InspirationScreen} />
+            <Stack.Screen name="Game Room" component={GameRoomScreen} />
+            <Stack.Screen name="FlappyBird" component={FlappyBirdScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserProvider>
     </GestureHandlerRootView>
   );
 }
