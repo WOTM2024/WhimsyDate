@@ -1,11 +1,12 @@
 // WelcomeScreen.js
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { ChevronLeftIcon, ChevronRightIcon } from "react-native-heroicons/outline";
+import { fetchUserByUID } from "../api";
 
 const { width: PAGE_WIDTH } = Dimensions.get("window");
 
@@ -21,6 +22,29 @@ export default function WelcomeScreen() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [displayText, setDisplayText] = useState(images[0].name);
   const [isNavigating, setIsNavigating] = useState(false);
+
+  ///////////////////
+  // Temp Demo
+  //////////////////
+
+  const [username, setUsername] = useState("");
+
+  // useEffect(() => {
+  //   // console.log(auth.currentUser?.uid);
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const tempUsername = await fetchUserByUID(auth.currentUser?.uid);
+  //       console.log(tempUsername);
+  //       setUsername(tempUsername);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
+
+  /////////////////
 
   const handleSnapToItem = (index) => {
     setCurrentImageIndex(index);
@@ -64,7 +88,7 @@ export default function WelcomeScreen() {
         <View className="m-12" />
         <View>
           <Text className="text-center text-7xl text-light_text font-bold">Welcome</Text>
-          <Text className="text-center text-7xl text-light_text font-bold">{tempUser}!</Text>
+          <Text className="text-center text-7xl text-light_text font-bold">{username}!</Text>
           <View className="m-2" />
           <Text className="text-center text-3xl text-light_text font-medium">Choose an activity category</Text>
         </View>
