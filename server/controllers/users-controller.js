@@ -171,10 +171,6 @@ const getUserCategoryEntries = async (req, res) => {
   }
 };
 
-const patchUsernameById = async (req, res) => {
-  try {
-    const { user_id } = req.params;
-
 const postEntryToUserCategory = async (req, res) => {
   const { user_id, category } = req.params;
   const { entryId } = req.body;
@@ -212,8 +208,11 @@ const patchUserEntriesByEntryId = async (req, res) => {
     res.status(200).json({ success: true, message: `That option has been removed from ${category}` });
   }catch(error){
     res.status(409).json({ success: false, data: [], error: error.message });
-}
-}
+}}
+
+const patchUsernameById = async (req, res) => {
+  try {
+    const { user_id } = req.params;
 
     const userData = await Users.findOne({ _id: user_id });
 
@@ -264,7 +263,7 @@ module.exports = {
   getUserCategories,
   getUserById,
   getUserCategoryEntries,
-  patchUsernameById,
   postEntryToUserCategory, 
-  patchUserEntriesByEntryId 
+  patchUserEntriesByEntryId, 
+  patchUsernameById,
 };
