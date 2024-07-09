@@ -1,12 +1,12 @@
 const express = require("express");
 const {
   getActivities,
-  postActivities,
+  postActivity,
 } = require("../controllers/activities-controller");
 
 activities_router = express.Router();
 
 activities_router.get("/", getActivities);
-activities_router.post("/", postActivities);
+activities_router.post("/", postActivity);
 
 module.exports = activities_router;

@@ -45,26 +45,29 @@ describe("GET: /users", () => {
   });
 });
 
-describe("POST: /users/add", () => {
+describe("POST: /users", () => {
   test("201: Adds a new user", () => {
     const newUser = [
       {
         username: "Pam",
+        fb_id: "DGS-sduvhi2iuasdb8",
       },
     ];
 
     return request(app)
-      .post("/api/users/add")
+      .post("/api/users")
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
         expect(body.success).toBe(true);
         expect(body.data).toMatchObject({
-          acknowledged: expect.any(Boolean),
-          modifiedCount: expect.any(Number),
-          upsertedId: expect.any(String),
-          upsertedCount: expect.any(Number),
-          matchedCount: expect.any(Number),
+          __v: 0,
+          _id: expect.any(String),
+          user_activities: expect.any(Array),
+          user_films: expect.any(Array),
+          user_food_choices: expect.any(Array),
+          user_tv_shows: expect.any(Array),
+          username: "Pam",
         });
       });
   });
@@ -77,18 +80,44 @@ describe("POST: /users/add", () => {
     ];
 
     return request(app)
-      .post("/api/users/add")
+      .post("/api/users")
       .send(multipleUserOption)
       .expect(400)
       .then(() => {
         return request(app)
-          .post("/users/add")
+          .post("/api/users")
           .send(multipleUserOption)
           .expect(400)
           .then(({ body }) => {
             expect(body.success).toBe(false);
             expect(body.message).toBe(
               "Bad Request - please enter a username with one or more characters"
+            );
+          });
+      });
+  });
+
+  test("400: ERROR - responds with an error when an empty fb_id is provided", () => {
+    const multipleUserOption = [
+      {
+        username: "Pam",
+        fb_id: undefined,
+      },
+    ];
+
+    return request(app)
+      .post("/api/users")
+      .send(multipleUserOption)
+      .expect(400)
+      .then(() => {
+        return request(app)
+          .post("/api/users")
+          .send(multipleUserOption)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.success).toBe(false);
+            expect(body.message).toBe(
+              "Bad Request - fb_id is an empty string or undefined"
             );
           });
       });
@@ -122,36 +151,37 @@ describe("DELETE: /users/delete", () => {
   });
 });
 
-describe("GET: /:user_id", ()=>{
-    test("200: returns a unique user based on a _id", ()=>{
-        return request(app)
-        .get("/api/users/6687c083772a0d0c7edeb0e9")
-        .expect(200)
-        .then(({ body })=>{
-            expect(body.success).toBe(true);
-            expect(body.data).toMatchObject({
-                username: expect.any(String),
-                user_activities: expect.any(Array),
-                user_food_choices: expect.any(Array),
-                user_films: expect.any(Array),
-                user_tv_shows: expect.any(Array),
-            })
-        })
-    })
-    test("404: ERROR - responds with an error when user _id does not exist", () => {
-        return request(app)
-          .get("/111222333444555666777888999")
-          .expect(404)
-          .then(({ body }) => {
-            expect(body.msg).toBe("Invalid endpoint, please try again");
-          });
-    });
-})
+
+describe("GET: /:user_id", () => {
+  test("200: returns a unique user based on a _id", () => {
+    return request(app)
+      .get("/api/users/668ca5402d1d819d79cd511c")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.success).toBe(true);
+        expect(body.data).toMatchObject({
+          username: expect.any(String),
+          user_activities: expect.any(Array),
+          user_food_choices: expect.any(Array),
+          user_films: expect.any(Array),
+          user_tv_shows: expect.any(Array),
+        });
+      });
+  });
+  test("404: ERROR - responds with an error when user _id does not exist", () => {
+    return request(app)
+      .get("/111222333444555666777888999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid endpoint, please try again");
+      });
+  });
+});
 
 describe("GET: :user_id/categories", () => {
   test("200: Returns an array of the categories on a users profile", () => {
     return request(app)
-      .get("/api/users/6687c083772a0d0c7edeb0e9/categories")
+      .get("/api/users/668ca5402d1d819d79cd511c/categories")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -159,7 +189,7 @@ describe("GET: :user_id/categories", () => {
           "user_activities",
           "user_films",
           "user_food_choices",
-          "user_tv_shows",
+          "user_tv_shows"
         );
       });
   });
@@ -212,5 +242,58 @@ describe("POST: :user_id/:category", ()=>{
   })
 })
 
-
-
+describe("PATCH: /users/:user_id/username", () => {
+  test("200: Returns an array of the user's information with their new username", () => {
+    const newUsername = [
+      {
+        newUsername: "Bobby",
+      },
+    ];
+    return request(app)
+      .patch("/api/users/668ca5402d1d819d79cd511c/username")
+      .send(newUsername)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.success).toBe(true);
+        expect(body.data).toMatchObject({
+          __v: 0,
+          _id: expect.any(String),
+          user_activities: expect.any(Array),
+          user_films: expect.any(Array),
+          user_food_choices: expect.any(Array),
+          user_tv_shows: expect.any(Array),
+          username: "Bobby",
+        });
+      });
+  });
+  test("400: Returns an error message of malformed body/missing required fields when username is not given", () => {
+    const newUsername = [
+      {
+        newUsername: "",
+      },
+    ];
+    return request(app)
+      .patch("/api/users/668ca5402d1d819d79cd511c/username")
+      .send(newUsername)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.success).toBe(false);
+        expect(body.message).toBe("malformed body/missing required fields");
+      });
+  });
+  test("400: Returns an error message of incorrect type", () => {
+    const newUsername = [
+      {
+        newUsername: NaN,
+      },
+    ];
+    return request(app)
+      .patch("/api/users/668ca5402d1d819d79cd511c/username")
+      .send(newUsername)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.success).toBe(false);
+        expect(body.message).toBe("incorrect type");
+      });
+  });
+});

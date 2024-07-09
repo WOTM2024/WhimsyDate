@@ -1,11 +1,5 @@
 const express = require("express");
-
-const tvShows = require("./routes/tvshows");
-const movies = require("./routes/movies");
-const users = require("./routes/users");
-const foods = require("./routes/foods");
-const activities = require("./routes/activities");
-const couples = require("./routes/couples");
+const apiRoutes = require("./routes/api");
 
 require("dotenv").config();
 const mongoose = require("mongoose");
@@ -15,12 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/tvshows", tvShows);
-app.use("/movies", movies);
-app.use("/users", users);
-app.use("/activities", activities);
-app.use("/foods", foods);
-app.use("/couples", couples);
+app.use("/api", apiRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ msg: "Invalid endpoint, please try again" });
