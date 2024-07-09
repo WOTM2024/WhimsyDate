@@ -175,6 +175,46 @@ const patchUsernameById = async (req, res) => {
   try {
     const { user_id } = req.params;
 
+const postEntryToUserCategory = async (req, res) => {
+  const { user_id, category } = req.params;
+  const { entryId } = req.body;
+
+  try {
+    const user = await Users.findById(user_id);
+    
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    
+    if (user[category].includes(entryId)) {
+      return res.status(409).json({ success: false, message: "You already have this entry on your profile" });
+    }
+    
+    user[category].push(entryId);
+    await user.save();
+
+    res.status(200).json({ success: true, data: user[category] });
+  } catch (error) {
+    res.status(409).json({ success: false, data: [], error: error.message });
+  }
+};
+
+const patchUserEntriesByEntryId = async (req, res) => {
+  const { user_id, category } = req.params;
+  const { entryId } = req.body
+  
+  try{
+  await Users.updateOne(
+    {_id: user_id},
+    { $pull: { [category]: entryId } }
+  )
+
+    res.status(200).json({ success: true, message: `That option has been removed from ${category}` });
+  }catch(error){
+    res.status(409).json({ success: false, data: [], error: error.message });
+}
+}
+
     const userData = await Users.findOne({ _id: user_id });
 
     if (!userData) {
@@ -225,4 +265,6 @@ module.exports = {
   getUserById,
   getUserCategoryEntries,
   patchUsernameById,
+  postEntryToUserCategory, 
+  patchUserEntriesByEntryId 
 };

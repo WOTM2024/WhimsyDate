@@ -151,6 +151,7 @@ describe("DELETE: /users/delete", () => {
   });
 });
 
+
 describe("GET: /:user_id", () => {
   test("200: returns a unique user based on a _id", () => {
     return request(app)
@@ -195,25 +196,51 @@ describe("GET: :user_id/categories", () => {
 });
 
 describe("GET: :user_id/:category", () => {
-  test("200: Returns entries in a given category based on a user's profile", () => {
-    return request(app)
-      .get("/api/users/668ca5402d1d819d79cd511c/user_activities")
+    test("200: Returns entries in a given category based on a user's profile", () => {
+      return request(app)
+        .get("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
+        .expect(200)
+        .then(({ body }) => {
+            expect(body.success).toBe(true);
+            expect(body.data).toBeInstanceOf(Array);
+            body.data.forEach((entry) => {
+              expect(entry).toMatchObject({
+                _id: expect.any(String),
+                activity_name: expect.any(String),
+                category: expect.any(String),
+                isCollaborative: expect.any(Boolean),
+                cost: expect.any(Boolean),
+                })
+            });
+        })   
+     })
+})
+
+
+describe("PATCH /users/:user_id/:category", () => {
+  test("200: successfully removes an entry from the user's category", async () => {
+    const entryId = {entryId :"6685484eb3b5bf698cc8c252"}
+    const response = await request(app)
+    .patch("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
+    .send(entryId)
+    .expect(200)
+    expect(response.body.success).toBe(true);
+    expect(response.body.message).toBe(`That option has been removed from user_activities`);
+    });
+  })
+
+  
+describe("POST: :user_id/:category", ()=>{
+  test("200: returns an array that has been updated to show the new list of entries on the account after an entry has been added", async ()=>{
+    const entryId = {entryId: "6685484eb3b5bf698cc8c252"}
+    const response = await request(app)
+      .post("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
+      .send(entryId)
       .expect(200)
-      .then(({ body }) => {
-        expect(body.success).toBe(true);
-        expect(body.data).toBeInstanceOf(Array);
-        body.data.forEach((entry) => {
-          expect(entry).toMatchObject({
-            _id: expect.any(String),
-            activity_name: expect.any(String),
-            category: expect.any(String),
-            isCollaborative: expect.any(Boolean),
-            cost: expect.any(Boolean),
-          });
-        });
-      });
-  });
-});
+      expect(response.body.success).toBe(true)
+      expect(response.body.data).toContain("6685484eb3b5bf698cc8c252");
+  })
+})
 
 describe("PATCH: /users/:user_id/username", () => {
   test("200: Returns an array of the user's information with their new username", () => {

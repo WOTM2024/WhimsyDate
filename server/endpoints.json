@@ -2,15 +2,20 @@
   "message": {
     "start": "Welcome to the WhimsyDate API documentation. Here you will find the available API calls for our date night generator app."
   },
-
-  "GET /users/categories": {
-    "description": "Fetches the categories associated with a user's profile.",
-    "queries": "Requires a valid unique _id."
+  
+  
+  "GET /users/:user_id/categories": {
+    "description": "fetches the categories a user has on their profile",
+    "queries": "A valid unique _id"  
   },
 
   "DELETE /users/delete": {
     "description": "Allows deletion of an account based on a unique ID.",
     "queries": "Requires a valid unique _id."
+  },
+
+  "GET /users/:user_id/:category": {
+    "description" : "Gets all entries for a user in a given category"
   },
 
   "GET /foods": {
