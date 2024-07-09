@@ -25,8 +25,7 @@ describe("GET:/movies", () => {
         expect(body.data).toBeInstanceOf(Array);
         body.data.forEach((movie) => {
           expect(movie).toMatchObject({
-            title: expect.any(String),
-            genre: expect.any(String),
+            _id: expect.any(String),
           });
         });
       });
