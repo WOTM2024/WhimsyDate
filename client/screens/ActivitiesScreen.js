@@ -1,5 +1,5 @@
-// ActivitiesScreen.js
 import * as React from "react";
+
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
 import {
   MagnifyingGlassIcon,
@@ -16,8 +17,10 @@ import {
 } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function InspirationScreen() {
+export default function ActivitiesScreen() {
   const navigation = useNavigation();
+  const [searchForQuery, setSearchForQuery] = useState("");
+  const [filteredData, setFilteredData] = useState(tempData);
 
   function onPressHandle_searchActivities() {
     console.log("Pressed Search");
@@ -30,6 +33,15 @@ export default function InspirationScreen() {
   function onPressHandle_addActivity(itemName) {
     console.log("Pressed add activity");
   }
+
+  useEffect(() => {
+    if (searchForQuery === "") {
+      setFilteredData(tempData);
+    } else {
+      setFilteredData(tempData.filter((item) => item.toLowerCase().includes(searchForQuery.toLowerCase())));
+    }
+  }, [searchForQuery]);
+
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
@@ -49,7 +61,7 @@ export default function InspirationScreen() {
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
-          {tempDate.map((item, index) => {
+          {filteredData.map((item, index) => {
             return (
               <View
                 key={index}
@@ -80,7 +92,7 @@ export default function InspirationScreen() {
   );
 }
 
-const tempDate = [
+const tempData = [
   "Sushi",
   "Chinese",
   "Indian",

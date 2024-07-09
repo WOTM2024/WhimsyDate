@@ -1,37 +1,39 @@
 {
+  "message": {
+    "start": "Welcome to the WhimsyDate API documentation. Here you will find the available API calls for our date night generator app."
+  },
+
   "GET /users/categories": {
-    "description": "fetches the categories a user has on their profile",
-    "queries": "A valid unique _id"
+    "description": "Fetches the categories associated with a user's profile.",
+    "queries": "Requires a valid unique _id."
   },
 
   "DELETE /users/delete": {
-    "description": "allows an account to be deleted based on unique ID",
-    "queries": "A valid unique _id"
+    "description": "Allows deletion of an account based on a unique ID.",
+    "queries": "Requires a valid unique _id."
   },
 
   "GET /foods": {
-    "description": "Serves an array of all foods on the database",
-    "queries": [
-      "food name",
-      "booleans for vegetarian, vegan, meat and allergies"
-    ],
+    "description": "Returns an array of all foods in the database.",
+    "queries": ["food name", "booleans for vegetarian, vegan, meat, and allergies"],
     "exampleResponse": {
-      "success": "true",
+      "success": true,
       "data": [
         {
           "_id": "6686aa83ef8cf2f140459ff5",
           "food": "Rio's Steakhouse",
-          "__v": 0,
-          "allergies": true,
           "meat": true,
           "vegan": false,
-          "vegetarian": false
+          "vegetarian": false,
+          "allergies": true,
+          "__v": 0
         }
       ]
     }
   },
+
   "POST /foods/add": {
-    "description": "allows a user to add a new food option to the database",
+    "description": "Adds a new food option to the database.",
     "exampleRequest": {
       "food": "Vegan Burrito",
       "vegetarian": true,
@@ -53,10 +55,10 @@
   },
 
   "GET /movies": {
-    "description": "Serves an array of all the movies",
+    "description": "Returns an array of all movies in the database.",
     "queries": ["genre"],
     "exampleResponse": {
-      "success": "true",
+      "success": true,
       "data": [
         {
           "_id": "6686a87164598b424aa5fe54",
@@ -67,27 +69,28 @@
     }
   },
 
-  "POST / movies": {
-    "description": "Posts a new movie to the database",
+  "POST /movies": {
+    "description": "Adds a new movie to the database.",
     "exampleRequest": {
       "title": "1917",
       "genre": "War"
     },
     "exampleResponse": {
-      "success": "true",
+      "success": true,
       "data": {
+        "_id": "6686a87164598b424aa5fe4f",
         "title": "1917",
         "genre": "War",
-        "_id": "6686a87164598b424aa5fe4f",
-        "v": 0
+        "__v": 0
       }
     }
   },
+
   "GET /tvshows": {
-    "description": "Serves an array of all the tv shows",
+    "description": "Returns an array of all TV shows in the database.",
     "queries": ["genre"],
     "exampleResponse": {
-      "success": "true",
+      "success": true,
       "data": [
         {
           "_id": "66854b31b3b5bf698cc8c27f",
@@ -97,25 +100,27 @@
       ]
     }
   },
+
   "POST /tvshows": {
-    "description": "Posts a new tv show to the database",
+    "description": "Adds a new TV show to the database.",
     "exampleRequest": {
       "show": "Game of Thrones",
       "genre": "Fantasy"
     },
     "exampleResponse": {
-      "success": "true",
+      "success": true,
       "data": {
+        "_id": "6686a87164598b424aa5fe4f",
         "show": "Game of Thrones",
         "genre": "Fantasy",
-        "_id": "6686a87164598b424aa5fe4f",
-        "v": 0
+        "__v": 0
       }
     }
   },
+
   "GET /activities": {
-    "description": "Serves an array of all the activities",
-    "queries": [" category", "cost", "isCollaborative"],
+    "description": "Returns an array of all activities in the database.",
+    "queries": ["category", "cost", "isCollaborative"],
     "exampleResponse": {
       "success": true,
       "data": [
@@ -129,8 +134,9 @@
       ]
     }
   },
+
   "POST /activities": {
-    "description": "Posts a new activity to the database",
+    "description": "Adds a new activity to the database.",
     "exampleRequest": {
       "activity_name": "Escape Room",
       "category": "Indoor",

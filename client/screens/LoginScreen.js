@@ -9,17 +9,15 @@ import {
   Image,
   KeyboardAvoidingView,
   Pressable,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import trimmedLogo from "../assets/trimmed_logo.png";
 import { auth } from "../firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
 import { UserContext } from "../contexts/UserContext";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { addUserToDB } from "../api";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -30,11 +28,15 @@ export default function LoginScreen() {
   const [tempErrorMessage, setTempErrorMessage] = useState("");
   const [isLogin, setIsLogin] = useState(false);
 
+  function onPressHandle_navWelcome() {
+    navigation.navigate("Tabs");
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
-        console.log("User is signed in:", user.email);
+        const uid = user.uid;
+        // console.log(uid);
         navigation.navigate("Tabs");
       }
     });
@@ -45,10 +47,13 @@ export default function LoginScreen() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+
         console.log("Signed up as:", user.email);
         setUsername(username); // Set context username
         console.log("Username set to:", username); // Log username here
+         addUserToDB(username, user.uid);
         navigation.navigate("Welcome");
+        
       })
       .catch((error) => {
         setTempErrorMessage(`${error.code}`);
@@ -62,6 +67,7 @@ export default function LoginScreen() {
         console.log("Logged in as:", user.email);
         setUsername(username); // Set context username
         navigation.navigate("Welcome");
+
       })
       .catch((error) => {
         setTempErrorMessage(`${error.code}`);
@@ -85,7 +91,9 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
-      <View className="flex-1 items-center">
+      <SafeAreaView className="flex-1 items-center">
+        <View className="m-8" />
+        {/* <Text className="text-5xl">Login</Text> */}
         <View className="m-6" />
         <Image source={trimmedLogo} className="w-52 h-52 rounded-full" />
         <View className="m-3" />
@@ -181,7 +189,13 @@ export default function LoginScreen() {
             </Text>
           )}
         </View>
-      </View>
+
+        {/* Below is temp content */}
+        <View className="m-10" />
+        <TouchableOpacity onPress={onPressHandle_navWelcome} className="border">
+          <Text className="text-base">skip login for dev</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     </LinearGradient>
   );
 }

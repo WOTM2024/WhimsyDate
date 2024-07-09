@@ -19,6 +19,9 @@ export default function HomeScreen() {
   function onPressHandle_navActivities() {
     navigation.navigate("Activities");
   }
+  function onPressHandle_navInspiration() {
+    navigation.navigate("Inspiration")
+  }
 
   const animationStyle = useCallback((value) => {
     "worklet";
@@ -102,6 +105,9 @@ export default function HomeScreen() {
         <View className="m-5" />
         <TouchableOpacity onPress={onPressHandle_navActivities} className="border">
           <Text>Go to activities Screen</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPressHandle_navInspiration} className="border">
+          <Text>Go to inspiration Screen</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>
