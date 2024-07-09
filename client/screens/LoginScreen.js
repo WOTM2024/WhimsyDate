@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import trimmedLogo from "../assets/trimmed_logo.png";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { addUserToDB } from "../api";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -33,7 +34,7 @@ export default function LoginScreen() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         const uid = user.uid;
-        console.log(uid);
+        // console.log(uid);
         navigation.navigate("Tabs");
       } else {
         // signed out
@@ -47,6 +48,8 @@ export default function LoginScreen() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("Signed up as: " + user.email);
+        // console.log(user.uid);
+        addUserToDB(username, user.uid);
       })
       .catch((error) => {
         setTempErrorMessage(`${error.code}`);
@@ -57,7 +60,7 @@ export default function LoginScreen() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        // console.log(user);
         console.log("Logged in as: " + user.email);
       })
       .catch((error) => {

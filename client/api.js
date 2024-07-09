@@ -1,10 +1,8 @@
 import axios from "axios";
 import { API_KEY } from "@env";
 
-
-
 const api = axios.create({
-  baseURL: `https://eu-west-2.aws.data.mongodb-api.com/app/data-gcmynou/endpoint`,
+  baseURL: `https://whimsydate.onrender.com/api`,
   headers: {
     "Content-Type": "application/json",
     "api-key": API_KEY,
@@ -29,6 +27,7 @@ export const fetchActivities = (category, isCollaborative, cost) => {
       throw err;
     });
 };
+
 export const fetchFoods = () => {
   return api
     .get("/api/foods")
@@ -62,4 +61,3 @@ export const fetchMovies = () => {
       throw err;
     });
 };
-      
