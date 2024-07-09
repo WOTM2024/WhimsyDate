@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import trimmedLogo from "../assets/trimmed_logo.png";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { addUserToDB } from "../api";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -47,6 +48,8 @@ export default function LoginScreen() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("Signed up as: " + user.email);
+        // console.log(user.uid);
+        addUserToDB(username, user.uid);
       })
       .catch((error) => {
         setTempErrorMessage(`${error.code}`);
