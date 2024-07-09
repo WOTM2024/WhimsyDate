@@ -21,7 +21,6 @@ import { UserProvider } from "./contexts/UserContext";
 
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
 
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -30,17 +29,14 @@ export default function App() {
     <GestureHandlerRootView>
       <UserProvider>
         <NavigationContainer>
-          <Stack.Navigator 
-    screenOptions={{
-            headerTransparent: true,
-          }}>
+          <Stack.Navigator
+            screenOptions={{
+              headerTransparent: true,
+            }}
+          >
             {/* <Stack.Screen name="Test" component={TestScreen} /> */}
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen
-              name="Tabs"
-              component={TabsNavigator}
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name="Tabs" component={TabsNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="Activities" component={ActivitiesScreen} />
             <Stack.Screen name="Inspiration" component={InspirationScreen} />
             <Stack.Screen name="Game Room" component={GameRoomScreen} />
@@ -82,6 +78,7 @@ function TabBarIcon({ route, focused, color, size }) {
 function TabsNavigator() {
   return (
     <Tab.Navigator
+      initialRouteName="Welcome"
       screenOptions={({ route }) => ({
         tabBarIcon: (props) => <TabBarIcon {...props} route={route} />,
         tabBarActiveTintColor: "#4C25A2",
