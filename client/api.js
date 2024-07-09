@@ -15,13 +15,12 @@ export const fetchActivities = (category, isCollaborative, cost) => {
   if (isCollaborative) query.push(`isCollaborative=${isCollaborative}`);
   if (cost) query.push(`cost=${cost}`);
   const queryString = query.length ? `?${query.join("&")}` : "";
-  const url = `/activities${queryString}`;
+  const url = `api/activities${queryString}`;
 
   return api
     .get(url)
-    .then((response) => {
-      console.log(response.data, "API response <<<<<<");
-      return response.data.data;
+    .then(({ data }) => {
+      return data.data;
     })
     .catch((err) => {
       console.error("API error", err);
@@ -29,30 +28,36 @@ export const fetchActivities = (category, isCollaborative, cost) => {
     });
 };
 
-export const addUserToDB = (reg_username, fb_uid) => {
-  const userData = [{ username: reg_username, fb_id: fb_uid }];
-  const convertedUserData = JSON.stringify(userData);
-  // console.log(jsonData);
-
+export const fetchFoods = () => {
   return api
-    .post("/users", convertedUserData)
-    .then((response) => {
-      // console.log(response);
+    .get("/api/foods")
+    .then(({ data }) => {
+      return data.data;
     })
-    .catch((error) => {
-      console.error(error);
-      throw error;
+    .catch((err) => {
+      console.error("API error", err);
+      throw err;
     });
 };
-
-export const fetchUserByUID = (uid) => {
+export const fetchTvShows = () => {
   return api
-    .get(`/users/${uid}`)
-    .then((response) => {
-      return response;
+    .get("/api/tvshows")
+    .then(({ data }) => {
+      return data.data;
     })
-    .catch((error) => {
-      console.error(error);
-      throw error;
+    .catch((err) => {
+      console.error("API error", err);
+      throw err;
+    });
+};
+export const fetchMovies = () => {
+  return api
+    .get("/api/movies")
+    .then(({ data }) => {
+      return data.data;
+    })
+    .catch((err) => {
+      console.error("API error", err);
+      throw err;
     });
 };
