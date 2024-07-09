@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Pressable,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -27,21 +28,26 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [tempErrorMessage, setTempErrorMessage] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [isConfirmation, setIsConfirmation] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   function onPressHandle_navWelcome() {
     navigation.navigate("Tabs");
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const uid = user.uid;
-        // console.log(uid);
-        navigation.navigate("Tabs");
-      }
-    });
-    return unsubscribe;
-  }, []);
+    if (isConfirmation) {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          // console.log(uid);
+          setIsConfirmation(false);
+          navigation.navigate("Tabs");
+        }
+      });
+      return unsubscribe;
+    }
+  }, [isConfirmation]);
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -51,9 +57,13 @@ export default function LoginScreen() {
         console.log("Signed up as:", user.email);
         setUsername(username); // Set context username
         console.log("Username set to:", username); // Log username here
-         addUserToDB(username, user.uid);
-        navigation.navigate("Welcome");
-        
+        return addUserToDB(username, user.uid);
+      })
+      .then(({ data }) => {
+        console.log(data.success);
+        if (data.success) {
+          setIsConfirmation(true);
+        }
       })
       .catch((error) => {
         setTempErrorMessage(`${error.code}`);
@@ -66,8 +76,7 @@ export default function LoginScreen() {
         const user = userCredential.user;
         console.log("Logged in as:", user.email);
         setUsername(username); // Set context username
-        navigation.navigate("Welcome");
-
+        navigation.navigate("Tabs");
       })
       .catch((error) => {
         setTempErrorMessage(`${error.code}`);
@@ -98,11 +107,7 @@ export default function LoginScreen() {
         <Image source={trimmedLogo} className="w-52 h-52 rounded-full" />
         <View className="m-3" />
         <KeyboardAvoidingView className="w-80">
-          {tempErrorMessage ? (
-            <Text className="bg-red-600/50 rounded p-2 my-1">
-              {tempErrorMessage}
-            </Text>
-          ) : null}
+          {tempErrorMessage ? <Text className="bg-red-600/50 rounded p-2 my-1">{tempErrorMessage}</Text> : null}
           <TextInput
             placeholder="email"
             keyboardType="default"
@@ -138,9 +143,7 @@ export default function LoginScreen() {
               className="border bg-light_button_background p-2 rounded-lg active:bg-violet-700"
               onPress={() => checkLoginValidation("login")}
             >
-              <Text className="text-base text-center text-light_button_text">
-                Login
-              </Text>
+              <Text className="text-base text-center text-light_button_text">Login</Text>
             </Pressable>
           ) : null}
           {isLogin ? <View className="m-1" /> : null}
@@ -150,9 +153,14 @@ export default function LoginScreen() {
               className="border bg-light_button_background p-2 rounded-lg active:bg-violet-700"
               onPress={() => checkLoginValidation("register")}
             >
-              <Text className="text-base text-center text-light_button_text">
-                Register
-              </Text>
+              <Text className="text-base text-center text-light_button_text">Register</Text>
+              {!isLoading ? (
+                <ActivityIndicator
+                  size="small"
+                  color="#1E1E1E"
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                />
+              ) : null}
             </Pressable>
           ) : null}
         </View>

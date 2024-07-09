@@ -17,8 +17,8 @@ const { width: PAGE_WIDTH } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
-  const { username } = useContext(UserContext);
-  console.log("WelcomeScreen - Username:", username); // Debugging line
+  // const { username } = useContext(UserContext);
+  // console.log("WelcomeScreen - Username:", username); // Debugging line
   const carouselRef = useRef(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [displayText, setDisplayText] = useState(images[0].name);
@@ -28,22 +28,19 @@ export default function WelcomeScreen() {
   // Temp Demo
   //////////////////
 
-//   const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
 
-  // useEffect(() => {
-  //   // console.log(auth.currentUser?.uid);
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const tempUsername = await fetchUserByUID(auth.currentUser?.uid);
-  //       console.log(tempUsername);
-  //       setUsername(tempUsername);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, []);
+  useEffect(() => {
+    // console.log(auth.currentUser?.uid);
+    fetchUserByUID(auth.currentUser?.uid)
+      .then(({ data }) => {
+        // console.log(response.data.data.username);
+        setUsername(data.data.username);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   /////////////////
 
@@ -156,22 +153,6 @@ export default function WelcomeScreen() {
 const images = [
   { uri: "https://picsum.photos/seed/picsum1/500/600", name: "test1" },
   { uri: "https://picsum.photos/seed/picsum2/500/600", name: "test2" },
-  { uri: "", name: "test3" },
-  { uri: null, name: "test4" },
-  { uri: undefined, name: "test5" },
-  { uri: "https://picsum.photos/seed/picsum6/500/600", name: "test6" },
-  { uri: "https://picsum.photos/seed/picsum7/500/600", name: "test7" },
-  { uri: "https://picsum.photos/seed/picsum8/500/600", name: "test8" },
-  { uri: "", name: "test9" },
-  { uri: "https://picsum.photos/seed/picsum10/500/600", name: "test10" },
-  { uri: "https://picsum.photos/seed/picsum11/500/600", name: "test11" },
-  { uri: "https://picsum.photos/seed/picsum12/500/600", name: "test12" },
-  { uri: "https://picsum.photos/seed/picsum13/500/600", name: "test13" },
-  { uri: null, name: "test14" },
-  { uri: "https://picsum.photos/seed/picsum15/500/600", name: "test15" },
-  { uri: "https://picsum.photos/seed/picsum16/500/600", name: "test16" },
-  { uri: "https://picsum.photos/seed/picsum17/500/600", name: "test17" },
-  { uri: "https://picsum.photos/seed/picsum18/500/600", name: "test18" },
-  { uri: null, name: "test19" },
-  { uri: "https://picsum.photos/seed/picsum20/500/600", name: "test20" },
+  { uri: "https://picsum.photos/seed/picsum3/500/600", name: "test3" },
+  { uri: "https://picsum.photos/seed/picsum4/500/600", name: "test4" },
 ];

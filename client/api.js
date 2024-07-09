@@ -71,6 +71,7 @@ export const addUserToDB = (reg_username, fb_uid) => {
     .post("/users", convertedUserData)
     .then((response) => {
       // console.log(response);
+      return response;
     })
     .catch((error) => {
       console.error(error);
@@ -82,9 +83,11 @@ export const fetchUserByUID = (uid) => {
   return api
     .get(`/users/${uid}`)
     .then((response) => {
+      // console.log("test123");
       return response;
     })
     .catch((error) => {
+      // console.log("test321");
       console.error(error);
       throw error;
     });
