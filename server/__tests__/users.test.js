@@ -198,7 +198,7 @@ describe("GET: :user_id/categories", () => {
 describe("GET: :user_id/:category", () => {
     test("200: Returns entries in a given category based on a user's profile", () => {
       return request(app)
-        .get("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
+        .get("/api/users/668ca5402d1d819d79cd511c/user_activities")
         .expect(200)
         .then(({ body }) => {
             expect(body.success).toBe(true);
@@ -221,7 +221,7 @@ describe("PATCH /users/:user_id/:category", () => {
   test("200: successfully removes an entry from the user's category", async () => {
     const entryId = {entryId :"6685484eb3b5bf698cc8c252"}
     const response = await request(app)
-    .patch("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
+    .patch("/api/users/668ca5402d1d819d79cd511c/user_activities")
     .send(entryId)
     .expect(200)
     expect(response.body.success).toBe(true);
@@ -234,7 +234,7 @@ describe("POST: :user_id/:category", ()=>{
   test("200: returns an array that has been updated to show the new list of entries on the account after an entry has been added", async ()=>{
     const entryId = {entryId: "6685484eb3b5bf698cc8c252"}
     const response = await request(app)
-      .post("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
+      .post("/api/users/668ca5402d1d819d79cd511c/user_activities")
       .send(entryId)
       .expect(200)
       expect(response.body.success).toBe(true)
@@ -250,10 +250,11 @@ describe("PATCH: /users/:user_id/username", () => {
       },
     ];
     return request(app)
-      .patch("/api/users/668ca5402d1d819d79cd511c/username")
+      .patch("/api/users/668ca5ad2d1d819d79cd5122/username")
       .send(newUsername)
       .expect(200)
       .then(({ body }) => {
+        console.log(body)
         expect(body.success).toBe(true);
         expect(body.data).toMatchObject({
           __v: 0,
@@ -273,7 +274,7 @@ describe("PATCH: /users/:user_id/username", () => {
       },
     ];
     return request(app)
-      .patch("/api/users/668ca5402d1d819d79cd511c/username")
+      .patch("/api/users/668ca5ad2d1d819d79cd5122/username")
       .send(newUsername)
       .expect(400)
       .then(({ body }) => {
@@ -288,7 +289,7 @@ describe("PATCH: /users/:user_id/username", () => {
       },
     ];
     return request(app)
-      .patch("/api/users/668ca5402d1d819d79cd511c/username")
+      .patch("/api/users/668ca5ad2d1d819d79cd5122/username")
       .send(newUsername)
       .expect(400)
       .then(({ body }) => {
