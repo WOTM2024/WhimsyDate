@@ -9,8 +9,6 @@ const getUsers = async (req, res) => {
   try {
     const users = await Users.find();
 
-    console.log(users);
-
     res.status(200).json({ success: true, data: users });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error });
@@ -85,16 +83,15 @@ const postUser = async (req, res) => {
 
     res.status(201).json({ success: true, data: savedUser });
   } catch (error) {
-    console.log(error);
     res.status(409).json({ success: false, data: [], error: error });
   }
 };
 
 const deleteUser = async (req, res) => {
   try {
-    const { _id } = req.body;
-    const [userToDelete] = await Users.find({ _id });
-    await Users.deleteOne({ _id });
+    const { user_id } = req.params;
+    const [userToDelete] = await Users.find({ fb_id: user_id });
+    await Users.deleteOne({ fb_id : user_id });
     res.status(200).json({
       success: true,
       message: `${userToDelete.username} has been deleted from our records`,
@@ -107,7 +104,7 @@ const deleteUser = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { user_id } = req.params;
-    const user = await Users.findOne({ _id: user_id });
+    const user = await Users.findOne({ fb_id: user_id });
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error.message });
@@ -117,7 +114,7 @@ const getUserById = async (req, res) => {
 const getUserCategories = async (req, res) => {
   try {
     const { user_id } = req.params;
-    const userData = await Users.findOne({ _id: user_id });
+    const userData = await Users.findOne({ fb_id: user_id });
     if (!userData) {
       return res
         .status(404)
@@ -126,7 +123,7 @@ const getUserCategories = async (req, res) => {
     const userDataAsObj = userData.toObject();
     const userKeys = Object.keys(userDataAsObj);
     const userCategories = userKeys.filter(
-      (cat) => cat !== "_id" && cat !== "username" && cat !== "__v"
+      (cat) => cat !== "_id" && cat !== "username" && cat !== "__v" && cat !== "fb_id"
     );
     res.status(200).json({ success: true, data: userCategories });
   } catch (error) {
@@ -143,9 +140,8 @@ const getUserCategoryEntries = async (req, res) => {
   };
   try {
     const { user_id, category } = req.params;
-    const user = await Users.findById(user_id);
+    const user = await Users.findOne({fb_id: user_id});
     const categoryIds = user[category];
-
     const categoryModel = models[category];
 
     const categoryEntries = await Promise.all(
@@ -158,15 +154,9 @@ const getUserCategoryEntries = async (req, res) => {
       (entry) => entry !== null
     );
 
-    if (filteredCategoryEntries.length === 0) {
-      return res.status(400).json({
-        success: False,
-        message: "There are no entries in this category",
-      });
-    }
-
     res.status(200).json({ success: true, data: filteredCategoryEntries });
   } catch (error) {
+
     res.status(409).json({ success: false, data: [], error: error.message });
   }
 };
@@ -176,8 +166,8 @@ const postEntryToUserCategory = async (req, res) => {
   const { entryId } = req.body;
 
   try {
-    const user = await Users.findById(user_id);
-    
+    const user = await Users.findOne({ fb_id: user_id });
+
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
@@ -191,6 +181,7 @@ const postEntryToUserCategory = async (req, res) => {
 
     res.status(200).json({ success: true, data: user[category] });
   } catch (error) {
+    console.log(error)
     res.status(409).json({ success: false, data: [], error: error.message });
   }
 };
@@ -201,12 +192,13 @@ const patchUserEntriesByEntryId = async (req, res) => {
   
   try{
   await Users.updateOne(
-    {_id: user_id},
+    {fb_id: user_id},
     { $pull: { [category]: entryId } }
   )
 
     res.status(200).json({ success: true, message: `That option has been removed from ${category}` });
   }catch(error){
+
     res.status(409).json({ success: false, data: [], error: error.message });
 }}
 
@@ -214,7 +206,7 @@ const patchUsernameById = async (req, res) => {
   try {
     const { user_id } = req.params;
 
-    const userData = await Users.findOne({ _id: user_id });
+    const userData = await Users.findOne({ fb_id: user_id });
 
     if (!userData) {
       return res
@@ -239,13 +231,13 @@ const patchUsernameById = async (req, res) => {
     }
 
     await Users.updateOne(
-      { _id: user_id },
+      { fb_id: user_id },
       { $set: { username: newUsername } },
       { upsert: true }
     );
 
     const NewNamedUserData = await Users.findOne({
-      _id: user_id,
+      fb_id: user_id,
       username: newUsername,
     });
 
