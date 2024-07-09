@@ -9,6 +9,8 @@ const getUsers = async (req, res) => {
   try {
     const users = await Users.find();
 
+    console.log(users);
+
     res.status(200).json({ success: true, data: users });
   } catch (error) {
     res.status(409).json({ success: false, data: [], error: error });

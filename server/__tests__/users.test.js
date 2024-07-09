@@ -154,7 +154,7 @@ describe("DELETE: /users/delete", () => {
 describe("GET: /:user_id", () => {
   test("200: returns a unique user based on a _id", () => {
     return request(app)
-      .get("/api/users/6687c083772a0d0c7edeb0e9")
+      .get("/api/users/668ca5402d1d819d79cd511c")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -180,7 +180,7 @@ describe("GET: /:user_id", () => {
 describe("GET: :user_id/categories", () => {
   test("200: Returns an array of the categories on a users profile", () => {
     return request(app)
-      .get("/api/users/6687c083772a0d0c7edeb0e9/categories")
+      .get("/api/users/668ca5402d1d819d79cd511c/categories")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -197,7 +197,7 @@ describe("GET: :user_id/categories", () => {
 describe("GET: :user_id/:category", () => {
   test("200: Returns entries in a given category based on a user's profile", () => {
     return request(app)
-      .get("/api/users/6687c083772a0d0c7edeb0e9/user_activities")
+      .get("/api/users/668ca5402d1d819d79cd511c/user_activities")
       .expect(200)
       .then(({ body }) => {
         expect(body.success).toBe(true);
@@ -223,7 +223,7 @@ describe("PATCH: /users/:user_id/username", () => {
       },
     ];
     return request(app)
-      .patch("/api/users/6687c083772a0d0c7edeb0e9/username")
+      .patch("/api/users/668ca5402d1d819d79cd511c/username")
       .send(newUsername)
       .expect(200)
       .then(({ body }) => {
@@ -246,7 +246,7 @@ describe("PATCH: /users/:user_id/username", () => {
       },
     ];
     return request(app)
-      .patch("/api/users/6687c083772a0d0c7edeb0e9/username")
+      .patch("/api/users/668ca5402d1d819d79cd511c/username")
       .send(newUsername)
       .expect(400)
       .then(({ body }) => {
@@ -261,7 +261,7 @@ describe("PATCH: /users/:user_id/username", () => {
       },
     ];
     return request(app)
-      .patch("/api/users/6687c083772a0d0c7edeb0e9/username")
+      .patch("/api/users/668ca5402d1d819d79cd511c/username")
       .send(newUsername)
       .expect(400)
       .then(({ body }) => {
