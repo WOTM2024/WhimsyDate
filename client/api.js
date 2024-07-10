@@ -167,7 +167,7 @@ export const patchUserNameWithNewName = (uid, body) => {
   return api
     .patch(`/users/${uid}/username`, JSON.stringify([{ newUsername: body }]))
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       return response;
     })
     .catch((error) => {
