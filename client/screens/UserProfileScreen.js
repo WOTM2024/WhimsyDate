@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  Image,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
+import UserAvatar from "react-native-user-avatar";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
@@ -14,10 +23,19 @@ const UserProfileScreen = () => {
   const handleDeleteAccount = () => {
     const currentUser = auth.currentUser;
     const currentUserId = auth.currentUser?.uid;
+    Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then(
+      (response) => {
+        console.log(response);
+        navigation.navigate("Login");
+      }
+    );
+
     Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
       navigation.navigate("Login");
     });
+
   };
+  const handleChangeUsername = () => {};
 
   useEffect(() => {
     // console.log(auth.currentUser?.uid);
@@ -39,16 +57,33 @@ const UserProfileScreen = () => {
   };
 
   return (
-    <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
+    <LinearGradient
+      colors={["#D9D9D9", "#B999FF", "#D9D9D9"]}
+      style={{ flex: 1 }}
+    >
       <SafeAreaView style={styles.container}>
-        <Text style={styles.username}>{username}</Text>
+        <View style={styles.profileContainer}>
+          <UserAvatar size={50} src="https://source.boringavatars.com/beam" />
+          <View style={styles.usernameContainer}>
+            <Text style={styles.username}>{username}</Text>
+            <TouchableOpacity
+              onPress={handleChangeUsername}
+              style={[styles.buttonUsername, styles.editUsernameButton]}
+            >
+              <Text style={styles.buttonText}>Edit Username</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleSignOut} style={[styles.button, styles.signOutButton]}>
+          <TouchableOpacity
+            onPress={handleSignOut}
+            style={[styles.button, styles.signOutButton]}
+          >
             <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>
           <View style={styles.spacing} />
           <TouchableOpacity
-            onPress={() => handleDeleteAccount(auth.currentUser?.uid)}
+            onPress={handleDeleteAccount}
             style={[styles.button, styles.deleteButton]}
           >
             <Text style={styles.buttonText}>Delete Account</Text>
@@ -58,18 +93,34 @@ const UserProfileScreen = () => {
     </LinearGradient>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
     justifyContent: "space-between",
+  },
+  profileContainer: {
+    backgroundColor: "blue",
+    flexDirection: "row",
+    borderRadius: 10,
+    padding: 10,
+    margin: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 200,
+    flex: 0.4,
+  },
+  usernameContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    marginLeft: 20,
   },
   username: {
     fontSize: 40,
     fontWeight: "bold",
     color: "black",
-    marginTop: 20,
     textAlign: "center",
+    marginLeft: 20,
   },
   buttonContainer: {
     flexDirection: "column",
@@ -93,9 +144,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
   },
+  editUsernameButton: {
+    backgroundColor: "#4A4A4A",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   spacing: {
     height: 20,
   },
 });
-
 export default UserProfileScreen;
