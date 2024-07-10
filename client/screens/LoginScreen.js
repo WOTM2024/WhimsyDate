@@ -17,6 +17,7 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { addUserToDB } from "../api";
 import { EnvelopeIcon, UserIcon, LockClosedIcon } from "react-native-heroicons/solid";
+import ForgotPasswordModal from "../components/ForgotPasswordModal/ForgotPasswordModal";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ export default function LoginScreen() {
   const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isForward, setIsForward] = useState(true);
+  const [isForgotPasswordModalVisible, setForgotPasswordModalVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -49,6 +51,9 @@ export default function LoginScreen() {
       .then(({ data }) => {
         if (data.success) {
           setIsLoading(false);
+          setEmail("");
+          setUsername("");
+          setPassword("");
           setIsForward(true);
         }
       })
@@ -63,6 +68,9 @@ export default function LoginScreen() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setIsLoading(false);
+        setEmail("");
+        setUsername("");
+        setPassword("");
         navigation.navigate("Tabs");
       })
       .catch((error) => {
@@ -84,6 +92,10 @@ export default function LoginScreen() {
     } else if (state === "register") {
       handleSignUp();
     }
+  };
+
+  const toggleForgotPasswordModal = () => {
+    setForgotPasswordModalVisible(!isForgotPasswordModalVisible);
   };
 
   return (
@@ -131,8 +143,17 @@ export default function LoginScreen() {
               secureTextEntry
             />
           </View>
+          {isLogin ? (
+            <View>
+              <View className="m-1" />
+              <TouchableOpacity className="flex-row justify-end" onPress={toggleForgotPasswordModal}>
+                <Text>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
           <View className="m-1" />
+          <ForgotPasswordModal isVisible={isForgotPasswordModalVisible} toggleModal={toggleForgotPasswordModal} />
         </KeyboardAvoidingView>
         <View className="m-3" />
         <View className="w-80">
