@@ -106,12 +106,11 @@ export default function HomeScreen({route}) {
 
   
   return (
-    <LinearGradient colors={["#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
-      <View className="flex-1 items-center ">
-        {/* <Text>Home</Text> */}
-        <View className="m-5" />
+    <LinearGradient colors={["#B999FF", "#D9D9D9", "#D9D9D9", "#D9D9D9"]} style={{ flex: 1 }}>
+      <View className="flex-1 items-center" pointerEvents="none">
+        <View className="m-5"/>
         <Text className="text-3xl font-semibold">{categoryObj.category_name}</Text>
-        <View className="m-2" />
+        <View/>
         {
           !isLoading ? <Carousel
           loop
@@ -153,7 +152,7 @@ export default function HomeScreen({route}) {
                   }}
                     ${isSpinUsed ? "pointer-events-none" : ""}
                 /> */}
-                <Text style={{ fontWeight: "bold", fontSize: 30, color: "#fff" }}>{categoryEntriesIndex[key_name]}</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 28, color: "#fff", textAlign: "center" }}>{categoryEntriesIndex[key_name]}</Text>
               </View>
             );
           }}
@@ -161,16 +160,18 @@ export default function HomeScreen({route}) {
         /> : <Text>Loading...</Text>
         }
 
+          </View>
+        <Text className="text-xl font-semibold" style={{textAlign: 'center'}}>Veto count:{isVetoed}</Text>
+        <View className="flex-1/2 items-center justify-center mt-4 p-10">
+        <View/>
+        <View className="w-72">
         <View pointerEvents={`${isSpinUsed ? "none" : "auto"}`}>
-          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_spinStatus}>
+          <TouchableOpacity style={{backgroundColor: "#4C25A2"}} className="px-10 py-3 rounded-lg" onPress={onPressHandle_spinStatus}>
               <Text className="text-base text-center text-light_button_text font-semibold">Spin</Text>
           </TouchableOpacity>
         </View>
-        <View className="m-2" />
-        <View className="w-72">
-        <Text style={{textAlign: 'center'}}>Veto count:{isVetoed}</Text>
           <View pointerEvents={`${!isVetoed ? "none" : "auto"}`}>
-          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_veto}>
+          <TouchableOpacity className="mt-4 border bg-slate-950 py-3 rounded-lg" onPress={onPressHandle_veto}>
             <Text className="text-base text-center text-light_button_text font-semibold">Veto</Text>
           </TouchableOpacity>
           </View>
@@ -181,14 +182,13 @@ export default function HomeScreen({route}) {
         </View>
 
         {/* Below is temp content */}
-        <View className="m-5" />
-        <TouchableOpacity onPress={onPressHandle_navActivities} className="border">
-          <Text>Go to activities Screen</Text>
+        {/* <TouchableOpacity onPress={onPressHandle_navActivities}>
+          <Text>Activities list</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPressHandle_navInspiration} className="border">
-          <Text>Go to inspiration Screen</Text>
+        <TouchableOpacity className="mt-2" onPress={onPressHandle_navInspiration}>
+          <Text>Inspiration list</Text>
         </TouchableOpacity>
-      </View>
+        */}</View>
     </LinearGradient>
   );
 }

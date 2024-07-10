@@ -7,9 +7,13 @@ module.exports = {
         light_bg: "#D9D9D9",
         light_border: "#4C25A2",
         light_text: "#4C25A2",
+        dark_text: "#4C25A2",
         light_button_background: "#4C25A2",
         light_button_text: "#D9D9D9",
       },
+      fontFamily: {
+        'sans': ['']
+      }
     },
   },
   plugins: [],
