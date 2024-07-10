@@ -54,12 +54,8 @@ export default function WelcomeScreen() {
 
   /////////////////
 
-  const categories = [
-    { category_name: "activities", path_name: "user_activities" },
-    { category_name: "food", path_name: "user_food_choices" },
-    { category_name: "films", path_name: "user_films" },
-    { category_name: "tv shows", path_name: "user_tv_shows" },
-  ];
+  const categories = [{category_name: "Activities", path_name:"user_activities"}, {category_name:"Food", path_name:"user_food_choices"}, {category_name:"Films", path_name:"user_films"}, {category_name:"Tv Shows", path_name:"user_tv_shows"}]
+
 
   const handleSnapToItem = (index) => {
     setCurrentImageIndex(index);
@@ -88,13 +84,6 @@ export default function WelcomeScreen() {
       }
       setTimeout(() => setIsNavigating(false), 400);
     }
-  };
-
-  const handleSignOut = () => {
-    auth.signOut().then(() => {
-      // navigation.replace("Login");
-      navigation.navigate("Login");
-    });
   };
 
   const handleActivityNavigation = (categoryObj) => {
@@ -180,16 +169,8 @@ export default function WelcomeScreen() {
             <ChevronRightIcon size={40} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
-        {/* <View> */}
-        {/* <Text className="text-2xl text-light_text font-semibold">{displayText}</Text> */}
-        {/* </View> */}
-
-        {/* Below is temp content */}
-        <View className="m-10" />
         <View>
-          <TouchableOpacity onPress={handleSignOut} className="border">
-            <Text>sign out</Text>
-          </TouchableOpacity>
+          <Text className="text-2xl text-light_text font-semibold">{displayText}</Text>
         </View>
       </SafeAreaView>
     </LinearGradient>

@@ -127,3 +127,15 @@ export const deleteUserByUID = (uid) => {
       return { error: error };
     });
 };
+
+export const patchUserEntriesByEntryId = (userId, category, entryId) => {
+  return api
+    .patch(`/users/${userId}/${category}`, { entryId })
+    .then(({ data }) => {
+      return data;
+    })
+    .catch((err) => {
+      console.error("API error", err);
+      throw err;
+    })
+};

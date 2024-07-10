@@ -15,7 +15,7 @@ import {
 } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
-import { fetchActivities, fetchFoods, fetchMovies, fetchTvShows, fetchUserByUID } from "../api";
+import { fetchActivities, fetchFoods, fetchMovies, fetchTvShows, fetchUserByUID, patchUserEntriesByEntryId } from "../api";
 
 export default function ActivitiesScreen() {
   const navigation = useNavigation();
@@ -37,7 +37,7 @@ export default function ActivitiesScreen() {
           const userId = user.uid;
           const userResponse = await fetchUserByUID(userId);
           const userData = userResponse.data.data;
-          
+
           const activities = await fetchActivities()
           const foods = await fetchFoods()
           const tvShows = await fetchTvShows()
@@ -47,7 +47,7 @@ export default function ActivitiesScreen() {
           const filteredFoods = foods.filter(food => userData.user_food_choices.includes(food._id));
           const filteredTvShows = tvShows.filter(tvShow => userData.user_tv_shows.includes(tvShow._id));
           const filteredMovies = movies.filter(movie => userData.user_films.includes(movie._id));
-          
+
 
           setUserActivities(filteredActivities);
           setUserFoods(filteredFoods);
@@ -62,7 +62,7 @@ export default function ActivitiesScreen() {
           ]);
         }
       } catch (err) {
-        console.error("Error fetching user data:", err);  
+        console.error("Error fetching user data:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -72,17 +72,64 @@ export default function ActivitiesScreen() {
     fetchUserData();
   }, []);
 
-  
+  const handleRemoveItem = async (category, entryId) => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+
+
+
+        switch (category) {
+          case "user_activities":
+            setUserActivities((prev) => {
+              const newActivities = prev.filter((item) => item._id !== entryId);
+
+              return newActivities;
+            });
+            break;
+          case "user_food_choices":
+            setUserFoods((prev) => {
+              const newFoods = prev.filter((item) => item._id !== entryId);
+
+              return newFoods;
+            });
+            break;
+          case "user_tv_shows":
+            setUserTvShows((prev) => {
+              const newTvShows = prev.filter((item) => item._id !== entryId);
+
+              return newTvShows;
+            });
+            break;
+          case "user_films":
+            setUserMovies((prev) => {
+              const newMovies = prev.filter((item) => item._id !== entryId);
+
+              return newMovies;
+            });
+            break;
+          default:
+            console.error(`Unknown category: ${category}`);
+            break;
+        }
+        await patchUserEntriesByEntryId(user.uid, category, entryId)
+
+      }
+    } catch (err) {
+      console.error("Error removing item", err);
+      fetchUserData();
+    }
+  }
 
   React.useEffect(() => {
+    const combinedData = [
+      ...userActivities,
+      ...userFoods,
+      ...userTvShows,
+      ...userMovies,
+    ];
+
     if (searchForQuery === "") {
-      const combinedData = [
-        ...userActivities,
-        ...userFoods,
-        ...userTvShows,
-        ...userMovies,
-      ];
-       
       setFilteredData(combinedData);
     } else {
       const query = searchForQuery.toLowerCase();
@@ -92,8 +139,8 @@ export default function ActivitiesScreen() {
             const name =
               item.activity_name ||
               item.food_name ||
-              item.tvshow_name ||
-              item.movie_name ||
+              item.show ||
+              item.film ||
               "";
             return name.toLowerCase().includes(query);
           }
@@ -101,19 +148,19 @@ export default function ActivitiesScreen() {
       );
     }
   }, [searchForQuery, userActivities, userFoods, userTvShows, userMovies]);
-  
 
-  function onPressHandle_searchActivities() {
-    console.log("Pressed Search");
-  }
 
-  function onPressHandle_removeActivity(itemName) {
-    console.log("Pressed Remove", itemName);
-  }
+  // function onPressHandle_searchActivities() {
+  //   console.log("Pressed Search");
+  // }
 
-  function onPressHandle_addActivity(itemName) {
-    console.log("Pressed add activity");
-  }
+  // function onPressHandle_removeActivity(itemName) {
+  //   console.log("Pressed Remove", itemName);
+  // }
+
+  // function onPressHandle_addActivity(itemName) {
+  //   console.log("Pressed add activity");
+  // }
 
   if (loading) {
     return (
@@ -148,12 +195,12 @@ export default function ActivitiesScreen() {
               size={25}
               color="#1E1E1E"
               className="ml-2"
-              onPress={onPressHandle_searchActivities}
+            // onPress={onPressHandle_searchActivities}
             />
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
-        <Text className="text-xl font-bold">Activities</Text>
+          <Text className="text-xl font-bold">Activities</Text>
           {userActivities.map((activity, index) => {
             return (
               <View
@@ -167,12 +214,12 @@ export default function ActivitiesScreen() {
                   size={25}
                   color="#1E1E1E"
                   className="ml-2"
-                  onPress={() => onPressHandle_removeActivity(activity)}
+                  onPress={() => handleRemoveItem("user_activities", activity._id)}
                 />
               </View>
             );
           })}
-            <Text className="text-xl font-bold">Foods</Text>
+          <Text className="text-xl font-bold">Foods</Text>
           {userFoods.map((food, index) => {
             return (
               <View
@@ -186,12 +233,12 @@ export default function ActivitiesScreen() {
                   size={25}
                   color="#1E1E1E"
                   className="ml-2"
-                  onPress={() => onPressHandle_removeActivity(food)}
+                  onPress={() => handleRemoveItem("user_food_choices", food._id)}
                 />
               </View>
             );
           })}
-           <Text className="text-xl font-bold">TV Shows</Text>
+          <Text className="text-xl font-bold">TV Shows</Text>
           {userTvShows.map((tvShow, index) => {
             return (
               <View
@@ -205,12 +252,12 @@ export default function ActivitiesScreen() {
                   size={25}
                   color="#1E1E1E"
                   className="ml-2"
-                  onPress={() => onPressHandle_removeActivity(tvShow)}
+                  onPress={() => handleRemoveItem("user_tv_shows", tvShow._id)}
                 />
               </View>
             );
           })}
-           <Text className="text-xl font-bold">Movies</Text>
+          <Text className="text-xl font-bold">Movies</Text>
           {userMovies.map((movie, index) => {
             return (
               <View
@@ -224,7 +271,7 @@ export default function ActivitiesScreen() {
                   size={25}
                   color="#1E1E1E"
                   className="ml-2"
-                  onPress={() => onPressHandle_removeActivity(movie)}
+                  onPress={() => handleRemoveItem("user_films", movie._id)}
                 />
               </View>
             );
@@ -234,7 +281,7 @@ export default function ActivitiesScreen() {
           <PlusCircleIcon
             size={75}
             color="#1E1E1E"
-            onPress={onPressHandle_addActivity}
+          // onPress={onPressHandle_addActivity}
           />
         </View>
       </SafeAreaView>
