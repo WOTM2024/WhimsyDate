@@ -12,22 +12,32 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
 import { deleteUserByUID, fetchUserByUID } from "../api";
+import { deleteUser } from "firebase/auth";
 
 const UserProfileScreen = () => {
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
-  const handleDeleteAccount = (uid) => {
-    deleteUserByUID(uid).then(({ error }) => {
-      if (error) {
-        setError(error);
-      }
-    });
+  const handleDeleteAccount = () => {
+    // const currentUserId = auth.currentUser?.uid;
+    // Promise.all([deleteUser(currentUserId), deleteUserByUID(currentUserId)]).then
+    return deleteUser(auth.currentUser)
+      .then(() => {
+        return deleteUserByUID(auth.currentUser?.uid).then(({ error }) => {
+          if (error) {
+            setError(error);
+            navigation.navigate("Login");
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
-    // console.log(auth.currentUser?.uid);
+    console.log(auth.currentUser?.uid);
     fetchUserByUID(auth.currentUser?.uid)
       .then(({ data }) => {
         // console.log(response.data.data.username);

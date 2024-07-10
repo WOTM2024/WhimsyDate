@@ -93,7 +93,6 @@ export const fetchUserByUID = (uid) => {
     });
 };
 
-
 export const fetchEntriesByUserCategory = (uid, category) => {
   console.log("category", category, "uid", uid);
   const query = [];
@@ -114,13 +113,15 @@ export const fetchEntriesByUserCategory = (uid, category) => {
       console.error("API error", err);
       throw err;
     });
-}
+};
 
 export const deleteUserByUID = (uid) => {
+  console.log("uid = ", uid);
   return api
-    .delete(`/users/${uid}`)
+    .delete(`/users/${uid}/delete`)
     .then((response) => {
-      return { error: null };
+      console.log(response.message);
+      return response.message;
     })
     .catch((error) => {
       return { error: error };
