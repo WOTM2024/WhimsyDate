@@ -73,13 +73,6 @@ export default function WelcomeScreen() {
     }
   };
 
-  const handleSignOut = () => {
-    auth.signOut().then(() => {
-      // navigation.replace("Login");
-      navigation.navigate("Login");
-    });
-  };
-
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
@@ -136,14 +129,6 @@ export default function WelcomeScreen() {
         </View>
         <View>
           <Text className="text-2xl text-light_text font-semibold">{displayText}</Text>
-        </View>
-
-        {/* Below is temp content */}
-        <View className="m-10" />
-        <View>
-          <TouchableOpacity onPress={handleSignOut} className="border">
-            <Text>sign out</Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </LinearGradient>

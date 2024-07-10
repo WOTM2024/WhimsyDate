@@ -106,11 +106,21 @@ function TabsNavigator() {
     >
       <Tab.Screen name="Welcome" component={WelcomeScreen} options={{ tabBarLabel: "Welcome", headerShown: false }} />
       <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: "Home", headerShown: false }} />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Tie Breaker"
         component={TieBreakerScreen}
         options={{ tabBarLabel: "Tie Breaker", headerShown: false }}
-      />
+      /> */}
+      {/* <Tab.Screen
+        name="EmptyComponent"
+        component={EmptyComponent}
+        options={{}}
+        listeners={({ navigation }) => ({
+          tabPress: (event) => {
+            event.preventDefault();
+          },
+        })}
+      /> */}
       <Tab.Screen
         name="User Profile"
         component={UserProfileScreen}
@@ -118,4 +128,8 @@ function TabsNavigator() {
       />
     </Tab.Navigator>
   );
+}
+
+export function EmptyComponent() {
+  return null;
 }
