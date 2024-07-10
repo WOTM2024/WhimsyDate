@@ -7,18 +7,25 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import UserAvatar from "react-native-user-avatar";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
-import { deleteUserByUID, fetchUserByUID } from "../api";
+import {
+  deleteUserByUID,
+  fetchUserByUID,
+  patchUserNameWithNewName,
+} from "../api";
 import { deleteUser } from "firebase/auth";
 
 const UserProfileScreen = () => {
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
+  const [newUsername, setNewUsername] = useState("");
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
 
   const handleDeleteAccount = () => {
     const currentUser = auth.currentUser;
@@ -29,13 +36,22 @@ const UserProfileScreen = () => {
         navigation.navigate("Login");
       }
     );
-
-    Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
-      navigation.navigate("Login");
-    });
-
   };
-  const handleChangeUsername = () => {};
+  const handleChangeUsername = () => {
+    patchUserNameWithNewName(auth.currentUser?.uid, newUsername)
+      .then(({ data }) => {
+        setUsername(data.data.username);
+        setIsEditingUsername(false);
+        setNewUsername("");
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          setError("Username is already taken. Please choose another one.");
+        } else {
+          setError("An error occurred. Please try again.");
+        }
+      });
+  };
 
   useEffect(() => {
     // console.log(auth.currentUser?.uid);
@@ -66,12 +82,30 @@ const UserProfileScreen = () => {
           <UserAvatar size={50} src="https://source.boringavatars.com/beam" />
           <View style={styles.usernameContainer}>
             <Text style={styles.username}>{username}</Text>
-            <TouchableOpacity
-              onPress={handleChangeUsername}
-              style={[styles.buttonUsername, styles.editUsernameButton]}
-            >
-              <Text style={styles.buttonText}>Edit Username</Text>
-            </TouchableOpacity>
+            {isEditingUsername ? (
+              <View style={styles.editUsernameContainer}>
+                <TextInput
+                  style={styles.input}
+                  value={newUsername}
+                  onChangeText={setNewUsername}
+                  placeholder="Enter new username"
+                />
+                <TouchableOpacity
+                  onPress={handleChangeUsername}
+                  style={[styles.buttonUsername, styles.submitUsernameButton]}
+                >
+                  <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={() => setIsEditingUsername(true)}
+                style={[styles.buttonUsername, styles.editUsernameButton]}
+              >
+                <Text style={styles.buttonText}>Edit Username</Text>
+              </TouchableOpacity>
+            )}
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
           </View>
         </View>
         <View style={styles.buttonContainer}>
@@ -153,8 +187,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  submitUsernameButton: {
+    backgroundColor: "#4A4A4A",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   spacing: {
     height: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginTop: 10,
+    width: 200,
+    backgroundColor: "#FFFFFF",
+  },
+  editUsernameContainer: {
+    alignItems: "center",
+    marginTop: 10,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 10,
   },
 });
 export default UserProfileScreen;
