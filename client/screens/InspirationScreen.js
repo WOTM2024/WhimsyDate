@@ -77,29 +77,29 @@ export default function InspirationScreen() {
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
-        <View className="m-12"></View>
+        <View className="m-10"></View>
         <View className="w-full items-center p-1">
-          <View className="w-full flex-row items-center m-2 border border-light_border border-2 rounded-md ">
+          <View className="w-full flex-row items-center m-2 border border-light_border border-4 rounded-md p-1">
             <TextInput
               placeholder="Search an activity"
               keyboardType="default"
               className="flex-1 p-1 mx-2"
             />
-            <MagnifyingGlassIcon
+            {/* <MagnifyingGlassIcon
               size={25}
               color="#1E1E1E"
               className="ml-2"
               onPress={onPressHandle_searchActivities}
-            />
+            /> */}
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
-          <Text className="text-xl font-bold mb-2">Activities</Text>
+          <Text className="text-xl font-bold mb-2 pl-4">Activities</Text>
           {activities.map((activity, index) => {
             return (
               <View
                 key={activity._id}
-                className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+                className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
               >
                 <Text className="flex-1 font-bold text-light_text text-lg">
                   {activity.activity_name}
@@ -113,11 +113,11 @@ export default function InspirationScreen() {
               </View>
             );
           })}
-          <Text className="text-xl font-bold mb-2">Foods</Text>
+          <Text className="text-xl font-bold mb-2 pl-4">Foods</Text>
           {foods.map((food, index) => (
             <View
               key={food._id}
-              className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+              className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
             >
               <Text className="flex-1 font-bold text-light_text text-lg">
                 {food.food}
@@ -130,11 +130,11 @@ export default function InspirationScreen() {
               />
             </View>
           ))}
-          <Text className="text-xl font-bold mb-2">Tv Shows</Text>
+          <Text className="text-xl font-bold mb-2 pl-4">Tv Shows</Text>
           {tvShows.map((tvShow, index) => (
             <View
               key={tvShow._id}
-              className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+              className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
             >
               <Text className="flex-1 font-bold text-light_text text-lg">
                 {tvShow.show}
@@ -147,11 +147,11 @@ export default function InspirationScreen() {
               />
             </View>
           ))}
-          <Text className="text-xl font-bold mb-2">Movies</Text>
+          <Text className="text-xl font-bold mb-2 pl-4">Movies</Text>
           {movies.map((movie, index) => (
             <View
               key={movie._id}
-              className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+              className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
             >
               <Text className="flex-1 font-bold text-light_text text-lg">
                 {movie.film}

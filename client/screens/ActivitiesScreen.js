@@ -145,8 +145,8 @@ export default function ActivitiesScreen() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Loading...</Text>
+      <View className="flex-1 items-center justify-center" style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text className="text-2xl">Loading...</Text>
       </View>
     );
   }
@@ -162,9 +162,9 @@ export default function ActivitiesScreen() {
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
-        <View className="m-12"></View>
+        <View className="m-10"></View>
         <View className="w-full items-center p-1">
-          <View className="w-full flex-row items-center m-2 border border-light_border border-2 rounded-md ">
+          <View className="w-full flex-row items-center my-2 border-2 border-light_border border- rounded-md p-1">
             <TextInput
               placeholder="Search an activity"
               keyboardType="default"
@@ -180,16 +180,17 @@ export default function ActivitiesScreen() {
             /> */}
           </View>
         </View>
-        <ScrollView className="w-full p-1 ">
+        <ScrollView className="w-full p-1">
           {/* Render the list of activities */}
-          <Text className="text-xl font-bold">Activities</Text>
+          <Text className="text-xl font-bold pl-4">Activities</Text>
           {filteredData.map((item, index) => {
             if (item.activity_name) {
               return (
-                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.activity_name}</Text>
                   <MinusIcon
-                    size={25}
+                    size={30}
+                    strokeWidth={3}
                     color="#1E1E1E"
                     className="ml-2"
                     onPress={() => handleRemoveItem("user_activities", item._id)}
@@ -202,14 +203,15 @@ export default function ActivitiesScreen() {
           })}
 
           {/* Render the list of foods */}
-          <Text className="text-xl font-bold">Foods</Text>
+          <Text className="text-xl font-bold pl-4">Foods</Text>
           {filteredData.map((item, index) => {
             if (item.food_name) {
               return (
-                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.food_name}</Text>
                   <MinusIcon
-                    size={25}
+                    size={30}
+                    strokeWidth={3}
                     color="#1E1E1E"
                     className="ml-2"
                     onPress={() => handleRemoveItem("user_food_choices", item._id)}
@@ -221,14 +223,15 @@ export default function ActivitiesScreen() {
           })}
 
           {/* Render the list of TV shows */}
-          <Text className="text-xl font-bold">TV Shows</Text>
+          <Text className="text-xl font-bold pl-4">TV Shows</Text>
           {filteredData.map((item, index) => {
             if (item.show) {
               return (
-                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.show}</Text>
                   <MinusIcon
-                    size={25}
+                    size={30}
+                    strokeWidth={3}
                     color="#1E1E1E"
                     className="ml-2"
                     onPress={() => handleRemoveItem("user_tv_shows", item._id)}
@@ -240,14 +243,15 @@ export default function ActivitiesScreen() {
           })}
 
           {/* Render the list of movies */}
-          <Text className="text-xl font-bold">Movies</Text>
+          <Text className="text-xl font-bold pl-4">Movies</Text>
           {filteredData.map((item, index) => {
             if (item.film) {
               return (
-                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.film}</Text>
                   <MinusIcon
-                    size={25}
+                    size={30}
+                    strokeWidth={3}
                     color="#1E1E1E"
                     className="ml-2"
                     onPress={() => handleRemoveItem("user_films", item._id)}
@@ -259,7 +263,7 @@ export default function ActivitiesScreen() {
           })}
         </ScrollView>
         <View>
-          <PlusCircleIcon size={75} color="#1E1E1E" onPress={() => setIsModalVisible(true)} />
+          <PlusCircleIcon fill="#D9D9D9" size={65} color="#4C25A2" onPress={() => setIsModalVisible(true)} />
         </View>
       </SafeAreaView>
       <Modal
