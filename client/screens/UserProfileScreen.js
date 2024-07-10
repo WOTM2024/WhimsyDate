@@ -104,7 +104,7 @@ const UserProfileScreen = () => {
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1">
         <View className="m-12" />
-        <View className="bg-white p-5 w-full ml-10 flex-row rounded-2xl">
+        <View className="bg-white p-5 ml-10 flex-row rounded-l-2xl border">
           <View className="rounded-full mr-10">
             {avatarSvgContent ? (
               <SvgXml xml={avatarSvgContent} width="100" height="100" />
@@ -112,15 +112,15 @@ const UserProfileScreen = () => {
               <Text>Loading avatar...</Text>
             )}
           </View>
-          <View>
+          <View className="flex-1">
             <Text className="text-2xl font-semibold">{username}</Text>
             {isEditingUsername ? (
-              <View>
+              <View className="">
                 <TextInput
                   value={newUsername}
                   onChangeText={setNewUsername}
                   placeholder="Enter new username"
-                  className="border flex-row items-center border-light_border p-2 rounded-md focus:border-purple-600 w-48"
+                  className="border flex-row items-center border-light_border p-2 rounded-md focus:border-purple-600"
                 />
                 <TouchableOpacity onPress={handleChangeUsername} className="border bg-slate-950 p-2 rounded-lg mt-2">
                   <Text className="text-base text-center text-light_button_text font-semibold">Submit</Text>
