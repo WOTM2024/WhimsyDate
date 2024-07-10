@@ -116,14 +116,9 @@ export const fetchEntriesByUserCategory = (uid, category) => {
 };
 
 export const deleteUserByUID = (uid) => {
-  // console.log("uid = ", uid);
   return api
     .delete(`/users/${uid}/delete`)
-    .then((response) => {
-      // console.log("Removed from database");
-      // console.log(response);
-      // return response.message;
-    })
+    .then((response) => {})
     .catch((error) => {
       // return { error: error };
       console.error(error);
@@ -143,30 +138,40 @@ export const patchUserEntriesByEntryId = (userId, category, entryId) => {
 };
 
 export const addActivity = (activity_name, category, isCollaborative, cost) => {
- return api
-  .post(`/activities`, {activity_name, category, isCollaborative, cost})
-  .then(({ data }) => {
-    console.log("data from api>>>>>>>>>>", data)
-    return data;
-  })
-  .catch((err) => {
-    console.error("API error", err);
-    throw err;
-  })
-}
+  return api
+    .post(`/activities`, { activity_name, category, isCollaborative, cost })
+    .then(({ data }) => {
+      console.log("data from api>>>>>>>>>>", data);
+      return data;
+    })
+    .catch((err) => {
+      console.error("API error", err);
+      throw err;
+    });
+};
 
 export const postUserEntryToCategory = (userId, category, entryId) => {
   return api
-  .post(`/users/${userId}/${category}`, { entryId })
-  .then(({ data }) => {
-  console.log("data from post user blabla>>>>", data);
-  return data
-  })
-  .catch((err) => {
-    console.error("API error", err);
-    throw err;
-  })
-}
- 
+    .post(`/users/${userId}/${category}`, { entryId })
+    .then(({ data }) => {
+      console.log("data from post user blabla>>>>", data);
+      return data;
+    })
+    .catch((err) => {
+      console.error("API error", err);
+      throw err;
+    });
+};
 
-
+export const patchUserNameWithNewName = (uid, body) => {
+  return api
+    .patch(`/users/${uid}/username`, JSON.stringify([{ newUsername: body }]))
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
+};

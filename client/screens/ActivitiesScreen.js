@@ -46,6 +46,7 @@ export default function ActivitiesScreen() {
           const filteredTvShows = tvShows.filter((tvShow) => userData.user_tv_shows.includes(tvShow._id));
           const filteredMovies = movies.filter((movie) => userData.user_films.includes(movie._id));
 
+
           setUserActivities(filteredActivities);
           setUserFoods(filteredFoods);
           setUserTvShows(filteredTvShows);
@@ -133,6 +134,7 @@ export default function ActivitiesScreen() {
   //   console.log("Pressed Search");
   // }
 
+
   // function onPressHandle_removeActivity(itemName) {
   //   console.log("Pressed Remove", itemName);
   // }
@@ -196,6 +198,7 @@ export default function ActivitiesScreen() {
               );
             }
             return null;
+
           })}
 
           {/* Render the list of foods */}
