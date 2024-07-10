@@ -66,6 +66,7 @@ export default function InspirationScreen() {
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
+      <View className="m-12"></View>
         <View className="w-full items-center p-1">
           <View className="w-full flex-row items-center m-2 border border-light_border border-2 rounded-md ">
             <TextInput placeholder="Search an activity" keyboardType="default" className="flex-1 p-1 mx-2" />
