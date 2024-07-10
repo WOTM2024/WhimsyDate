@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   SafeAreaView,
+  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -16,6 +17,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
 import { fetchActivities, fetchFoods, fetchMovies, fetchTvShows, fetchUserByUID, patchUserEntriesByEntryId } from "../api";
+import AddActivityForm from "../components/AddActivityForm";
 
 export default function ActivitiesScreen() {
   const navigation = useNavigation();
@@ -27,6 +29,7 @@ export default function ActivitiesScreen() {
   const [userMovies, setUserMovies] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   React.useEffect(() => {
     const fetchUserData = async () => {
@@ -120,6 +123,11 @@ export default function ActivitiesScreen() {
       fetchUserData();
     }
   }
+
+  const handleAddActivity = (newActivity) => {
+    setUserActivities((prev) => [...prev, newActivity]);
+    setFilteredData((prev) => [...prev, newActivity]);
+  };
 
   React.useEffect(() => {
     const combinedData = [
@@ -281,10 +289,21 @@ export default function ActivitiesScreen() {
           <PlusCircleIcon
             size={75}
             color="#1E1E1E"
-          // onPress={onPressHandle_addActivity}
+          onPress={() => setIsModalVisible(true)}
           />
         </View>
       </SafeAreaView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <AddActivityForm
+          onClose={() => setIsModalVisible(false)}
+          onAddActivity={handleAddActivity}
+        />
+      </Modal>
     </LinearGradient>
   );
 }

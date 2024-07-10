@@ -138,3 +138,32 @@ export const patchUserEntriesByEntryId = (userId, category, entryId) => {
       throw err;
     })
 };
+
+export const addActivity = (activity_name, category, isCollaborative, cost) => {
+ return api
+  .post(`/activities`, {activity_name, category, isCollaborative, cost})
+  .then(({ data }) => {
+    console.log("data from api>>>>>>>>>>", data)
+    return data;
+  })
+  .catch((err) => {
+    console.error("API error", err);
+    throw err;
+  })
+}
+
+export const postUserEntryToCategory = (userId, category, entryId) => {
+  return api
+  .post(`/users/${userId}/${category}`, { entryId })
+  .then(({ data }) => {
+  console.log("data from post user blabla>>>>", data);
+  return data
+  })
+  .catch((err) => {
+    console.error("API error", err);
+    throw err;
+  })
+}
+ 
+
+
