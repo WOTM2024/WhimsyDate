@@ -1,8 +1,19 @@
 // InspirationScreen.js
 import * as React from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
+import {
+  MagnifyingGlassIcon,
+  MinusIcon,
+  PlusCircleIcon,
+} from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 import { fetchActivities, fetchFoods, fetchMovies, fetchTvShows } from "../api";
 
@@ -13,45 +24,45 @@ export default function InspirationScreen() {
   const [tvShows, setTvShows] = React.useState([]);
   const [movies, setMovies] = React.useState([]);
   const [error, setError] = React.useState(null);
-  const [category, setCategory] = React.useState('');
-  const [isCollaborative, setIsCollaborative] = React.useState('');
-  const [cost, setCost] = React.useState('');
-  
+  const [category, setCategory] = React.useState("");
+  const [isCollaborative, setIsCollaborative] = React.useState("");
+  const [cost, setCost] = React.useState("");
+
   React.useEffect(() => {
     fetchActivities(category, isCollaborative, cost)
       .then((activitiesFromApi) => {
-        console.log(activitiesFromApi, "activities from api ")
+        console.log(activitiesFromApi, "activities from api ");
         setActivities(activitiesFromApi || []);
       })
       .catch((err) => {
         setError(err.response.data.msg || "An error occurred");
-      })
+      });
 
-      fetchFoods()
+    fetchFoods()
       .then((foodsFromApi) => {
         setFoods(foodsFromApi || []);
       })
       .catch((err) => {
-        setError(err.response.data.msg || "An error occurred")
-      })
+        setError(err.response.data.msg || "An error occurred");
+      });
 
-      fetchTvShows()
+    fetchTvShows()
       .then((tvShowsFromApi) => {
         setTvShows(tvShowsFromApi || []);
       })
       .catch((err) => {
-        setError(err.response.data.msg || "An error occurred")
-      })
+        setError(err.response.data.msg || "An error occurred");
+      });
 
-      fetchMovies()
+    fetchMovies()
       .then((moviesFromApi) => {
         setMovies(moviesFromApi || []);
       })
       .catch((err) => {
-        setError(err.response.data.msg || "An error occurred")
-      })
+        setError(err.response.data.msg || "An error occurred");
+      });
   }, []);
-  
+
   function onPressHandle_searchActivities() {
     console.log("Pressed Search");
   }
@@ -66,19 +77,33 @@ export default function InspirationScreen() {
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
-      <View className="m-12"></View>
+        <View className="m-12"></View>
         <View className="w-full items-center p-1">
           <View className="w-full flex-row items-center m-2 border border-light_border border-2 rounded-md ">
-            <TextInput placeholder="Search an activity" keyboardType="default" className="flex-1 p-1 mx-2" />
-            <MagnifyingGlassIcon size={25} color="#1E1E1E" className="ml-2" onPress={onPressHandle_searchActivities} />
+            <TextInput
+              placeholder="Search an activity"
+              keyboardType="default"
+              className="flex-1 p-1 mx-2"
+            />
+            <MagnifyingGlassIcon
+              size={25}
+              color="#1E1E1E"
+              className="ml-2"
+              onPress={onPressHandle_searchActivities}
+            />
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
-        <Text className="text-xl font-bold mb-2">Activities</Text>
+          <Text className="text-xl font-bold mb-2">Activities</Text>
           {activities.map((activity, index) => {
             return (
-              <View key={activity._id} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
-                <Text className="flex-1 font-bold text-light_text text-lg">{activity.activity_name}</Text>
+              <View
+                key={activity._id}
+                className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
+              >
+                <Text className="flex-1 font-bold text-light_text text-lg">
+                  {activity.activity_name}
+                </Text>
                 <MinusIcon
                   size={25}
                   color="#1E1E1E"
@@ -88,14 +113,14 @@ export default function InspirationScreen() {
               </View>
             );
           })}
-            <Text className="text-xl font-bold mb-2">Foods</Text>
+          <Text className="text-xl font-bold mb-2">Foods</Text>
           {foods.map((food, index) => (
             <View
               key={food._id}
               className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
             >
               <Text className="flex-1 font-bold text-light_text text-lg">
-                {food.food_name}
+                {food.food}
               </Text>
               <MinusIcon
                 size={25}
@@ -105,7 +130,7 @@ export default function InspirationScreen() {
               />
             </View>
           ))}
-            <Text className="text-xl font-bold mb-2">Tv Shows</Text>
+          <Text className="text-xl font-bold mb-2">Tv Shows</Text>
           {tvShows.map((tvShow, index) => (
             <View
               key={tvShow._id}
@@ -122,7 +147,7 @@ export default function InspirationScreen() {
               />
             </View>
           ))}
-           <Text className="text-xl font-bold mb-2">Movies</Text>
+          <Text className="text-xl font-bold mb-2">Movies</Text>
           {movies.map((movie, index) => (
             <View
               key={movie._id}
@@ -140,12 +165,14 @@ export default function InspirationScreen() {
             </View>
           ))}
         </ScrollView>
-        <View>
-          <PlusCircleIcon size={75} color="#1E1E1E" onPress={onPressHandle_addActivity} />
-        </View>
+        {/* <View>
+          <PlusCircleIcon
+            size={75}
+            color="#1E1E1E"
+            onPress={onPressHandle_addActivity}
+          />
+        </View> */}
       </SafeAreaView>
     </LinearGradient>
   );
 }
-
-

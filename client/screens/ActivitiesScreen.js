@@ -16,7 +16,14 @@ import {
 } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
-import { fetchActivities, fetchFoods, fetchMovies, fetchTvShows, fetchUserByUID, patchUserEntriesByEntryId } from "../api";
+import {
+  fetchActivities,
+  fetchFoods,
+  fetchMovies,
+  fetchTvShows,
+  fetchUserByUID,
+  patchUserEntriesByEntryId,
+} from "../api";
 import AddActivityForm from "../components/AddActivityForm";
 
 export default function ActivitiesScreen() {
@@ -41,16 +48,23 @@ export default function ActivitiesScreen() {
           const userResponse = await fetchUserByUID(userId);
           const userData = userResponse.data.data;
 
-          const activities = await fetchActivities()
-          const foods = await fetchFoods()
-          const tvShows = await fetchTvShows()
-          const movies = await fetchMovies()
+          const activities = await fetchActivities();
+          const foods = await fetchFoods();
+          const tvShows = await fetchTvShows();
+          const movies = await fetchMovies();
 
-          const filteredActivities = activities.filter(activity => userData.user_activities.includes(activity._id));
-          const filteredFoods = foods.filter(food => userData.user_food_choices.includes(food._id));
-          const filteredTvShows = tvShows.filter(tvShow => userData.user_tv_shows.includes(tvShow._id));
-          const filteredMovies = movies.filter(movie => userData.user_films.includes(movie._id));
-
+          const filteredActivities = activities.filter((activity) =>
+            userData.user_activities.includes(activity._id)
+          );
+          const filteredFoods = foods.filter((food) =>
+            userData.user_food_choices.includes(food._id)
+          );
+          const filteredTvShows = tvShows.filter((tvShow) =>
+            userData.user_tv_shows.includes(tvShow._id)
+          );
+          const filteredMovies = movies.filter((movie) =>
+            userData.user_films.includes(movie._id)
+          );
 
           setUserActivities(filteredActivities);
           setUserFoods(filteredFoods);
@@ -79,9 +93,6 @@ export default function ActivitiesScreen() {
     try {
       const user = auth.currentUser;
       if (user) {
-
-
-
         switch (category) {
           case "user_activities":
             setUserActivities((prev) => {
@@ -115,14 +126,13 @@ export default function ActivitiesScreen() {
             console.error(`Unknown category: ${category}`);
             break;
         }
-        await patchUserEntriesByEntryId(user.uid, category, entryId)
-
+        await patchUserEntriesByEntryId(user.uid, category, entryId);
       }
     } catch (err) {
       console.error("Error removing item", err);
       fetchUserData();
     }
-  }
+  };
 
   const handleAddActivity = (newActivity) => {
     setUserActivities((prev) => [...prev, newActivity]);
@@ -157,10 +167,9 @@ export default function ActivitiesScreen() {
     }
   }, [searchForQuery, userActivities, userFoods, userTvShows, userMovies]);
 
-
-  // function onPressHandle_searchActivities() {
-  //   console.log("Pressed Search");
-  // }
+  function onPressHandle_searchActivities() {
+    console.log("Pressed Search");
+  }
 
   // function onPressHandle_removeActivity(itemName) {
   //   console.log("Pressed Remove", itemName);
@@ -203,7 +212,7 @@ export default function ActivitiesScreen() {
               size={25}
               color="#1E1E1E"
               className="ml-2"
-            // onPress={onPressHandle_searchActivities}
+              onPress={onPressHandle_searchActivities}
             />
           </View>
         </View>
@@ -222,7 +231,9 @@ export default function ActivitiesScreen() {
                   size={25}
                   color="#1E1E1E"
                   className="ml-2"
-                  onPress={() => handleRemoveItem("user_activities", activity._id)}
+                  onPress={() =>
+                    handleRemoveItem("user_activities", activity._id)
+                  }
                 />
               </View>
             );
@@ -235,13 +246,15 @@ export default function ActivitiesScreen() {
                 className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
               >
                 <Text className="flex-1 font-bold text-light_text text-lg">
-                  {food.food_name || "Unknown Food"}
+                  {food.food || "Unknown Food"}
                 </Text>
                 <MinusIcon
                   size={25}
                   color="#1E1E1E"
                   className="ml-2"
-                  onPress={() => handleRemoveItem("user_food_choices", food._id)}
+                  onPress={() =>
+                    handleRemoveItem("user_food_choices", food._id)
+                  }
                 />
               </View>
             );
@@ -289,7 +302,7 @@ export default function ActivitiesScreen() {
           <PlusCircleIcon
             size={75}
             color="#1E1E1E"
-          onPress={() => setIsModalVisible(true)}
+            onPress={() => setIsModalVisible(true)}
           />
         </View>
       </SafeAreaView>
@@ -307,6 +320,3 @@ export default function ActivitiesScreen() {
     </LinearGradient>
   );
 }
-
-
-
