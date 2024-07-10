@@ -171,7 +171,7 @@ const UserProfileScreen = () => {
 const DeleteAccountConfirmationModal = ({ isVisible, onConfirm, onCancel }) => {
   return (
     <View>
-      <Modal isVisible={isVisible}>
+      <Modal isVisible={isVisible} onBackdropPress={() => onCancel()}>
         <View
           style={{
             flex: 1,

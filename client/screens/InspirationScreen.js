@@ -1,19 +1,8 @@
 // InspirationScreen.js
 import * as React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import {
-  MagnifyingGlassIcon,
-  MinusIcon,
-  PlusCircleIcon,
-} from "react-native-heroicons/outline";
+import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 import { fetchActivities, fetchFoods, fetchMovies, fetchTvShows } from "../api";
 
@@ -74,17 +63,14 @@ export default function InspirationScreen() {
   function onPressHandle_addActivity(itemName) {
     console.log("Pressed add activity");
   }
+
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
         <View className="m-10"></View>
         <View className="w-full items-center p-1">
           <View className="w-full flex-row items-center m-2 border border-light_border border-4 rounded-md p-1">
-            <TextInput
-              placeholder="Search an activity"
-              keyboardType="default"
-              className="flex-1 p-1 mx-2"
-            />
+            <TextInput placeholder="Search an activity" keyboardType="default" className="flex-1 p-1 mx-2" />
             {/* <MagnifyingGlassIcon
               size={25}
               color="#1E1E1E"
@@ -101,15 +87,13 @@ export default function InspirationScreen() {
                 key={activity._id}
                 className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
               >
-                <Text className="flex-1 font-bold text-light_text text-lg">
-                  {activity.activity_name}
-                </Text>
-                <MinusIcon
+                <Text className="flex-1 font-bold text-light_text text-lg">{activity.activity_name}</Text>
+                {/* <MinusIcon
                   size={25}
                   color="#1E1E1E"
                   className="ml-2"
                   onPress={() => onPressHandle_removeActivity(item)}
-                />
+                /> */}
               </View>
             );
           })}
@@ -119,15 +103,13 @@ export default function InspirationScreen() {
               key={food._id}
               className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
             >
-              <Text className="flex-1 font-bold text-light_text text-lg">
-                {food.food}
-              </Text>
-              <MinusIcon
+              <Text className="flex-1 font-bold text-light_text text-lg">{food.food}</Text>
+              {/* <MinusIcon
                 size={25}
                 color="#1E1E1E"
                 className="ml-2"
                 onPress={() => onPressHandle_removeActivity(food.food_name)}
-              />
+              /> */}
             </View>
           ))}
           <Text className="text-xl font-bold mb-2 pl-4">Tv Shows</Text>
@@ -136,15 +118,13 @@ export default function InspirationScreen() {
               key={tvShow._id}
               className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
             >
-              <Text className="flex-1 font-bold text-light_text text-lg">
-                {tvShow.show}
-              </Text>
-              <MinusIcon
+              <Text className="flex-1 font-bold text-light_text text-lg">{tvShow.show}</Text>
+              {/* <MinusIcon
                 size={25}
                 color="#1E1E1E"
                 className="ml-2"
                 onPress={() => onPressHandle_removeActivity(tvShow.show)}
-              />
+              /> */}
             </View>
           ))}
           <Text className="text-xl font-bold mb-2 pl-4">Movies</Text>
@@ -153,15 +133,13 @@ export default function InspirationScreen() {
               key={movie._id}
               className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
             >
-              <Text className="flex-1 font-bold text-light_text text-lg">
-                {movie.film}
-              </Text>
-              <MinusIcon
+              <Text className="flex-1 font-bold text-light_text text-lg">{movie.film}</Text>
+              {/* <MinusIcon
                 size={25}
                 color="#1E1E1E"
                 className="ml-2"
                 onPress={() => onPressHandle_removeActivity(movie.title)}
-              />
+              /> */}
             </View>
           ))}
         </ScrollView>
