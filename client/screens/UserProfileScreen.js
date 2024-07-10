@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
@@ -20,20 +12,12 @@ const UserProfileScreen = () => {
   const [error, setError] = useState("");
 
   const handleDeleteAccount = () => {
-    // const currentUserId = auth.currentUser?.uid;
-    // Promise.all([deleteUser(currentUserId), deleteUserByUID(currentUserId)]).then
-    return deleteUser(auth.currentUser)
-      .then(() => {
-        return deleteUserByUID(auth.currentUser?.uid).then(({ error }) => {
-          if (error) {
-            setError(error);
-            navigation.navigate("Login");
-          }
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const currentUser = auth.currentUser;
+    const currentUserId = auth.currentUser?.uid;
+    Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
+      console.log(response);
+      navigation.navigate("Login");
+    });
   };
 
   useEffect(() => {
@@ -56,17 +40,11 @@ const UserProfileScreen = () => {
   };
 
   return (
-    <LinearGradient
-      colors={["#D9D9D9", "#B999FF", "#D9D9D9"]}
-      style={{ flex: 1 }}
-    >
+    <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
         <Text style={styles.username}>{username}</Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={handleSignOut}
-            style={[styles.button, styles.signOutButton]}
-          >
+          <TouchableOpacity onPress={handleSignOut} style={[styles.button, styles.signOutButton]}>
             <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>
           <View style={styles.spacing} />
