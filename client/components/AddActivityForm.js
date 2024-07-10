@@ -61,19 +61,19 @@ const AddActivityForm = ({ onClose, onAddActivity }) => {
           placeholder="Activity Name"
           value={activityName}
           onChangeText={setActivityName}
-          style={{ borderWidth: 1, borderColor: "gray", marginBottom: 10, padding: 8, borderRadius: 5 }}
+          style={{ borderWidth: 2, borderColor: "gray", marginVertical: 20, padding: 8, borderRadius: 5 }}
         />
         <TextInput
           placeholder="Category"
           value={category}
           onChangeText={setCategory}
-          style={{ borderWidth: 1, borderColor: "gray", marginBottom: 10, padding: 8, borderRadius: 5 }}
+          style={{ borderWidth: 2, borderColor: "gray", marginBottom: 10, padding: 8, borderRadius: 5 }}
         />
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10, paddingLeft: 5 }}>
           <Text>Collaborative:</Text>
           <Switch value={isCollaborative} onValueChange={setIsCollaborative} />
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10, paddingLeft: 5 }}>
           <Text>Cost:</Text>
           <Switch value={cost} onValueChange={setCost} />
         </View>
@@ -83,7 +83,7 @@ const AddActivityForm = ({ onClose, onAddActivity }) => {
             padding: 10,
             borderRadius: 5,
             alignItems: "center",
-            marginBottom: 10,
+            marginVertical: 10,
           }}
           onPress={handleSubmit}
         >
@@ -94,6 +94,7 @@ const AddActivityForm = ({ onClose, onAddActivity }) => {
           style={{
             backgroundColor: "red",
             padding: 10,
+            marginVertical: 20,
             borderRadius: 5,
             alignItems: "center",
           }}
