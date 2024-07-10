@@ -15,13 +15,12 @@ const UserProfileScreen = () => {
     const currentUser = auth.currentUser;
     const currentUserId = auth.currentUser?.uid;
     Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
-      console.log(response);
       navigation.navigate("Login");
     });
   };
 
   useEffect(() => {
-    console.log(auth.currentUser?.uid);
+    // console.log(auth.currentUser?.uid);
     fetchUserByUID(auth.currentUser?.uid)
       .then(({ data }) => {
         // console.log(response.data.data.username);

@@ -116,11 +116,11 @@ export const fetchEntriesByUserCategory = (uid, category) => {
 };
 
 export const deleteUserByUID = (uid) => {
-  console.log("uid = ", uid);
+  // console.log("uid = ", uid);
   return api
     .delete(`/users/${uid}/delete`)
     .then((response) => {
-      console.log("Removed from database");
+      // console.log("Removed from database");
       // console.log(response);
       // return response.message;
     })
