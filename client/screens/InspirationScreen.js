@@ -16,53 +16,88 @@ export default function InspirationScreen() {
   const [category, setCategory] = React.useState("");
   const [isCollaborative, setIsCollaborative] = React.useState("");
   const [cost, setCost] = React.useState("");
+  const [searchForQuery, setSearchForQuery] = React.useState("");
+  const [filteredData, setFilteredData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetchActivities(category, isCollaborative, cost)
-      .then((activitiesFromApi) => {
-        console.log(activitiesFromApi, "activities from api ");
-        setActivities(activitiesFromApi || []);
-      })
-      .catch((err) => {
-        setError(err.response.data.msg || "An error occurred");
-      });
+    const fetchData = async () => {
+      try {
+        const activitiesPromise = fetchActivities(category, isCollaborative, cost).then((activitiesFromApi) => {
+          // console.log(activitiesFromApi, "activities from api ");
+          setActivities(activitiesFromApi || []);
+          setFilteredData(activitiesFromApi || []);
+        });
 
-    fetchFoods()
-      .then((foodsFromApi) => {
-        setFoods(foodsFromApi || []);
-      })
-      .catch((err) => {
-        setError(err.response.data.msg || "An error occurred");
-      });
+        const foodsPromise = fetchFoods().then((foodsFromApi) => {
+          setFoods(foodsFromApi || []);
+        });
 
-    fetchTvShows()
-      .then((tvShowsFromApi) => {
-        setTvShows(tvShowsFromApi || []);
-      })
-      .catch((err) => {
-        setError(err.response.data.msg || "An error occurred");
-      });
+        const tvShowsPromise = fetchTvShows().then((tvShowsFromApi) => {
+          setTvShows(tvShowsFromApi || []);
+        });
 
-    fetchMovies()
-      .then((moviesFromApi) => {
-        setMovies(moviesFromApi || []);
-      })
-      .catch((err) => {
-        setError(err.response.data.msg || "An error occurred");
-      });
-  }, []);
+        const moviesPromise = fetchMovies().then((moviesFromApi) => {
+          setMovies(moviesFromApi || []);
+        });
 
-  function onPressHandle_searchActivities() {
-    console.log("Pressed Search");
+        await Promise.all([activitiesPromise, foodsPromise, tvShowsPromise, moviesPromise]);
+
+        setLoading(false);
+      } catch (err) {
+        setError(err.response?.data?.msg || "An error occurred");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [category, isCollaborative, cost]);
+
+  React.useEffect(() => {
+    const combinedData = [...activities, ...foods, ...tvShows, ...movies];
+
+    if (searchForQuery === "") {
+      setFilteredData(combinedData);
+    } else {
+      const query = searchForQuery.toLowerCase();
+      const filtered = combinedData.filter((item) => {
+        const name = item.activity_name || item.food || item.show || item.film || "";
+        return name.toLowerCase().includes(query);
+      });
+      setFilteredData(filtered);
+    }
+  }, [searchForQuery, activities, foods, tvShows, movies]);
+
+  if (loading) {
+    return (
+      <View
+        className="flex-1 items-center justify-center"
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <Text className="text-2xl">Loading...</Text>
+      </View>
+    );
   }
 
-  function onPressHandle_removeActivity(itemName) {
-    console.log("Pressed Remove", itemName);
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Error: {error}</Text>
+      </View>
+    );
   }
 
-  function onPressHandle_addActivity(itemName) {
-    console.log("Pressed add activity");
-  }
+  // function onPressHandle_searchActivities() {
+  //   console.log("Pressed Search");
+  // }
+
+  // function onPressHandle_removeActivity(itemName) {
+  //   console.log("Pressed Remove", itemName);
+  // }
+
+  // function onPressHandle_addActivity(itemName) {
+  //   console.log("Pressed add activity");
+  // }
 
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
@@ -70,7 +105,13 @@ export default function InspirationScreen() {
         <View className="m-10"></View>
         <View className="w-full items-center p-1">
           <View className="w-full flex-row items-center m-2 border border-light_border border-4 rounded-md p-1">
-            <TextInput placeholder="Search an activity" keyboardType="default" className="flex-1 p-1 mx-2" />
+            <TextInput
+              placeholder="Search an activity"
+              keyboardType="default"
+              className="flex-1 p-1 mx-2"
+              value={searchForQuery}
+              onChangeText={(text) => setSearchForQuery(text)}
+            />
             {/* <MagnifyingGlassIcon
               size={25}
               color="#1E1E1E"
@@ -81,67 +122,85 @@ export default function InspirationScreen() {
         </View>
         <ScrollView className="w-full p-1 ">
           <Text className="text-xl font-bold mb-2 pl-4">Activities</Text>
-          {activities.map((activity, index) => {
-            return (
-              <View
-                key={activity._id}
-                className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
-              >
-                <Text className="flex-1 font-bold text-light_text text-lg">{activity.activity_name}</Text>
-                {/* <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() => onPressHandle_removeActivity(item)}
-                /> */}
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.activity_name) {
+              return (
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.activity_name}</Text>
+                  {/* <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => onPressHandle_removeActivity(item)}
+                  /> */}
+                </View>
+              );
+            }
+            return null;
           })}
           <Text className="text-xl font-bold mb-2 pl-4">Foods</Text>
-          {foods.map((food, index) => (
-            <View
-              key={food._id}
-              className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
-            >
-              <Text className="flex-1 font-bold text-light_text text-lg">{food.food}</Text>
-              {/* <MinusIcon
-                size={25}
-                color="#1E1E1E"
-                className="ml-2"
-                onPress={() => onPressHandle_removeActivity(food.food_name)}
-              /> */}
-            </View>
-          ))}
-          <Text className="text-xl font-bold mb-2 pl-4">Tv Shows</Text>
-          {tvShows.map((tvShow, index) => (
-            <View
-              key={tvShow._id}
-              className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
-            >
-              <Text className="flex-1 font-bold text-light_text text-lg">{tvShow.show}</Text>
-              {/* <MinusIcon
-                size={25}
-                color="#1E1E1E"
-                className="ml-2"
-                onPress={() => onPressHandle_removeActivity(tvShow.show)}
-              /> */}
-            </View>
-          ))}
+          {filteredData.map((item, index) => {
+            if (item.food) {
+              return (
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.food}</Text>
+                  {/* <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => onPressHandle_removeActivity(item.food)}
+                  /> */}
+                </View>
+              );
+            }
+            return null;
+          })}
+          <Text className="text-xl font-bold mb-2 pl-4">TV Shows</Text>
+          {filteredData.map((item, index) => {
+            if (item.show) {
+              return (
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.show}</Text>
+                  {/* <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => onPressHandle_removeActivity(item.show)}
+                  /> */}
+                </View>
+              );
+            }
+            return null;
+          })}
           <Text className="text-xl font-bold mb-2 pl-4">Movies</Text>
-          {movies.map((movie, index) => (
-            <View
-              key={movie._id}
-              className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
-            >
-              <Text className="flex-1 font-bold text-light_text text-lg">{movie.film}</Text>
-              {/* <MinusIcon
-                size={25}
-                color="#1E1E1E"
-                className="ml-2"
-                onPress={() => onPressHandle_removeActivity(movie.title)}
-              /> */}
-            </View>
-          ))}
+          {filteredData.map((item, index) => {
+            if (item.film) {
+              return (
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.film}</Text>
+                  {/* <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => onPressHandle_removeActivity(item.film)}
+                  /> */}
+                </View>
+              );
+            }
+            return null;
+          })}
         </ScrollView>
         {/* <View>
           <PlusCircleIcon
