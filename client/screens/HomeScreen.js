@@ -10,10 +10,6 @@ import Carousel from "react-native-reanimated-carousel";
 
 import { fetchActivities, fetchEntriesByUserCategory } from "../api";
 
-const uid = auth.currentUser?.uid;
-
-console.log("uid", uid)
-
 const window = Dimensions.get("window");
 const scale = 0.7;
 const PAGE_WIDTH = window.width * scale;
@@ -23,6 +19,19 @@ const tempImage = require("../assets/placeholder_img.png");
 
 export default function HomeScreen({route}) {
   const [categoryEntries, setCategoryEntries] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [imageUris, setImageUris] = useState(images);
+  const [isVetoed, setIsVetoed] = useState(1);
+  const [isSpinUsed, setIsSpinUsed] = useState(false);
+
+  const uid = auth.currentUser?.uid;
+
+  // isSpinUsed to true
+  // grey out spin button - can't be pressed
+  // veto pressed -> spins carousel
+  // isVetoed = 0
+  // grey out veto button
 
   const { categoryObj } = route.params;
 
@@ -40,6 +49,7 @@ export default function HomeScreen({route}) {
     fetchEntriesByUserCategory(uid, category_path)
     .then((data) => {
         categoryEntriesRandomisation(data);
+        setIsLoading(false);
     })
   }, [category_path])
 
@@ -64,26 +74,46 @@ export default function HomeScreen({route}) {
     };
   }, []);
 
-  const [isSpinning, setIsSpinning] = useState(false);
-
-  function onPressHandle_spinStatus() {
-    const randomNo = Number((Math.floor(Math.random() * 6) + 1) + "000");
-
-    setIsSpinning(true)
-
-    setTimeout(setIsSpinning(false), randomNo);
+  
+  function changeIsSpinning() {
+    setIsSpinning(false);
   }
 
-  const [imageUris, setImageUris] = useState(images);
+  function onPressHandle_spinStatus() {
+    setIsSpinUsed(true);
+
+    const randomNo = Number((Math.floor(Math.random() * 3) + 1) + "000");
+
+    setIsSpinning(true);
+
+    setTimeout(changeIsSpinning, randomNo);
+  }
+
+  // const [isVetoed, setIsVetoed] = useState(1);
+  // const [isSpinUsed, setIsSpinUsed] = useState(false);
+
+  // isSpinUsed to true
+// @TODO grey out spin button - can't be pressed
+  // veto pressed -> spins carousel
+  // isVetoed = 0
+  // grey out veto button
+
+  function onPressHandle_veto() {
+    setIsVetoed(0);
+
+    onPressHandle_spinStatus();
+  }
+
+  
   return (
     <LinearGradient colors={["#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <View className="flex-1 items-center ">
         {/* <Text>Home</Text> */}
         <View className="m-5" />
-        <Text className="text-3xl font-semibold">Swipe left/right to spin</Text>
+        <Text className="text-3xl font-semibold">{categoryObj.category_name}</Text>
         <View className="m-2" />
-
-        <Carousel
+        {
+          !isLoading ? <Carousel
           loop
           className="h-full items-center justify-center"
           style={{
@@ -95,21 +125,20 @@ export default function HomeScreen({route}) {
           autoPlayInterval={30}
           scrollAnimationDuration={30}
           data={categoryEntries}
-          onSnapToItem={(index) => console.log("current index:", index)}
           renderItem={({ index }) => {
             const imageSource = imageUris[index].uri ? { uri: imageUris[index].uri } : tempImage;
             let key_name;
             switch(categoryObj.category_name) {
-              case "activities":
+              case "Activities":
                 key_name = "activity_name";
                 break;
-              case "food":
+              case "Food":
                 key_name = "food";
                 break;
-              case "films":
+              case "Films":
                 key_name = "film";
                 break;
-              case "tv shows":
+              case "Tv Shows":
                 key_name = "show";
                 break;
             }
@@ -122,31 +151,33 @@ export default function HomeScreen({route}) {
                     width: PAGE_WIDTH,
                     height: PAGE_HEIGHT,
                   }}
+                    ${isSpinUsed ? "pointer-events-none" : ""}
                 /> */}
                 <Text style={{ fontWeight: "bold", fontSize: 30, color: "#fff" }}>{categoryEntriesIndex[key_name]}</Text>
               </View>
             );
           }}
           customAnimation={animationStyle}
-        />
-        <View>
+        /> : <Text>Loading...</Text>
+        }
+
+        <View pointerEvents={`${isSpinUsed ? "none" : "auto"}`}>
           <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_spinStatus}>
-            {!isSpinning ? (
               <Text className="text-base text-center text-light_button_text font-semibold">Spin</Text>
-            ) : (
-              <Text className="text-base text-center text-light_button_text font-semibold">Stop</Text>
-            )}
           </TouchableOpacity>
         </View>
         <View className="m-2" />
         <View className="w-72">
-          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg">
+        <Text style={{textAlign: 'center'}}>Veto count:{isVetoed}</Text>
+          <View pointerEvents={`${!isVetoed ? "none" : "auto"}`}>
+          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_veto}>
             <Text className="text-base text-center text-light_button_text font-semibold">Veto</Text>
           </TouchableOpacity>
+          </View>
           <View className="m-3" />
-          <TouchableOpacity className="border bg-light_button_background p-2 rounded-lg">
+          {/* <TouchableOpacity className="border bg-light_button_background p-2 rounded-lg">
             <Text className="text-base text-center text-light_button_text font-semibold">Select</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {/* Below is temp content */}

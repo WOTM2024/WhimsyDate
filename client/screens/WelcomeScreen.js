@@ -44,7 +44,7 @@ export default function WelcomeScreen() {
 
   /////////////////
 
-  const categories = [{category_name: "activities", path_name:"user_activities"}, {category_name:"food", path_name:"user_food_choices"}, {category_name:"films", path_name:"user_films"}, {category_name:"tv shows", path_name:"user_tv_shows"}]
+  const categories = [{category_name: "Activities", path_name:"user_activities"}, {category_name:"Food", path_name:"user_food_choices"}, {category_name:"Films", path_name:"user_films"}, {category_name:"Tv Shows", path_name:"user_tv_shows"}]
 
   const handleSnapToItem = (index) => {
     setCurrentImageIndex(index);
