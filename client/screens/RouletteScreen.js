@@ -105,9 +105,8 @@ export default function RouletteScreen({ route }) {
   return (
     <LinearGradient colors={["#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <View className="flex-1 items-center ">
-        <View className="m-5" />
+        <View className="m-10" />
         <Text className="text-3xl font-semibold">{categoryObj.category_name}</Text>
-        <View className="m-2" />
         {!isLoading ? (
           <Carousel
             loop
