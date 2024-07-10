@@ -1,23 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-  Dimensions,
-  StyleSheet,
-  TextInput,
-} from "react-native";
-import UserAvatar from "react-native-user-avatar";
+import { Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions, StyleSheet, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
-import {
-  deleteUserByUID,
-  fetchUserByUID,
-  patchUserNameWithNewName,
-} from "../api";
+import { deleteUserByUID, fetchUserByUID, patchUserNameWithNewName } from "../api";
 import { deleteUser } from "firebase/auth";
 
 const UserProfileScreen = () => {
@@ -30,12 +16,10 @@ const UserProfileScreen = () => {
   const handleDeleteAccount = () => {
     const currentUser = auth.currentUser;
     const currentUserId = auth.currentUser?.uid;
-    Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then(
-      (response) => {
-        console.log(response);
-        navigation.navigate("Login");
-      }
-    );
+    Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
+      console.log(response);
+      navigation.navigate("Login");
+    });
   };
   const handleChangeUsername = () => {
     patchUserNameWithNewName(auth.currentUser?.uid, newUsername)
@@ -73,13 +57,10 @@ const UserProfileScreen = () => {
   };
 
   return (
-    <LinearGradient
-      colors={["#D9D9D9", "#B999FF", "#D9D9D9"]}
-      style={{ flex: 1 }}
-    >
+    <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
-          <UserAvatar size={50} src="https://source.boringavatars.com/beam" />
+          {/* <UserAvatar size={50} src="https://source.boringavatars.com/beam" /> */}
           <View style={styles.usernameContainer}>
             <Text style={styles.username}>{username}</Text>
             {isEditingUsername ? (
@@ -109,17 +90,11 @@ const UserProfileScreen = () => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={handleSignOut}
-            style={[styles.button, styles.signOutButton]}
-          >
+          <TouchableOpacity onPress={handleSignOut} style={[styles.button, styles.signOutButton]}>
             <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>
           <View style={styles.spacing} />
-          <TouchableOpacity
-            onPress={handleDeleteAccount}
-            style={[styles.button, styles.deleteButton]}
-          >
+          <TouchableOpacity onPress={handleDeleteAccount} style={[styles.button, styles.deleteButton]}>
             <Text style={styles.buttonText}>Delete Account</Text>
           </TouchableOpacity>
         </View>
