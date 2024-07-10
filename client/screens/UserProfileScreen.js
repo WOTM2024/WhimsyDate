@@ -104,7 +104,7 @@ const UserProfileScreen = () => {
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1">
         <View className="m-12" />
-        <View className="bg-white p-5 ml-10 flex-row rounded-l-2xl border">
+        <View className="bg-white p-5 ml-10 flex-row rounded-l-2xl">
           <View className="rounded-full mr-10">
             {avatarSvgContent ? (
               <SvgXml xml={avatarSvgContent} width="100" height="100" />
