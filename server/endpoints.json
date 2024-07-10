@@ -3,19 +3,148 @@
     "start": "Welcome to the WhimsyDate API documentation. Here you will find the available API calls for our date night generator app."
   },
   
+  "GET /users": {
+    "description": "fetches array of  all users ",
+    "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "668c9a2fefe43da3b30f849a",
+          "username": "tian",
+            "fb_id": "tianxxx",
+            "user_activities": "[Array]",
+            "user_food_choices": [],
+            "user_films": "[Array]",
+            "user_tv_shows": "[Array]"
+        }
+      ]
+    }
+  },
+
+  "GET /users/:fb_id": {
+    "description": "fetches user information based on firebased user id ",
+    "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "668e4fc3313d46ee4d258990",
+          "username": "Tom",
+            "fb_id": "123456",
+            "user_activities": [ "6685484eb3b5bf698cc8c252" ],
+            "user_food_choices": [],
+            "user_films": [],
+            "user_tv_shows":[],
+            "__v": 0
+
+        }
+      ]
+    }
+  },
   
   "GET /users/:user_id/categories": {
     "description": "fetches the categories a user has on their profile",
-    "queries": "A valid unique _id"  
+    "queries": "A valid unique _id"  ,
+    "exampleResponse": { 
+      "success": true,
+      "data": [
+       "user_activities",
+        "user_food_choices",
+        "user_films",
+        "user_tv_shows"
+      ]
+    }
   },
 
-  "DELETE /users/delete": {
+  "DELETE /users/:fb_id/delete": {
     "description": "Allows deletion of an account based on a unique ID.",
-    "queries": "Requires a valid unique _id."
+    "queries": "Requires a valid unique _id.",
+    "exampleResponse": { 
+      "success": true, 
+      "message": "Tom has been deleted from our records" }
   },
 
   "GET /users/:user_id/:category": {
-    "description" : "Gets all entries for a user in a given category"
+    "description" : "Gets all entries for a user in a given category",
+    "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "6685484eb3b5bf698cc8c252",
+          "activity_name": "chess",
+          "category": "Board Games",
+          "isCollaborative": true,
+          "cost": false
+           }
+      ]
+    }
+  },
+
+  "POST /users": {
+    "description" : "Add a new user ",
+    "exampleRequest": {
+       "username": "Pam",
+        "fb_id": "DGS-sduvhi2iuasdb8"
+    },
+    "exampleResponse": {
+      "success": true,
+      "data": {
+          "_id": "668e49458f288d55c78b187a",
+          "fb_id": "DGS-sduvhi2iuasdb8",
+          "user_activities": [
+            "6685484eb3b5bf698cc8c252",
+            "6685484eb3b5bf698cc8c254",
+            "6685484eb3b5bf698cc8c256",
+            "6685484eb3b5bf698cc8c257",
+            "6685484eb3b5bf698cc8c258",
+            "6685484eb3b5bf698cc8c259",
+            "6685484eb3b5bf698cc8c25a",
+            "6685484eb3b5bf698cc8c25b",
+            "6685484eb3b5bf698cc8c25e",
+            "6685484eb3b5bf698cc8c25f"
+          ],
+          "user_films": ["668676b751c93b35aaeab676",
+          "668677442383191d7cf4efb1",
+          "668677a90e1d2447d491bcfd",
+          "6686789944aa342184c417e3",
+          "668678ee7548c1445b30c350",
+          "6686792808e74a9a2f97937f",
+          "668679f8527c7b7523d8d952",
+          "66867a4d7a55ca7962802038",
+          "66867a68763b07806c1fac39",
+          "66867b3cd3604af987cd6e20"],
+          "user_food_choices": [],
+          "user_tv_shows": ["66854b31b3b5bf698cc8c27f",
+          "66854b31b3b5bf698cc8c280",
+          "66854b31b3b5bf698cc8c281",
+          "66854b31b3b5bf698cc8c282",
+          "6686b05522adc1f491dde1c9",
+          "6686e76c96962f8911d6af07",
+          "6687b10b906bd602749dac06"],
+          "__v": 0
+             }
+    }
+  },
+
+  "PATCH  /users/:user_id/username": {
+    "description" : "Update username of selected user id ",
+    "exampleRequest": {
+      "username": "Bobby"
+         },
+    "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "668e5af74c9555145703a156",
+          "username": "Bobby",
+        "fb_id": "123456",
+        "user_activities": [ "6685484eb3b5bf698cc8c252" ],
+        "user_food_choices": [],
+        "user_films": [],
+        "user_tv_shows": [],
+        "__v": 0
+           }
+      ]
+    }
   },
 
   "GET /foods": {
@@ -55,6 +184,25 @@
         "vegan": true,
         "meat": false,
         "allergies": false
+      }
+    }
+  },
+
+  "PATCH /foods/:id": {
+    "description": "Update the existing food option.",
+    "exampleRequest": {
+      "food":  "Rio's Fabulous Steakhouse" 
+         },
+    "exampleResponse": {
+      "success": true,
+      "data": {
+        "_id": "668e629882a532388f3934ea",
+        "food": "Rio's Fabulous Steakhouse",
+        "vegetarian": true,
+        "vegan": true,
+        "meat": true,
+        "allergies": false,
+        "__v": 0
       }
     }
   },
@@ -158,5 +306,76 @@
         "cost": true
       }
     }
+  },
+
+  "GET /couples": {
+    "description": "Returns an array of all couples  in the database.",
+     "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "668e668752c13aa45efcc793",
+          "user_one": "668cee855b71a9f164ebd431",
+          "user_two": "668cee865b71a9f164ebd434",
+          "couple_activities": [],
+          "couple_food_choices": [],
+          "couple_films": [],
+          "couple_tv_shows": [],
+          "__v": 0
+          }
+      ]
+    }
+  },
+
+  "GET /couples/:couple_id": {
+    "description": "Return Couple information based on selected couple  in the database.",
+     "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "668e6849f8a2d75127143eac",
+          "user_one": "668cee855b71a9f164ebd431",
+          "user_two": "668cee865b71a9f164ebd434",
+          "couple_activities": [],
+          "couple_food_choices": [],
+          "couple_films": [],
+          "couple_tv_shows": [],
+          "__v": 0
+          }
+      ]
+    }
+  },
+
+  "POST /couples/add": {
+    "description": "Add new couple information in the database.",
+    "exampleRequest": {
+      "userOneId": "dummyData[0].toString()",
+      "userTwoId": "dummyData[1].toString()"
+     },
+
+     "exampleResponse": {
+      "success": true,
+      "data": [
+        {
+          "_id": "668e69f4bb30cd0d7b43caa8",
+          "user_one": "668cee855b71a9f164ebd431",
+          "user_two": "668cee865b71a9f164ebd434",
+          "couple_activities": [],
+          "couple_food_choices": [],
+          "couple_films": [],
+          "couple_tv_shows": [],
+          "__v": 0
+          }
+      ]
+    }
+  },
+
+  "DELETE /couples/delete": {
+    "description": "Allows deletion of couple based on a couple ID.",
+    "queries": "Requires a valid couple _id.",
+    "exampleResponse": { 
+      "success": true, 
+      "message": "couple deleted successfully" }
   }
+
 }
