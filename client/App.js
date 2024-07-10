@@ -4,8 +4,8 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import WelcomeScreen from "./screens/WelcomeScreen";
 import HomeScreen from "./screens/HomeScreen";
+import RouletteScreen from "./screens/RouletteScreen";
 import TieBreakerScreen from "./screens/TieBreakerScreen";
 import GameRoomScreen from "./screens/GameRoomScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -43,6 +43,7 @@ export default function App() {
           >
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Tabs" component={TabsNavigator} options={{ headerShown: false }} />
+            <Stack.Screen name="Roulette" component={RouletteScreen} />
             <Stack.Screen name="Activities" component={ActivitiesScreen} />
             <Stack.Screen name="Inspiration" component={InspirationScreen} />
             {/* <Stack.Screen name="Game Room" component={GameRoomScreen} /> */}
@@ -57,10 +58,8 @@ export default function App() {
 
 function TabBarIcon({ route, focused, color, size }) {
   let IconComponent;
-  if (route.name === "Welcome") {
+  if (route.name === "Home") {
     IconComponent = RocketLaunchIcon;
-  } else if (route.name === "Home") {
-    IconComponent = HomeIcon;
   } else if (route.name === "Menu") {
     IconComponent = Bars3Icon;
   } else if (route.name === "User Profile") {
@@ -92,7 +91,7 @@ function TabsNavigator({ navigation }) {
   return (
     <>
       <Tab.Navigator
-        initialRouteName="Welcome"
+        initialRouteName="Home"
         screenOptions={({ route }) => ({
           tabBarIcon: (props) => <TabBarIcon {...props} route={route} />,
           tabBarActiveTintColor: "#4C25A2",
@@ -118,7 +117,6 @@ function TabsNavigator({ navigation }) {
           headerTransparent: true,
         })}
       >
-        <Tab.Screen name="Welcome" component={WelcomeScreen} options={{ tabBarLabel: "Welcome", headerShown: false }} />
         <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: "Home", headerShown: false }} />
         <Tab.Screen
           name="Menu"

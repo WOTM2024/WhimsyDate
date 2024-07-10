@@ -1,194 +1,151 @@
 // HomeScreen.js
-import React, { useCallback, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Dimensions, Image } from "react-native";
+import React, { useRef, useState, useEffect, useContext } from "react";
+import { Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
+import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
+import { ChevronLeftIcon, ChevronRightIcon } from "react-native-heroicons/outline";
+import { fetchUserByUID } from "../api";
+import { UserContext } from "../contexts/UserContext";
+const { width: PAGE_WIDTH } = Dimensions.get("window");
 
-import { interpolate } from "react-native-reanimated";
-import Carousel from "react-native-reanimated-carousel";
+// https://heroicons.com/outline
+// https://unpkg.com/browse/@heroicons/vue@2.1.4/24/outline/
+// https://tailwindcss.com/docs
+// https://react-native-reanimated-carousel.vercel.app/
 
-import { fetchActivities, fetchEntriesByUserCategory } from "../api";
+export default function HomeScreen() {
+  const navigation = useNavigation();
+  const carouselRef = useRef(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [displayText, setDisplayText] = useState(images[0].name);
+  const [isNavigating, setIsNavigating] = useState(false);
 
-const window = Dimensions.get("window");
-const scale = 0.7;
-const PAGE_WIDTH = window.width * scale;
-const PAGE_HEIGHT = 500 * scale;
+  ///////////////////
+  // Temp Demo
+  //////////////////
 
-const tempImage = require("../assets/placeholder_img.png");
-
-export default function HomeScreen({route}) {
-  const [categoryEntries, setCategoryEntries] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [imageUris, setImageUris] = useState(images);
-  const [isVetoed, setIsVetoed] = useState(1);
-  const [isSpinUsed, setIsSpinUsed] = useState(false);
-
-  const uid = auth.currentUser?.uid;
-
-  // isSpinUsed to true
-  // grey out spin button - can't be pressed
-  // veto pressed -> spins carousel
-  // isVetoed = 0
-  // grey out veto button
-
-  const { categoryObj } = route.params;
-
-  const category_path = categoryObj.path_name;
-
-  function categoryEntriesRandomisation(categoryEntriesData) {
-    for (let i = categoryEntriesData.length - 1; i > 0; i--) { 
-      const j = Math.floor(Math.random() * (i + 1)); 
-      [categoryEntriesData[i], categoryEntriesData[j]] = [categoryEntriesData[j], categoryEntriesData[i]]; 
-    } 
-    return setCategoryEntries(categoryEntriesData);
-  }
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
-    fetchEntriesByUserCategory(uid, category_path)
-    .then((data) => {
-        categoryEntriesRandomisation(data);
-        setIsLoading(false);
-    })
-  }, [category_path])
-
-  const navigation = useNavigation();
-  function onPressHandle_navActivities() {
-    navigation.navigate("Activities");
-  }
-  function onPressHandle_navInspiration() {
-    navigation.navigate("Inspiration")
-  }
-
-  const animationStyle = useCallback((value) => {
-    "worklet";
-
-    const zIndex = interpolate(value, [-1, 0, 1], [10, 20, 10]);
-    const rotateZ = `${interpolate(value, [-4, 0, 4], [-45, 0, 45])}deg`;
-    const translateX = interpolate(value, [-1.4, 0, 1.4], [-window.width, 0, window.width]);
-
-    return {
-      transform: [{ rotateZ }, { translateX }],
-      zIndex,
-    };
+    // console.log(auth.currentUser?.uid);
+    fetchUserByUID(auth.currentUser?.uid)
+      .then(({ data }) => {
+        // console.log(response.data.data.username);
+        setUsername(data.data.username);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
-  
-  function changeIsSpinning() {
-    setIsSpinning(false);
-  }
+  /////////////////
 
-  function onPressHandle_spinStatus() {
-    setIsSpinUsed(true);
+  const categories = [
+    { category_name: "Activities", path_name: "user_activities" },
+    { category_name: "Food", path_name: "user_food_choices" },
+    { category_name: "Films", path_name: "user_films" },
+    { category_name: "Tv Shows", path_name: "user_tv_shows" },
+  ];
 
-    const randomNo = Number((Math.floor(Math.random() * 3) + 1) + "000");
+  const handleSnapToItem = (index) => {
+    setCurrentImageIndex(index);
+    setDisplayText(images[index].name);
+  };
 
-    setIsSpinning(true);
+  const handlePrev = () => {
+    if (carouselRef.current && !isNavigating) {
+      setIsNavigating(true);
+      carouselRef.current.prev();
+      if (currentImageIndex > 0) {
+        setCurrentImageIndex(currentImageIndex - 1);
+        setDisplayText(images[currentImageIndex - 1].name);
+      }
+      setTimeout(() => setIsNavigating(false), 400);
+    }
+  };
 
-    setTimeout(changeIsSpinning, randomNo);
-  }
+  const handleNext = () => {
+    if (carouselRef.current && !isNavigating) {
+      setIsNavigating(true);
+      carouselRef.current.next();
+      if (currentImageIndex < images.length - 1) {
+        setCurrentImageIndex(currentImageIndex + 1);
+        setDisplayText(images[currentImageIndex + 1].name);
+      }
+      setTimeout(() => setIsNavigating(false), 400);
+    }
+  };
 
-  // const [isVetoed, setIsVetoed] = useState(1);
-  // const [isSpinUsed, setIsSpinUsed] = useState(false);
+  const handleActivityNavigation = (categoryObj) => {
+    navigation.navigate("Roulette", { categoryObj });
+  };
 
-  // isSpinUsed to true
-// @TODO grey out spin button - can't be pressed
-  // veto pressed -> spins carousel
-  // isVetoed = 0
-  // grey out veto button
-
-  function onPressHandle_veto() {
-    setIsVetoed(0);
-
-    onPressHandle_spinStatus();
-  }
-
-  
   return (
-    <LinearGradient colors={["#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
-      <View className="flex-1 items-center ">
-        {/* <Text>Home</Text> */}
-        <View className="m-5" />
-        <Text className="text-3xl font-semibold">{categoryObj.category_name}</Text>
-        <View className="m-2" />
-        {
-          !isLoading ? <Carousel
-          loop
-          className="h-full items-center justify-center"
-          style={{
-            width: window.width,
-          }}
-          width={PAGE_WIDTH}
-          height={PAGE_HEIGHT}
-          autoPlay={isSpinning}
-          autoPlayInterval={30}
-          scrollAnimationDuration={30}
-          data={categoryEntries}
-          renderItem={({ index }) => {
-            const imageSource = imageUris[index].uri ? { uri: imageUris[index].uri } : tempImage;
-            let key_name;
-            switch(categoryObj.category_name) {
-              case "Activities":
-                key_name = "activity_name";
-                break;
-              case "Food":
-                key_name = "food";
-                break;
-              case "Films":
-                key_name = "film";
-                break;
-              case "Tv Shows":
-                key_name = "show";
-                break;
-            }
-            const categoryEntriesIndex = categoryEntries[index]
-            return (
-              <View key={index} style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#1e1e1e", borderColor: "white", borderStyle: "solid", borderWidth: 4, borderRadius: 10 }}>
-                {/* <Image
-                  source={imageSource}
-                  style={{
-                    width: PAGE_WIDTH,
-                    height: PAGE_HEIGHT,
-                  }}
-                    ${isSpinUsed ? "pointer-events-none" : ""}
-                /> */}
-                <Text style={{ fontWeight: "bold", fontSize: 30, color: "#fff" }}>{categoryEntriesIndex[key_name]}</Text>
-              </View>
-            );
-          }}
-          customAnimation={animationStyle}
-        /> : <Text>Loading...</Text>
-        }
-
-        <View pointerEvents={`${isSpinUsed ? "none" : "auto"}`}>
-          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_spinStatus}>
-              <Text className="text-base text-center text-light_button_text font-semibold">Spin</Text>
-          </TouchableOpacity>
+    <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
+      <SafeAreaView className="flex-1 items-center ">
+        <View className="m-12" />
+        <View>
+          <Text className="text-center text-7xl text-light_text font-bold">Welcome</Text>
+          <Text className="text-center text-7xl text-light_text font-bold">{username}!</Text>
+          <View className="m-2" />
+          <Text className="text-center text-3xl text-light_text font-medium">Choose an activity category</Text>
         </View>
         <View className="m-2" />
-        <View className="w-72">
-        <Text style={{textAlign: 'center'}}>Veto count:{isVetoed}</Text>
-          <View pointerEvents={`${!isVetoed ? "none" : "auto"}`}>
-          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_veto}>
-            <Text className="text-base text-center text-light_button_text font-semibold">Veto</Text>
+        <View className="flex-row items-center">
+          <TouchableOpacity onPress={handlePrev} className="rounded-full bg-gray-800/30">
+            <ChevronLeftIcon size={40} color="#FFFFFF" />
           </TouchableOpacity>
+          {/* <Image source={{ uri: "https://picsum.photos/300" }} className="w-72 h-72 rounded-xl" /> */}
+          <View className="w-72 h-72 rounded-xl items-center">
+            <Carousel
+              ref={carouselRef}
+              width={PAGE_WIDTH * 0.7}
+              height={PAGE_WIDTH * 0.7}
+              loop={true}
+              snapEnabled={true}
+              mode="parallax"
+              modeConfig={{
+                parallaxScrollingScale: 0.9,
+                parallaxScrollingOffset: 50,
+              }}
+              data={categories}
+              // autoPlay={true}
+              // autoPlayInterval={30}
+              scrollAnimationDuration={300}
+              onSnapToItem={handleSnapToItem}
+              renderItem={({ index }) => {
+                const image = images[index];
+                return (
+                  <View className="flex-1">
+                    {/* {image.uri ? (
+                      <Image source={{ uri: image.uri }} className="w-full h-full rounded-md" resizeMode="cover" />
+                    ) : (
+                      <TouchableOpacity className="flex-1 justify-center items-center bg-gray-400 rounded-md" >
+                        <Text style={{ color: "#FFFFFF" }}>Image not available</Text>
+                      </TouchableOpacity>
+                    )} */}
+                    <TouchableOpacity
+                      className="flex-1 justify-center items-center bg-slate-900 rounded-md border-4 border-neutral-50"
+                      onPress={() => handleActivityNavigation(categories[index])}
+                    >
+                      <Text style={{ color: "#FFFFFF", fontSize: 30 }}>{categories[index].category_name}</Text>
+                    </TouchableOpacity>
+                  </View>
+                );
+              }}
+            />
           </View>
-          <View className="m-3" />
-          {/* <TouchableOpacity className="border bg-light_button_background p-2 rounded-lg">
-            <Text className="text-base text-center text-light_button_text font-semibold">Select</Text>
-          </TouchableOpacity> */}
-        </View>
 
-        {/* Below is temp content */}
-        <View className="m-5" />
-        <TouchableOpacity onPress={onPressHandle_navActivities} className="border">
-          <Text>Go to activities Screen</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onPressHandle_navInspiration} className="border">
-          <Text>Go to inspiration Screen</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={handleNext} className="rounded-full bg-gray-800/30">
+            <ChevronRightIcon size={40} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Text className="text-2xl text-light_text font-semibold">{displayText}</Text>
+        </View>
+      </SafeAreaView>
     </LinearGradient>
   );
 }
@@ -196,22 +153,6 @@ export default function HomeScreen({route}) {
 const images = [
   { uri: "https://picsum.photos/seed/picsum1/500/600", name: "test1" },
   { uri: "https://picsum.photos/seed/picsum2/500/600", name: "test2" },
-  { uri: "", name: "test3" },
-  { uri: null, name: "test4" },
-  { uri: undefined, name: "test5" },
-  { uri: "https://picsum.photos/seed/picsum6/500/600", name: "test6" },
-  { uri: "https://picsum.photos/seed/picsum7/500/600", name: "test7" },
-  { uri: "https://picsum.photos/seed/picsum8/500/600", name: "test8" },
-  { uri: "", name: "test9" },
-  { uri: "https://picsum.photos/seed/picsum10/500/600", name: "test10" },
-  { uri: "https://picsum.photos/seed/picsum11/500/600", name: "test11" },
-  { uri: "https://picsum.photos/seed/picsum12/500/600", name: "test12" },
-  { uri: "https://picsum.photos/seed/picsum13/500/600", name: "test13" },
-  { uri: null, name: "test14" },
-  { uri: "https://picsum.photos/seed/picsum15/500/600", name: "test15" },
-  { uri: "https://picsum.photos/seed/picsum16/500/600", name: "test16" },
-  { uri: "https://picsum.photos/seed/picsum17/500/600", name: "test17" },
-  { uri: "https://picsum.photos/seed/picsum18/500/600", name: "test18" },
-  { uri: null, name: "test19" },
-  { uri: "https://picsum.photos/seed/picsum20/500/600", name: "test20" },
+  { uri: "https://picsum.photos/seed/picsum3/500/600", name: "test3" },
+  { uri: "https://picsum.photos/seed/picsum4/500/600", name: "test4" },
 ];
