@@ -32,9 +32,6 @@ const NavigationModal = ({ visible, onClose }) => {
       <View style={styles.modalViewOverlay}>
         <Animated.View style={[styles.modalAnimatedContainer, animatedStyle]}>
           <View className="mt-10">
-            <TouchableOpacity onPress={() => handleNavigation("Welcome")}>
-              <Text style={styles.modalItem}>Welcome</Text>
-            </TouchableOpacity>
             <TouchableOpacity onPress={() => handleNavigation("Home")}>
               <Text style={styles.modalItem}>Home</Text>
             </TouchableOpacity>
