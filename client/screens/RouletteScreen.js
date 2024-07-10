@@ -1,4 +1,4 @@
-// RouletteScreen.js
+// HomeScreen.js
 import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Dimensions, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -17,7 +17,7 @@ const PAGE_HEIGHT = 500 * scale;
 
 const tempImage = require("../assets/placeholder_img.png");
 
-export default function RouletteScreen({ route }) {
+export default function HomeScreen({route}) {
   const [categoryEntries, setCategoryEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -38,26 +38,27 @@ export default function RouletteScreen({ route }) {
   const category_path = categoryObj.path_name;
 
   function categoryEntriesRandomisation(categoryEntriesData) {
-    for (let i = categoryEntriesData.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [categoryEntriesData[i], categoryEntriesData[j]] = [categoryEntriesData[j], categoryEntriesData[i]];
-    }
+    for (let i = categoryEntriesData.length - 1; i > 0; i--) { 
+      const j = Math.floor(Math.random() * (i + 1)); 
+      [categoryEntriesData[i], categoryEntriesData[j]] = [categoryEntriesData[j], categoryEntriesData[i]]; 
+    } 
     return setCategoryEntries(categoryEntriesData);
   }
 
   useEffect(() => {
-    fetchEntriesByUserCategory(uid, category_path).then((data) => {
-      categoryEntriesRandomisation(data);
-      setIsLoading(false);
-    });
-  }, [category_path]);
+    fetchEntriesByUserCategory(uid, category_path)
+    .then((data) => {
+        categoryEntriesRandomisation(data);
+        setIsLoading(false);
+    })
+  }, [category_path])
 
   const navigation = useNavigation();
   function onPressHandle_navActivities() {
     navigation.navigate("Activities");
   }
   function onPressHandle_navInspiration() {
-    navigation.navigate("Inspiration");
+    navigation.navigate("Inspiration")
   }
 
   const animationStyle = useCallback((value) => {
@@ -73,6 +74,7 @@ export default function RouletteScreen({ route }) {
     };
   }, []);
 
+  
   function changeIsSpinning() {
     setIsSpinning(false);
   }
@@ -80,7 +82,7 @@ export default function RouletteScreen({ route }) {
   function onPressHandle_spinStatus() {
     setIsSpinUsed(true);
 
-    const randomNo = Number(Math.floor(Math.random() * 3) + 1 + "000");
+    const randomNo = Number((Math.floor(Math.random() * 3) + 1) + "000");
 
     setIsSpinning(true);
 
@@ -91,7 +93,7 @@ export default function RouletteScreen({ route }) {
   // const [isSpinUsed, setIsSpinUsed] = useState(false);
 
   // isSpinUsed to true
-  // @TODO grey out spin button - can't be pressed
+// @TODO grey out spin button - can't be pressed
   // veto pressed -> spins carousel
   // isVetoed = 0
   // grey out veto button
@@ -102,57 +104,48 @@ export default function RouletteScreen({ route }) {
     onPressHandle_spinStatus();
   }
 
+  
   return (
-    <LinearGradient colors={["#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
-      <View className="flex-1 items-center ">
-        <View className="m-10" />
-        <Text className="text-3xl font-semibold">{categoryObj.category_name}</Text>
-        {!isLoading ? (
-          <Carousel
-            loop
-            className="h-full items-center justify-center"
-            style={{
-              width: window.width,
-            }}
-            width={PAGE_WIDTH}
-            height={PAGE_HEIGHT}
-            autoPlay={isSpinning}
-            autoPlayInterval={30}
-            scrollAnimationDuration={30}
-            data={categoryEntries}
-            renderItem={({ index }) => {
-              const imageSource = imageUris[index].uri ? { uri: imageUris[index].uri } : tempImage;
-              let key_name;
-              switch (categoryObj.category_name) {
-                case "Activities":
-                  key_name = "activity_name";
-                  break;
-                case "Food":
-                  key_name = "food";
-                  break;
-                case "Films":
-                  key_name = "film";
-                  break;
-                case "Tv Shows":
-                  key_name = "show";
-                  break;
-              }
-              const categoryEntriesIndex = categoryEntries[index];
-              return (
-                <View
-                  key={index}
-                  style={{
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#1e1e1e",
-                    borderColor: "white",
-                    borderStyle: "solid",
-                    borderWidth: 4,
-                    borderRadius: 10,
-                  }}
-                >
-                  {/* <Image
+    <LinearGradient colors={["#B999FF", "#D9D9D9", "#D9D9D9", "#D9D9D9"]} style={{ flex: 1 }}>
+      <View className="flex-1 items-center" pointerEvents="none">
+        <View className="m-5"/>
+        <Text className="mt-12 text-3xl font-semibold">{categoryObj.category_name}</Text>
+        <View/>
+        {
+          !isLoading ? <Carousel
+          loop
+          className="h-full items-center justify-center"
+          style={{
+            width: window.width,
+          }}
+          width={PAGE_WIDTH}
+          height={PAGE_HEIGHT}
+          autoPlay={isSpinning}
+          autoPlayInterval={30}
+          scrollAnimationDuration={30}
+          data={categoryEntries}
+          renderItem={({ index }) => {
+            const imageSource = imageUris[index].uri ? { uri: imageUris[index].uri } : tempImage;
+            const color = ["#6DF555", "#FF3F3F", "#5379FF", "#FFCF53", "#FFA25F", "#4C25A2", "1E1E1E"]
+            let key_name;
+            switch(categoryObj.category_name) {
+              case "Activities":
+                key_name = "activity_name";
+                break;
+              case "Food":
+                key_name = "food";
+                break;
+              case "Films":
+                key_name = "film";
+                break;
+              case "Tv Shows":
+                key_name = "show";
+                break;
+            }
+            const categoryEntriesIndex = categoryEntries[index]
+            return (
+              <View key={index} style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: color[index % (color.length)], borderColor: "white", borderStyle: "solid", borderWidth: 4, borderRadius: 10, padding: 4 }}>
+                {/* <Image
                   source={imageSource}
                   style={{
                     width: PAGE_WIDTH,
@@ -160,30 +153,28 @@ export default function RouletteScreen({ route }) {
                   }}
                     ${isSpinUsed ? "pointer-events-none" : ""}
                 /> */}
-                  <Text style={{ fontWeight: "bold", fontSize: 30, color: "#fff" }}>
-                    {categoryEntriesIndex[key_name]}
-                  </Text>
-                </View>
-              );
-            }}
-            customAnimation={animationStyle}
-          />
-        ) : (
-          <Text>Loading...</Text>
-        )}
+                <Text style={{ fontWeight: "bold", fontSize: 28, color: "#fff", textAlign: "center" }}>{categoryEntriesIndex[key_name]}</Text>
+              </View>
+            );
+          }}
+          customAnimation={animationStyle}
+        /> : <View className="flex-1 items-center justify-center"><Text className="text-2xl">Loading...</Text></View>
+        }
 
+          </View>
+        <Text className="text-xl font-semibold" style={{textAlign: 'center'}}>Veto count:{isVetoed}</Text>
+        <View className="flex-1/2 items-center justify-center mt-4 p-10">
+        <View/>
+        <View className="w-72">
         <View pointerEvents={`${isSpinUsed ? "none" : "auto"}`}>
-          <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_spinStatus}>
-            <Text className="text-base text-center text-light_button_text font-semibold">Spin</Text>
+          <TouchableOpacity style={{backgroundColor: "#4C25A2"}} className="px-10 py-3 rounded-lg" onPress={onPressHandle_spinStatus}>
+              <Text className="text-base text-center text-light_button_text font-semibold">Spin</Text>
           </TouchableOpacity>
         </View>
-        <View className="m-2" />
-        <View className="w-72">
-          <Text style={{ textAlign: "center" }}>Veto count:{isVetoed}</Text>
           <View pointerEvents={`${!isVetoed ? "none" : "auto"}`}>
-            <TouchableOpacity className="border bg-slate-950 p-2 rounded-lg" onPress={onPressHandle_veto}>
-              <Text className="text-base text-center text-light_button_text font-semibold">Veto</Text>
-            </TouchableOpacity>
+          <TouchableOpacity className="mt-4 border bg-slate-950 py-3 rounded-lg" onPress={onPressHandle_veto}>
+            <Text className="text-base text-center text-light_button_text font-semibold">Veto</Text>
+          </TouchableOpacity>
           </View>
           <View className="m-3" />
           {/* <TouchableOpacity className="border bg-light_button_background p-2 rounded-lg">
@@ -192,14 +183,13 @@ export default function RouletteScreen({ route }) {
         </View>
 
         {/* Below is temp content */}
-        <View className="m-5" />
-        <TouchableOpacity onPress={onPressHandle_navActivities} className="border">
-          <Text>Go to activities Screen</Text>
+        {/* <TouchableOpacity onPress={onPressHandle_navActivities}>
+          <Text>Activities list</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPressHandle_navInspiration} className="border">
-          <Text>Go to inspiration Screen</Text>
+        <TouchableOpacity className="mt-2" onPress={onPressHandle_navInspiration}>
+          <Text>Inspiration list</Text>
         </TouchableOpacity>
-      </View>
+        */}</View>
     </LinearGradient>
   );
 }
