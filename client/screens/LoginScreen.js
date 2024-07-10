@@ -26,19 +26,21 @@ export default function LoginScreen() {
   const [tempErrorMessage, setTempErrorMessage] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isForward, setIsForward] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user && isForward) {
         navigation.navigate("Tabs");
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [isForward]);
 
   const handleSignUp = () => {
     setIsLoading(true);
+    setIsForward(false);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -47,7 +49,7 @@ export default function LoginScreen() {
       .then(({ data }) => {
         if (data.success) {
           setIsLoading(false);
-          navigation.navigate("Tabs");
+          setIsForward(true);
         }
       })
       .catch((error) => {

@@ -75,13 +75,6 @@ export default function WelcomeScreen() {
     }
   };
 
-  const handleSignOut = () => {
-    auth.signOut().then(() => {
-      // navigation.replace("Login");
-      navigation.navigate("Login");
-    });
-  };
-
   const handleActivityNavigation = (categoryObj) => {
     navigation.navigate("Home", { categoryObj });
   }
@@ -143,16 +136,8 @@ export default function WelcomeScreen() {
             <ChevronRightIcon size={40} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
-        {/* <View> */}
-          {/* <Text className="text-2xl text-light_text font-semibold">{displayText}</Text> */}
-        {/* </View> */}
-
-        {/* Below is temp content */}
-        <View className="m-10" />
         <View>
-          <TouchableOpacity onPress={handleSignOut} className="border">
-            <Text>sign out</Text>
-          </TouchableOpacity>
+          <Text className="text-2xl text-light_text font-semibold">{displayText}</Text>
         </View>
       </SafeAreaView>
     </LinearGradient>
