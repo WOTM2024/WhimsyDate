@@ -121,12 +121,11 @@ export default function ActivitiesScreen() {
       setFilteredData(combinedData);
     } else {
       const query = searchForQuery.toLowerCase();
-      setFilteredData(
-        [...userActivities, ...userFoods, ...userTvShows, ...userMovies].filter((item) => {
-          const name = item.activity_name || item.food_name || item.show || item.film || "";
-          return name.toLowerCase().includes(query);
-        })
-      );
+      const filtered = combinedData.filter((item) => {
+        const name = item.activity_name || item.food_name || item.show || item.film || "";
+        return name.toLowerCase().includes(query);
+      });
+      setFilteredData(filtered);
     }
   }, [searchForQuery, userActivities, userFoods, userTvShows, userMovies]);
 
@@ -171,72 +170,89 @@ export default function ActivitiesScreen() {
               value={searchForQuery}
               onChangeText={(text) => setSearchForQuery(text)}
             />
-            <MagnifyingGlassIcon
+            {/* <MagnifyingGlassIcon
               size={25}
               color="#1E1E1E"
               className="ml-2"
               // onPress={onPressHandle_searchActivities}
-            />
+            /> */}
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
+          {/* Render the list of activities */}
           <Text className="text-xl font-bold">Activities</Text>
-          {userActivities.map((activity, index) => {
-            return (
-              <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
-                <Text className="flex-1 font-bold text-light_text text-lg">
-                  {activity.activity_name || "Unknown Activity"}
-                </Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() => handleRemoveItem("user_activities", activity._id)}
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.activity_name) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.activity_name}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_activities", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
           })}
+
+          {/* Render the list of foods */}
           <Text className="text-xl font-bold">Foods</Text>
-          {userFoods.map((food, index) => {
-            return (
-              <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
-                <Text className="flex-1 font-bold text-light_text text-lg">{food.food_name || "Unknown Food"}</Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() => handleRemoveItem("user_food_choices", food._id)}
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.food_name) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.food_name}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_food_choices", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
           })}
+
+          {/* Render the list of TV shows */}
           <Text className="text-xl font-bold">TV Shows</Text>
-          {userTvShows.map((tvShow, index) => {
-            return (
-              <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
-                <Text className="flex-1 font-bold text-light_text text-lg">{tvShow.show || "Unknown Show"}</Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() => handleRemoveItem("user_tv_shows", tvShow._id)}
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.show) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.show}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_tv_shows", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
           })}
+
+          {/* Render the list of movies */}
           <Text className="text-xl font-bold">Movies</Text>
-          {userMovies.map((movie, index) => {
-            return (
-              <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
-                <Text className="flex-1 font-bold text-light_text text-lg">{movie.film || "Unknown Movie"}</Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() => handleRemoveItem("user_films", movie._id)}
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.film) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.film}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_films", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
           })}
         </ScrollView>
         <View>
