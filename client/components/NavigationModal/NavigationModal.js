@@ -1,7 +1,7 @@
-// NavigationModal.js
 import React, { useEffect } from "react";
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Animated, { useSharedValue, withSpring, useAnimatedStyle } from "react-native-reanimated";
+import Modal from "react-native-modal";
 import { useNavigation } from "@react-navigation/native";
 
 const NavigationModal = ({ visible, onClose }) => {
@@ -28,42 +28,45 @@ const NavigationModal = ({ visible, onClose }) => {
   };
 
   return (
-    <Modal transparent visible={visible} animationType="none">
-      <View style={styles.modalViewOverlay}>
-        <Animated.View style={[styles.modalAnimatedContainer, animatedStyle]}>
-          <View className="mt-10">
-            <TouchableOpacity onPress={() => handleNavigation("Home")}>
-              <Text style={styles.modalItem}>Home</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleNavigation("Activities")}>
-              <Text style={styles.modalItem}>Activities</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleNavigation("Inspiration")}>
-              <Text style={styles.modalItem}>Inspiration</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleNavigation("User Profile")}>
-              <Text style={styles.modalItem}>User Profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onClose}>
-              <Text style={styles.modalItem}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
-      </View>
+    <Modal
+      isVisible={visible}
+      animationIn="slideInUp"
+      animationOut="slideOutDown"
+      onBackdropPress={onClose}
+      style={styles.modal}
+    >
+      <Animated.View style={[styles.modalAnimatedContainer, animatedStyle]}>
+        <View style={styles.modalContent}>
+          <TouchableOpacity onPress={() => handleNavigation("Home")}>
+            <Text style={styles.modalItem}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigation("Activities")}>
+            <Text style={styles.modalItem}>Activities</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigation("Inspiration")}>
+            <Text style={styles.modalItem}>Inspiration</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigation("User Profile")}>
+            <Text style={styles.modalItem}>User Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onClose}>
+            <Text style={styles.modalItem}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  modalViewOverlay: {
+  modal: {
     flex: 1,
     justifyContent: "flex-end",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    margin: 0,
   },
-  modalAnimatedContainer: {
+  modalContent: {
     backgroundColor: "white",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderRadius: 10,
     padding: 20,
   },
   modalItem: {

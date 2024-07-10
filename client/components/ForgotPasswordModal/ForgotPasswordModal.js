@@ -26,7 +26,16 @@ export default function ForgotPasswordModal({ isVisible, toggleModal }) {
       });
   }
   return (
-    <Modal isVisible={isVisible}>
+    <Modal
+      isVisible={isVisible}
+      onBackdropPress={() => {
+        setIsShowAlert(false);
+        setAlertMessageColor("black");
+        setAlertMessage("");
+        setEmailString("");
+        toggleModal();
+      }}
+    >
       <View
         style={{
           flex: 1,
@@ -63,11 +72,12 @@ export default function ForgotPasswordModal({ isVisible, toggleModal }) {
         ) : null}
         <View style={{ margin: 10 }}></View>
         <Button
-          title="Hide"
+          title="Cancel"
           onPress={() => {
             setIsShowAlert(false);
             setAlertMessageColor("black");
             setAlertMessage("");
+            setEmailString("");
             toggleModal();
           }}
           color="#4C25A2"
