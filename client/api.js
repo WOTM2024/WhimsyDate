@@ -120,11 +120,13 @@ export const deleteUserByUID = (uid) => {
   return api
     .delete(`/users/${uid}/delete`)
     .then((response) => {
-      console.log(response.message);
-      return response.message;
+      console.log("Removed from database");
+      // console.log(response);
+      // return response.message;
     })
     .catch((error) => {
-      return { error: error };
+      // return { error: error };
+      console.error(error);
     });
 };
 
@@ -137,5 +139,5 @@ export const patchUserEntriesByEntryId = (userId, category, entryId) => {
     .catch((err) => {
       console.error("API error", err);
       throw err;
-    })
+    });
 };
