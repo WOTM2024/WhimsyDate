@@ -1,19 +1,7 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-  SafeAreaView,
-  Modal,
-} from "react-native";
+import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import {
-  MagnifyingGlassIcon,
-  MinusIcon,
-  PlusCircleIcon,
-} from "react-native-heroicons/outline";
+import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
 import {
@@ -53,30 +41,18 @@ export default function ActivitiesScreen() {
           const tvShows = await fetchTvShows();
           const movies = await fetchMovies();
 
-          const filteredActivities = activities.filter((activity) =>
-            userData.user_activities.includes(activity._id)
-          );
-          const filteredFoods = foods.filter((food) =>
-            userData.user_food_choices.includes(food._id)
-          );
-          const filteredTvShows = tvShows.filter((tvShow) =>
-            userData.user_tv_shows.includes(tvShow._id)
-          );
-          const filteredMovies = movies.filter((movie) =>
-            userData.user_films.includes(movie._id)
-          );
+          const filteredActivities = activities.filter((activity) => userData.user_activities.includes(activity._id));
+          const filteredFoods = foods.filter((food) => userData.user_food_choices.includes(food._id));
+          const filteredTvShows = tvShows.filter((tvShow) => userData.user_tv_shows.includes(tvShow._id));
+          const filteredMovies = movies.filter((movie) => userData.user_films.includes(movie._id));
+
 
           setUserActivities(filteredActivities);
           setUserFoods(filteredFoods);
           setUserTvShows(filteredTvShows);
           setUserMovies(filteredMovies);
 
-          setFilteredData([
-            ...filteredActivities,
-            ...filteredFoods,
-            ...filteredTvShows,
-            ...filteredMovies,
-          ]);
+          setFilteredData([...filteredActivities, ...filteredFoods, ...filteredTvShows, ...filteredMovies]);
         }
       } catch (err) {
         console.error("Error fetching user data:", err);
@@ -140,36 +116,24 @@ export default function ActivitiesScreen() {
   };
 
   React.useEffect(() => {
-    const combinedData = [
-      ...userActivities,
-      ...userFoods,
-      ...userTvShows,
-      ...userMovies,
-    ];
+    const combinedData = [...userActivities, ...userFoods, ...userTvShows, ...userMovies];
 
     if (searchForQuery === "") {
       setFilteredData(combinedData);
     } else {
       const query = searchForQuery.toLowerCase();
-      setFilteredData(
-        [...userActivities, ...userFoods, ...userTvShows, ...userMovies].filter(
-          (item) => {
-            const name =
-              item.activity_name ||
-              item.food_name ||
-              item.show ||
-              item.film ||
-              "";
-            return name.toLowerCase().includes(query);
-          }
-        )
-      );
+      const filtered = combinedData.filter((item) => {
+        const name = item.activity_name || item.food_name || item.show || item.film || "";
+        return name.toLowerCase().includes(query);
+      });
+      setFilteredData(filtered);
     }
   }, [searchForQuery, userActivities, userFoods, userTvShows, userMovies]);
 
-  function onPressHandle_searchActivities() {
-    console.log("Pressed Search");
-  }
+  // function onPressHandle_searchActivities() {
+  //   console.log("Pressed Search");
+  // }
+
 
   // function onPressHandle_removeActivity(itemName) {
   //   console.log("Pressed Remove", itemName);
@@ -208,102 +172,94 @@ export default function ActivitiesScreen() {
               value={searchForQuery}
               onChangeText={(text) => setSearchForQuery(text)}
             />
-            <MagnifyingGlassIcon
+            {/* <MagnifyingGlassIcon
               size={25}
               color="#1E1E1E"
               className="ml-2"
-              onPress={onPressHandle_searchActivities}
-            />
+              // onPress={onPressHandle_searchActivities}
+            /> */}
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
+          {/* Render the list of activities */}
           <Text className="text-xl font-bold">Activities</Text>
-          {userActivities.map((activity, index) => {
-            return (
-              <View
-                key={index}
-                className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
-              >
-                <Text className="flex-1 font-bold text-light_text text-lg">
-                  {activity.activity_name || "Unknown Activity"}
-                </Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() =>
-                    handleRemoveItem("user_activities", activity._id)
-                  }
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.activity_name) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.activity_name}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_activities", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
+
           })}
+
+          {/* Render the list of foods */}
           <Text className="text-xl font-bold">Foods</Text>
-          {userFoods.map((food, index) => {
-            return (
-              <View
-                key={index}
-                className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
-              >
-                <Text className="flex-1 font-bold text-light_text text-lg">
-                  {food.food || "Unknown Food"}
-                </Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() =>
-                    handleRemoveItem("user_food_choices", food._id)
-                  }
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.food_name) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.food_name}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_food_choices", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
           })}
+
+          {/* Render the list of TV shows */}
           <Text className="text-xl font-bold">TV Shows</Text>
-          {userTvShows.map((tvShow, index) => {
-            return (
-              <View
-                key={index}
-                className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
-              >
-                <Text className="flex-1 font-bold text-light_text text-lg">
-                  {tvShow.show || "Unknown Show"}
-                </Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() => handleRemoveItem("user_tv_shows", tvShow._id)}
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.show) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.show}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_tv_shows", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
           })}
+
+          {/* Render the list of movies */}
           <Text className="text-xl font-bold">Movies</Text>
-          {userMovies.map((movie, index) => {
-            return (
-              <View
-                key={index}
-                className="flex-row items-center justify-between border p-3 m-2 rounded-xl"
-              >
-                <Text className="flex-1 font-bold text-light_text text-lg">
-                  {movie.film || "Unknown Movie"}
-                </Text>
-                <MinusIcon
-                  size={25}
-                  color="#1E1E1E"
-                  className="ml-2"
-                  onPress={() => handleRemoveItem("user_films", movie._id)}
-                />
-              </View>
-            );
+          {filteredData.map((item, index) => {
+            if (item.film) {
+              return (
+                <View key={index} className="flex-row items-center justify-between border p-3 m-2 rounded-xl">
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.film}</Text>
+                  <MinusIcon
+                    size={25}
+                    color="#1E1E1E"
+                    className="ml-2"
+                    onPress={() => handleRemoveItem("user_films", item._id)}
+                  />
+                </View>
+              );
+            }
+            return null;
           })}
         </ScrollView>
         <View>
-          <PlusCircleIcon
-            size={75}
-            color="#1E1E1E"
-            onPress={() => setIsModalVisible(true)}
-          />
+          <PlusCircleIcon size={75} color="#1E1E1E" onPress={() => setIsModalVisible(true)} />
         </View>
       </SafeAreaView>
       <Modal
@@ -312,10 +268,7 @@ export default function ActivitiesScreen() {
         visible={isModalVisible}
         onRequestClose={() => setIsModalVisible(false)}
       >
-        <AddActivityForm
-          onClose={() => setIsModalVisible(false)}
-          onAddActivity={handleAddActivity}
-        />
+        <AddActivityForm onClose={() => setIsModalVisible(false)} onAddActivity={handleAddActivity} />
       </Modal>
     </LinearGradient>
   );
