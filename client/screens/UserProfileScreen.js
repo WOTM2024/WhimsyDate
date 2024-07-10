@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, SafeAreaView, Image, Dimensions, StyleSheet, TextInput } from "react-native";
+import { Text, View, TouchableOpacity, SafeAreaView, Dimensions, StyleSheet, TextInput, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
 import { deleteUserByUID, fetchUserByUID, patchUserNameWithNewName } from "../api";
 import { deleteUser } from "firebase/auth";
+// import Avatar from "react-native-boring-avatars";
+import Svg, { SvgXml } from "react-native-svg";
 
 const UserProfileScreen = () => {
   const navigation = useNavigation();
@@ -12,6 +14,7 @@ const UserProfileScreen = () => {
   const [error, setError] = useState("");
   const [newUsername, setNewUsername] = useState("");
   const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [avatarSvgContent, setAvatarSvgContent] = useState("");
 
   const handleDeleteAccount = () => {
     const currentUser = auth.currentUser;
@@ -56,11 +59,37 @@ const UserProfileScreen = () => {
     });
   };
 
+  useEffect(() => {
+    const fetchSvg = async () => {
+      try {
+        const response = await fetch("https://source.boringavatars.com/beam");
+        if (response.ok) {
+          const svg = await response.text();
+          setAvatarSvgContent(svg);
+          // console.log(avatarSvgContent);
+        } else {
+          console.error("Failed to fetch SVG");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSvg();
+  }, []);
+
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
         <View style={styles.profileContainer}>
           {/* <UserAvatar size={50} src="https://source.boringavatars.com/beam" /> */}
+          <View>
+            {avatarSvgContent ? (
+              <SvgXml xml={avatarSvgContent} width="100" height="100" />
+            ) : (
+              <Text className="">Loading avatar...</Text>
+            )}
+          </View>
           <View style={styles.usernameContainer}>
             <Text style={styles.username}>{username}</Text>
             {isEditingUsername ? (
