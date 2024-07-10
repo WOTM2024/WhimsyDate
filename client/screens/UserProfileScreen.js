@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, SafeAreaView, Dimensions, StyleSheet, TextInput, Image } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions,
+  StyleSheet,
+  TextInput,
+  Image,
+  Button,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../firebase";
 import { deleteUserByUID, fetchUserByUID, patchUserNameWithNewName } from "../api";
 import { deleteUser } from "firebase/auth";
-// import Avatar from "react-native-boring-avatars";
 import Svg, { SvgXml } from "react-native-svg";
+import Modal from "react-native-modal";
 
 const UserProfileScreen = () => {
   const navigation = useNavigation();
@@ -15,8 +25,14 @@ const UserProfileScreen = () => {
   const [newUsername, setNewUsername] = useState("");
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [avatarSvgContent, setAvatarSvgContent] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleDeleteAccount = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setIsModalVisible(false);
     const currentUser = auth.currentUser;
     const currentUserId = auth.currentUser?.uid;
     Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
@@ -24,12 +40,18 @@ const UserProfileScreen = () => {
       navigation.navigate("Login");
     });
   };
+
+  const handleCancelDelete = () => {
+    setIsModalVisible(false);
+  };
+
   const handleChangeUsername = () => {
     patchUserNameWithNewName(auth.currentUser?.uid, newUsername)
       .then(({ data }) => {
         setUsername(data.data.username);
         setIsEditingUsername(false);
         setNewUsername("");
+        setError("");
       })
       .catch((error) => {
         if (error.response.status === 409) {
@@ -80,146 +102,96 @@ const UserProfileScreen = () => {
 
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.profileContainer}>
-          {/* <UserAvatar size={50} src="https://source.boringavatars.com/beam" /> */}
-          <View>
+      <SafeAreaView className="flex-1">
+        <View className="m-12" />
+        <View className="bg-white p-5 w-full ml-10 flex-row rounded-2xl">
+          <View className="rounded-full mr-10">
             {avatarSvgContent ? (
               <SvgXml xml={avatarSvgContent} width="100" height="100" />
             ) : (
-              <Text className="">Loading avatar...</Text>
+              <Text>Loading avatar...</Text>
             )}
           </View>
-          <View style={styles.usernameContainer}>
-            <Text style={styles.username}>{username}</Text>
+          <View>
+            <Text className="text-2xl font-semibold">{username}</Text>
             {isEditingUsername ? (
-              <View style={styles.editUsernameContainer}>
+              <View>
                 <TextInput
-                  style={styles.input}
                   value={newUsername}
                   onChangeText={setNewUsername}
                   placeholder="Enter new username"
+                  className="border flex-row items-center border-light_border p-2 rounded-md focus:border-purple-600 w-48"
                 />
-                <TouchableOpacity
-                  onPress={handleChangeUsername}
-                  style={[styles.buttonUsername, styles.submitUsernameButton]}
-                >
-                  <Text style={styles.buttonText}>Submit</Text>
+                <TouchableOpacity onPress={handleChangeUsername} className="border bg-slate-950 p-2 rounded-lg mt-2">
+                  <Text className="text-base text-center text-light_button_text font-semibold">Submit</Text>
                 </TouchableOpacity>
               </View>
             ) : (
               <TouchableOpacity
                 onPress={() => setIsEditingUsername(true)}
-                style={[styles.buttonUsername, styles.editUsernameButton]}
+                className="border bg-slate-950 p-2 rounded-lg mt-2"
               >
-                <Text style={styles.buttonText}>Edit Username</Text>
+                <Text className="text-base text-center text-light_button_text font-semibold">Edit Username</Text>
               </TouchableOpacity>
             )}
-            {error ? <Text style={styles.errorText}>{error}</Text> : null}
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleSignOut} style={[styles.button, styles.signOutButton]}>
-            <Text style={styles.buttonText}>Sign Out</Text>
+
+        <View className="items-center">{error ? <Text className="text-center">{error}</Text> : null}</View>
+        <View className="m-2"></View>
+
+        {/* Temp view block. Push buttons to the bottom */}
+        <View className="flex-1" />
+
+        <View className="mb-10">
+          <TouchableOpacity
+            onPress={handleSignOut}
+            className="ml-10 mr-10 p-4 border border-light_border rounded-md bg-light_button_background/25"
+          >
+            <Text className="text-center font-semibold text-light_text">Log out</Text>
           </TouchableOpacity>
-          <View style={styles.spacing} />
-          <TouchableOpacity onPress={handleDeleteAccount} style={[styles.button, styles.deleteButton]}>
-            <Text style={styles.buttonText}>Delete Account</Text>
+          <View className="m-2"></View>
+          <TouchableOpacity
+            onPress={handleDeleteAccount}
+            className="ml-10 mr-10 p-4 border border-light_border rounded-md bg-red-500/75"
+          >
+            <Text className="text-center font-semibold text-red-950">Delete Account</Text>
           </TouchableOpacity>
+          <DeleteAccountConfirmationModal
+            isVisible={isModalVisible}
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />
         </View>
       </SafeAreaView>
     </LinearGradient>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-  },
-  profileContainer: {
-    backgroundColor: "blue",
-    flexDirection: "row",
-    borderRadius: 10,
-    padding: 10,
-    margin: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 200,
-    flex: 0.4,
-  },
-  usernameContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    marginLeft: 20,
-  },
-  username: {
-    fontSize: 40,
-    fontWeight: "bold",
-    color: "black",
-    textAlign: "center",
-    marginLeft: 20,
-  },
-  buttonContainer: {
-    flexDirection: "column",
-    marginBottom: 30,
-  },
-  button: {
-    borderRadius: 10,
-    padding: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 10,
-  },
-  signOutButton: {
-    backgroundColor: "#4A4A4A",
-  },
-  deleteButton: {
-    backgroundColor: "#FF3B30",
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-  },
-  editUsernameButton: {
-    backgroundColor: "#4A4A4A",
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  submitUsernameButton: {
-    backgroundColor: "#4A4A4A",
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  spacing: {
-    height: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginTop: 10,
-    width: 200,
-    backgroundColor: "#FFFFFF",
-  },
-  editUsernameContainer: {
-    alignItems: "center",
-    marginTop: 10,
-  },
-  errorText: {
-    color: "red",
-    marginTop: 10,
-  },
-});
+const DeleteAccountConfirmationModal = ({ isVisible, onConfirm, onCancel }) => {
+  return (
+    <View>
+      <Modal isVisible={isVisible}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#fff",
+            maxHeight: "25%",
+            borderRadius: 25,
+          }}
+        >
+          <Text style={{ color: "black" }}>Confirm Account Deletetion?</Text>
+          <View style={{ flexDirection: "row", marginTop: 5 }}>
+            <Button title="Cancel" onPress={onCancel} color="#4C25A2" />
+            <View style={{ margin: 10 }}></View>
+            <Button title="Delete" onPress={onConfirm} color="red" />
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
 export default UserProfileScreen;
