@@ -44,6 +44,8 @@ export default function WelcomeScreen() {
 
   /////////////////
 
+  const categories = [{category_name: "activities", path_name:"user_activities"}, {category_name:"food", path_name:"user_food_choices"}, {category_name:"films", path_name:"user_films"}, {category_name:"tv shows", path_name:"user_tv_shows"}]
+
   const handleSnapToItem = (index) => {
     setCurrentImageIndex(index);
     setDisplayText(images[index].name);
@@ -80,6 +82,10 @@ export default function WelcomeScreen() {
     });
   };
 
+  const handleActivityNavigation = (categoryObj) => {
+    navigation.navigate("Home", { categoryObj });
+  }
+
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF", "#D9D9D9"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
@@ -108,7 +114,7 @@ export default function WelcomeScreen() {
                 parallaxScrollingScale: 0.9,
                 parallaxScrollingOffset: 50,
               }}
-              data={images}
+              data={categories}
               // autoPlay={true}
               // autoPlayInterval={30}
               scrollAnimationDuration={300}
@@ -117,13 +123,16 @@ export default function WelcomeScreen() {
                 const image = images[index];
                 return (
                   <View className="flex-1">
-                    {image.uri ? (
+                    {/* {image.uri ? (
                       <Image source={{ uri: image.uri }} className="w-full h-full rounded-md" resizeMode="cover" />
                     ) : (
-                      <View className="flex-1 justify-center items-center bg-gray-400 rounded-md">
+                      <TouchableOpacity className="flex-1 justify-center items-center bg-gray-400 rounded-md" >
                         <Text style={{ color: "#FFFFFF" }}>Image not available</Text>
-                      </View>
-                    )}
+                      </TouchableOpacity>
+                    )} */}
+                    <TouchableOpacity className="flex-1 justify-center items-center bg-slate-900 rounded-md border-4 border-neutral-50" onPress={() => handleActivityNavigation(categories[index])}>
+                        <Text style={{ color: "#FFFFFF", fontSize: 30 }}>{categories[index].category_name}</Text>
+                      </TouchableOpacity>
                   </View>
                 );
               }}
@@ -134,9 +143,9 @@ export default function WelcomeScreen() {
             <ChevronRightIcon size={40} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
-        <View>
-          <Text className="text-2xl text-light_text font-semibold">{displayText}</Text>
-        </View>
+        {/* <View> */}
+          {/* <Text className="text-2xl text-light_text font-semibold">{displayText}</Text> */}
+        {/* </View> */}
 
         {/* Below is temp content */}
         <View className="m-10" />

@@ -93,6 +93,29 @@ export const fetchUserByUID = (uid) => {
     });
 };
 
+
+export const fetchEntriesByUserCategory = (uid, category) => {
+  console.log("category", category, "uid", uid);
+  const query = [];
+  if (uid) query.push(`${uid}`);
+  if (category) query.push(`${category}`); // tv_shows
+  // ["SqtaNzwPclaItIhPnyQV3U7v6g32", "tv_shows"]
+  const queryString = query.length ? `${query.join("/")}` : "";
+  const url = `/users/${queryString}`;
+
+  console.log("url", url);
+
+  return api
+    .get(url)
+    .then(({ data }) => {
+      return data.data;
+    })
+    .catch((err) => {
+      console.error("API error", err);
+      throw err;
+    });
+}
+
 export const deleteUserByUID = (uid) => {
   return api
     .delete(`/users/${uid}`)
