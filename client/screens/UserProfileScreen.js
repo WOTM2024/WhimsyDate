@@ -29,11 +29,16 @@ const UserProfileScreen = () => {
         navigation.navigate("Login");
       }
     );
+
+    Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
+      navigation.navigate("Login");
+    });
+
   };
   const handleChangeUsername = () => {};
 
   useEffect(() => {
-    console.log(auth.currentUser?.uid);
+    // console.log(auth.currentUser?.uid);
     fetchUserByUID(auth.currentUser?.uid)
       .then(({ data }) => {
         // console.log(response.data.data.username);
