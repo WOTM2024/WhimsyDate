@@ -1,11 +1,18 @@
 // HomeScreen.js
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Dimensions, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { auth } from "../firebase";
 
 import { interpolate } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
+
+import { fetchActivities, fetchEntriesByUserCategory } from "../api";
+
+const uid = auth.currentUser?.uid;
+
+console.log("uid", uid)
 
 const window = Dimensions.get("window");
 const scale = 0.7;
@@ -14,7 +21,28 @@ const PAGE_HEIGHT = 500 * scale;
 
 const tempImage = require("../assets/placeholder_img.png");
 
-export default function HomeScreen() {
+export default function HomeScreen({route}) {
+  const [categoryEntries, setCategoryEntries] = useState([]);
+
+  const { categoryObj } = route.params;
+
+  const category_path = categoryObj.path_name;
+
+  function categoryEntriesRandomisation(categoryEntriesData) {
+    for (let i = categoryEntriesData.length - 1; i > 0; i--) { 
+      const j = Math.floor(Math.random() * (i + 1)); 
+      [categoryEntriesData[i], categoryEntriesData[j]] = [categoryEntriesData[j], categoryEntriesData[i]]; 
+    } 
+    return setCategoryEntries(categoryEntriesData);
+  }
+
+  useEffect(() => {
+    fetchEntriesByUserCategory(uid, category_path)
+    .then((data) => {
+        categoryEntriesRandomisation(data);
+    })
+  }, [category_path])
+
   const navigation = useNavigation();
   function onPressHandle_navActivities() {
     navigation.navigate("Activities");
@@ -39,7 +67,11 @@ export default function HomeScreen() {
   const [isSpinning, setIsSpinning] = useState(false);
 
   function onPressHandle_spinStatus() {
-    setIsSpinning(!isSpinning);
+    const randomNo = Number((Math.floor(Math.random() * 6) + 1) + "000");
+
+    setIsSpinning(true)
+
+    setTimeout(setIsSpinning(false), randomNo);
   }
 
   const [imageUris, setImageUris] = useState(images);
@@ -62,20 +94,36 @@ export default function HomeScreen() {
           autoPlay={isSpinning}
           autoPlayInterval={30}
           scrollAnimationDuration={30}
-          data={imageUris}
+          data={categoryEntries}
           onSnapToItem={(index) => console.log("current index:", index)}
           renderItem={({ index }) => {
             const imageSource = imageUris[index].uri ? { uri: imageUris[index].uri } : tempImage;
+            let key_name;
+            switch(categoryObj.category_name) {
+              case "activities":
+                key_name = "activity_name";
+                break;
+              case "food":
+                key_name = "food";
+                break;
+              case "films":
+                key_name = "film";
+                break;
+              case "tv shows":
+                key_name = "show";
+                break;
+            }
+            const categoryEntriesIndex = categoryEntries[index]
             return (
-              <View key={index} style={{ flex: 1, alignItems: "center" }}>
-                <Image
+              <View key={index} style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#1e1e1e", borderColor: "white", borderStyle: "solid", borderWidth: 4, borderRadius: 10 }}>
+                {/* <Image
                   source={imageSource}
                   style={{
                     width: PAGE_WIDTH,
                     height: PAGE_HEIGHT,
                   }}
-                />
-                <Text style={{ fontWeight: "bold", fontSize: 18 }}>{imageUris[index].name}</Text>
+                /> */}
+                <Text style={{ fontWeight: "bold", fontSize: 30, color: "#fff" }}>{categoryEntriesIndex[key_name]}</Text>
               </View>
             );
           }}
