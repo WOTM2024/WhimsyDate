@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Modal } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MagnifyingGlassIcon, MinusIcon, PlusCircleIcon } from "react-native-heroicons/outline";
 import { LinearGradient } from "expo-linear-gradient";
@@ -17,6 +17,10 @@ import AddMoviesForm from "../components/AddMoviesForm";
 import AddTvShowsForm from "../components/AddTvShowsForm";
 import AddFoodsForm from "../components/AddFoodsForm";
 
+import { ChevronLeftIcon, ChevronRightIcon } from "react-native-heroicons/outline";
+
+import Modal from "react-native-modal";
+
 export default function ActivitiesScreen() {
   const navigation = useNavigation();
   const [searchForQuery, setSearchForQuery] = React.useState("");
@@ -28,6 +32,7 @@ export default function ActivitiesScreen() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [activeFormIndex, setActiveFormIndex] = React.useState(0);
 
   React.useEffect(() => {
     const fetchUserData = async () => {
@@ -180,6 +185,33 @@ export default function ActivitiesScreen() {
     );
   }
 
+  const forms = [
+    {
+      formComponent: <AddActivityForm onClose={() => setIsModalVisible(false)} onAddActivity={handleAddActivity} />,
+      name: "Activity",
+    },
+    {
+      formComponent: <AddMoviesForm onClose={() => setIsModalVisible(false)} onAddMovie={handleAddMovie} />,
+      name: "Movies",
+    },
+    {
+      formComponent: <AddTvShowsForm onClose={() => setIsModalVisible(false)} onAddShow={handleAddTvShows} />,
+      name: "TV Shows",
+    },
+    {
+      formComponent: <AddFoodsForm onClose={() => setIsModalVisible(false)} onAddFood={handleAddFood} />,
+      name: "Foods",
+    },
+  ];
+
+  const handlePrevForm = () => {
+    setActiveFormIndex((prevIndex) => (prevIndex === 0 ? forms.length - 1 : prevIndex - 1));
+  };
+
+  const handleNextForm = () => {
+    setActiveFormIndex((prevIndex) => (prevIndex === forms.length - 1 ? 0 : prevIndex + 1));
+  };
+
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 items-center ">
@@ -300,15 +332,24 @@ export default function ActivitiesScreen() {
         </View>
       </SafeAreaView>
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => setIsModalVisible(false)}
+        isVisible={isModalVisible}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        onBackdropPress={() => setIsModalVisible(false)}
       >
-        {/* <AddActivityForm onClose={() => setIsModalVisible(false)} onAddActivity={handleAddActivity} />
-        <AddMoviesForm onClose={() => setIsModalVisible(false)} onAddMovie={handleAddMovie} /> */}
-        {/* <AddTvShowsForm onClose={() => setIsModalVisible(false)} onAddShow={handleAddTvShows} /> */}
-        <AddFoodsForm onClose={() => setIsModalVisible(false)} onAddFood={handleAddFood} />
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <View style={{ backgroundColor: "white", borderRadius: 10, alignItems: "center", width: "100%" }}>
+            {forms[activeFormIndex].formComponent}
+            <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+              <TouchableOpacity style={{ marginRight: 10 }} onPress={handlePrevForm}>
+                <ChevronLeftIcon size={30} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleNextForm}>
+                <ChevronRightIcon size={30} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </Modal>
     </LinearGradient>
   );

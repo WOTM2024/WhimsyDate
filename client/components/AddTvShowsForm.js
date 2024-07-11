@@ -42,47 +42,45 @@ const AddTvShowsForm = ({ onClose, onAddShow }) => {
     }
   };
   return (
-    <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <View style={{ padding: 20, backgroundColor: "white", borderRadius: 10, width: "80%" }}>
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Add a New Show</Text>
-        <TextInput
-          placeholder="Show Name"
-          value={showName}
-          onChangeText={setShowName}
-          style={{ borderWidth: 2, borderColor: "gray", marginVertical: 20, padding: 8, borderRadius: 5 }}
-        />
-        <TextInput
-          placeholder="Genre Name"
-          value={genre}
-          onChangeText={setGenre}
-          style={{ borderWidth: 2, borderColor: "gray", marginBottom: 10, padding: 8, borderRadius: 5 }}
-        />
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#B999FF",
-            padding: 10,
-            borderRadius: 5,
-            alignItems: "center",
-            marginVertical: 10,
-          }}
-          onPress={handleSubmit}
-        >
-          <Text style={{ color: "white", fontWeight: "bold" }}>Add Show</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onClose}
-          style={{
-            backgroundColor: "red",
-            padding: 10,
-            marginVertical: 20,
-            borderRadius: 5,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: "white", fontWeight: "bold" }}>Cancel</Text>
-        </TouchableOpacity>
-      </View>
-    </LinearGradient>
+    <View style={{ padding: 20, backgroundColor: "white", borderRadius: 10, width: "80%", justifyContent: "center" }}>
+      <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10, textAlign: "center" }}>Add a New Show</Text>
+      <TextInput
+        placeholder="Show Name"
+        value={showName}
+        onChangeText={setShowName}
+        style={{ borderWidth: 2, borderColor: "gray", marginVertical: 20, padding: 8, borderRadius: 5 }}
+      />
+      <TextInput
+        placeholder="Genre Name"
+        value={genre}
+        onChangeText={setGenre}
+        style={{ borderWidth: 2, borderColor: "gray", marginBottom: 10, padding: 8, borderRadius: 5 }}
+      />
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#B999FF",
+          padding: 10,
+          borderRadius: 5,
+          alignItems: "center",
+          marginVertical: 10,
+        }}
+        onPress={handleSubmit}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>Add Show</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={onClose}
+        style={{
+          backgroundColor: "red",
+          padding: 10,
+          marginVertical: 20,
+          borderRadius: 5,
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
