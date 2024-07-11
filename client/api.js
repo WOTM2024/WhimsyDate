@@ -150,6 +150,19 @@ export const addActivity = (activity_name, category, isCollaborative, cost) => {
     });
 };
 
+export const addMovie = (movieName, movieGenre) => {
+  return api
+    .post(`/movies`, JSON.stringify({ title: movieName, genre: movieGenre }))
+    .then(({ data }) => {
+      console.log("add movies response ====> ", data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("API error", error);
+      throw error;
+    });
+};
+
 export const postUserEntryToCategory = (userId, category, entryId) => {
   return api
     .post(`/users/${userId}/${category}`, { entryId })

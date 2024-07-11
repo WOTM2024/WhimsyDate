@@ -13,6 +13,7 @@ import {
   patchUserEntriesByEntryId,
 } from "../api";
 import AddActivityForm from "../components/AddActivityForm";
+import AddMoviesForm from "../components/AddMoviesForm";
 
 export default function ActivitiesScreen() {
   const navigation = useNavigation();
@@ -46,7 +47,6 @@ export default function ActivitiesScreen() {
           const filteredTvShows = tvShows.filter((tvShow) => userData.user_tv_shows.includes(tvShow._id));
           const filteredMovies = movies.filter((movie) => userData.user_films.includes(movie._id));
 
-
           setUserActivities(filteredActivities);
           setUserFoods(filteredFoods);
           setUserTvShows(filteredTvShows);
@@ -63,7 +63,9 @@ export default function ActivitiesScreen() {
     };
 
     fetchUserData();
-  }, []);
+    // console.log(userFoods);
+    console.log("refreshed");
+  }, [isModalVisible]);
 
   const handleRemoveItem = async (category, entryId) => {
     try {
@@ -115,6 +117,11 @@ export default function ActivitiesScreen() {
     setFilteredData((prev) => [...prev, newActivity]);
   };
 
+  const handleAddMovie = (newMovie) => {
+    setUserMovies((prev) => [...prev, newMovie]);
+    setFilteredData((prev) => [...prev, newMovie]);
+  };
+
   React.useEffect(() => {
     const combinedData = [...userActivities, ...userFoods, ...userTvShows, ...userMovies];
 
@@ -134,7 +141,6 @@ export default function ActivitiesScreen() {
   //   console.log("Pressed Search");
   // }
 
-
   // function onPressHandle_removeActivity(itemName) {
   //   console.log("Pressed Remove", itemName);
   // }
@@ -145,7 +151,10 @@ export default function ActivitiesScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center" style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        className="flex-1 items-center justify-center"
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
         <Text className="text-2xl">Loading...</Text>
       </View>
     );
@@ -184,9 +193,13 @@ export default function ActivitiesScreen() {
           {/* Render the list of activities */}
           <Text className="text-xl font-bold pl-4">Activities</Text>
           {filteredData.map((item, index) => {
+            // console.log(item);
             if (item.activity_name) {
               return (
-                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.activity_name}</Text>
                   <MinusIcon
                     size={30}
@@ -199,16 +212,18 @@ export default function ActivitiesScreen() {
               );
             }
             return null;
-
           })}
 
           {/* Render the list of foods */}
           <Text className="text-xl font-bold pl-4">Foods</Text>
           {filteredData.map((item, index) => {
-            if (item.food_name) {
+            if (item.food) {
               return (
-                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
-                  <Text className="flex-1 font-bold text-light_text text-lg">{item.food_name}</Text>
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.food}</Text>
                   <MinusIcon
                     size={30}
                     strokeWidth={3}
@@ -227,7 +242,10 @@ export default function ActivitiesScreen() {
           {filteredData.map((item, index) => {
             if (item.show) {
               return (
-                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.show}</Text>
                   <MinusIcon
                     size={30}
@@ -245,10 +263,13 @@ export default function ActivitiesScreen() {
           {/* Render the list of movies */}
           <Text className="text-xl font-bold pl-4">Movies</Text>
           {filteredData.map((item, index) => {
-            if (item.film) {
+            if (item.title) {
               return (
-                <View key={index} className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl">
-                  <Text className="flex-1 font-bold text-light_text text-lg">{item.film}</Text>
+                <View
+                  key={index}
+                  className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
+                >
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.title}</Text>
                   <MinusIcon
                     size={30}
                     strokeWidth={3}
@@ -273,6 +294,7 @@ export default function ActivitiesScreen() {
         onRequestClose={() => setIsModalVisible(false)}
       >
         <AddActivityForm onClose={() => setIsModalVisible(false)} onAddActivity={handleAddActivity} />
+        <AddMoviesForm onClose={() => setIsModalVisible(false)} onAddMovie={handleAddMovie} />
       </Modal>
     </LinearGradient>
   );
