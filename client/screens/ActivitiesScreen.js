@@ -63,7 +63,7 @@ export default function ActivitiesScreen() {
     };
 
     fetchUserData();
-    console.log(userFoods);
+    // console.log(userFoods);
     console.log("refreshed");
   }, [isModalVisible]);
 
@@ -263,13 +263,13 @@ export default function ActivitiesScreen() {
           {/* Render the list of movies */}
           <Text className="text-xl font-bold pl-4">Movies</Text>
           {filteredData.map((item, index) => {
-            if (item.film) {
+            if (item.title) {
               return (
                 <View
                   key={index}
                   className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
                 >
-                  <Text className="flex-1 font-bold text-light_text text-lg">{item.film}</Text>
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.title}</Text>
                   <MinusIcon
                     size={30}
                     strokeWidth={3}
