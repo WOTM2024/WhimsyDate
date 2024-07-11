@@ -14,6 +14,7 @@ import {
 } from "../api";
 import AddActivityForm from "../components/AddActivityForm";
 import AddMoviesForm from "../components/AddMoviesForm";
+import AddTvShowsForm from "../components/AddTvShowsForm";
 
 export default function ActivitiesScreen() {
   const navigation = useNavigation();
@@ -120,6 +121,11 @@ export default function ActivitiesScreen() {
   const handleAddMovie = (newMovie) => {
     setUserMovies((prev) => [...prev, newMovie]);
     setFilteredData((prev) => [...prev, newMovie]);
+  };
+
+  const handleAddTvShows = (newShow) => {
+    setUserTvShows((prev) => [...prev, newShow]);
+    setFilteredData((prev) => [...prev, newShow]);
   };
 
   React.useEffect(() => {
@@ -293,8 +299,9 @@ export default function ActivitiesScreen() {
         visible={isModalVisible}
         onRequestClose={() => setIsModalVisible(false)}
       >
-        <AddActivityForm onClose={() => setIsModalVisible(false)} onAddActivity={handleAddActivity} />
-        <AddMoviesForm onClose={() => setIsModalVisible(false)} onAddMovie={handleAddMovie} />
+        {/* <AddActivityForm onClose={() => setIsModalVisible(false)} onAddActivity={handleAddActivity} />
+        <AddMoviesForm onClose={() => setIsModalVisible(false)} onAddMovie={handleAddMovie} /> */}
+        <AddTvShowsForm onClose={() => setIsModalVisible(false)} onAddShow={handleAddTvShows} />
       </Modal>
     </LinearGradient>
   );
