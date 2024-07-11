@@ -15,6 +15,7 @@ import {
 import AddActivityForm from "../components/AddActivityForm";
 import AddMoviesForm from "../components/AddMoviesForm";
 import AddTvShowsForm from "../components/AddTvShowsForm";
+import AddFoodsForm from "../components/AddFoodsForm";
 
 export default function ActivitiesScreen() {
   const navigation = useNavigation();
@@ -126,6 +127,11 @@ export default function ActivitiesScreen() {
   const handleAddTvShows = (newShow) => {
     setUserTvShows((prev) => [...prev, newShow]);
     setFilteredData((prev) => [...prev, newShow]);
+  };
+
+  const handleAddFood = (newFood) => {
+    setUserFoods((prev) => [...prev, newFood]);
+    setFilteredData((prev) => [...prev, newFood]);
   };
 
   React.useEffect(() => {
@@ -301,7 +307,8 @@ export default function ActivitiesScreen() {
       >
         {/* <AddActivityForm onClose={() => setIsModalVisible(false)} onAddActivity={handleAddActivity} />
         <AddMoviesForm onClose={() => setIsModalVisible(false)} onAddMovie={handleAddMovie} /> */}
-        <AddTvShowsForm onClose={() => setIsModalVisible(false)} onAddShow={handleAddTvShows} />
+        {/* <AddTvShowsForm onClose={() => setIsModalVisible(false)} onAddShow={handleAddTvShows} /> */}
+        <AddFoodsForm onClose={() => setIsModalVisible(false)} onAddFood={handleAddFood} />
       </Modal>
     </LinearGradient>
   );

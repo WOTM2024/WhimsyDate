@@ -176,6 +176,22 @@ export const addShow = (showName, showGenre) => {
     });
 };
 
+export const addFood = (foodName, isVegetarian, isVegan, isMeat, isAllergies) => {
+  return api
+    .post(
+      `/foods`,
+      JSON.stringify({ food: foodName, vegetarian: isVegetarian, vegan: isVegan, meat: isMeat, allergies: isAllergies })
+    )
+    .then(({ data }) => {
+      console.log("add food response ====> ", data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("API error", error);
+      throw error;
+    });
+};
+
 export const postUserEntryToCategory = (userId, category, entryId) => {
   return api
     .post(`/users/${userId}/${category}`, { entryId })
