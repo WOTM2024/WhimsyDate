@@ -100,8 +100,7 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient colors={["#D9D9D9", "#B999FF"]} style={{ flex: 1 }}>
-      <SafeAreaView className="flex-1 items-center">
-        <View className="m-8" />
+      <SafeAreaView className="flex-1 items-center justify-center">
         <Image source={trimmedLogo} className="w-52 h-52 rounded-full" />
         <View className="m-3" />
         <KeyboardAvoidingView className="w-80">
@@ -218,10 +217,10 @@ export default function LoginScreen() {
           )}
         </View>
 
-        <View className="m-10" />
+        {/* <View className="m-10" />
         <TouchableOpacity onPress={() => navigation.navigate("Tabs")} className="border">
           <Text className="text-base">skip login for dev</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </SafeAreaView>
     </LinearGradient>
   );

@@ -41,7 +41,7 @@ export default function App() {
               headerTransparent: true,
             }}
           >
-            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
             <Stack.Screen name="Tabs" component={TabsNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="Roulette" component={RouletteScreen} />
             <Stack.Screen name="Activities" component={ActivitiesScreen} />
