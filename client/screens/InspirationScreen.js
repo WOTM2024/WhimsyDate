@@ -61,7 +61,7 @@ export default function InspirationScreen() {
     } else {
       const query = searchForQuery.toLowerCase();
       const filtered = combinedData.filter((item) => {
-        const name = item.activity_name || item.food || item.show || item.film || "";
+        const name = item.activity_name || item.food || item.show || item.title || "";
         return name.toLowerCase().includes(query);
       });
       setFilteredData(filtered);
@@ -112,12 +112,6 @@ export default function InspirationScreen() {
               value={searchForQuery}
               onChangeText={(text) => setSearchForQuery(text)}
             />
-            {/* <MagnifyingGlassIcon
-              size={25}
-              color="#1E1E1E"
-              className="ml-2"
-              onPress={onPressHandle_searchActivities}
-            /> */}
           </View>
         </View>
         <ScrollView className="w-full p-1 ">
@@ -130,12 +124,6 @@ export default function InspirationScreen() {
                   className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
                 >
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.activity_name}</Text>
-                  {/* <MinusIcon
-                    size={25}
-                    color="#1E1E1E"
-                    className="ml-2"
-                    onPress={() => onPressHandle_removeActivity(item)}
-                  /> */}
                 </View>
               );
             }
@@ -150,12 +138,6 @@ export default function InspirationScreen() {
                   className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
                 >
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.food}</Text>
-                  {/* <MinusIcon
-                    size={25}
-                    color="#1E1E1E"
-                    className="ml-2"
-                    onPress={() => onPressHandle_removeActivity(item.food)}
-                  /> */}
                 </View>
               );
             }
@@ -170,12 +152,6 @@ export default function InspirationScreen() {
                   className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
                 >
                   <Text className="flex-1 font-bold text-light_text text-lg">{item.show}</Text>
-                  {/* <MinusIcon
-                    size={25}
-                    color="#1E1E1E"
-                    className="ml-2"
-                    onPress={() => onPressHandle_removeActivity(item.show)}
-                  /> */}
                 </View>
               );
             }
@@ -183,32 +159,19 @@ export default function InspirationScreen() {
           })}
           <Text className="text-xl font-bold mb-2 pl-4">Movies</Text>
           {filteredData.map((item, index) => {
-            if (item.film) {
+            if (item.title) {
               return (
                 <View
                   key={index}
                   className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
                 >
-                  <Text className="flex-1 font-bold text-light_text text-lg">{item.film}</Text>
-                  {/* <MinusIcon
-                    size={25}
-                    color="#1E1E1E"
-                    className="ml-2"
-                    onPress={() => onPressHandle_removeActivity(item.film)}
-                  /> */}
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.title}</Text>
                 </View>
               );
             }
             return null;
           })}
         </ScrollView>
-        {/* <View>
-          <PlusCircleIcon
-            size={75}
-            color="#1E1E1E"
-            onPress={onPressHandle_addActivity}
-          />
-        </View> */}
       </SafeAreaView>
     </LinearGradient>
   );

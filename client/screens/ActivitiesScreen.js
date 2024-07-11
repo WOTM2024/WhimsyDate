@@ -35,43 +35,46 @@ export default function ActivitiesScreen() {
   const [activeFormIndex, setActiveFormIndex] = React.useState(0);
 
   React.useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = auth.currentUser;
+    if (!isModalVisible) {
+      const fetchUserData = async () => {
+        try {
+          const user = auth.currentUser;
 
-        if (user) {
-          const userId = user.uid;
-          const userResponse = await fetchUserByUID(userId);
-          const userData = userResponse.data.data;
+          if (user) {
+            const userId = user.uid;
+            const userResponse = await fetchUserByUID(userId);
+            const userData = userResponse.data.data;
 
-          const activities = await fetchActivities();
-          const foods = await fetchFoods();
-          const tvShows = await fetchTvShows();
-          const movies = await fetchMovies();
+            const activities = await fetchActivities();
+            const foods = await fetchFoods();
+            const tvShows = await fetchTvShows();
+            const movies = await fetchMovies();
 
-          const filteredActivities = activities.filter((activity) => userData.user_activities.includes(activity._id));
-          const filteredFoods = foods.filter((food) => userData.user_food_choices.includes(food._id));
-          const filteredTvShows = tvShows.filter((tvShow) => userData.user_tv_shows.includes(tvShow._id));
-          const filteredMovies = movies.filter((movie) => userData.user_films.includes(movie._id));
+            const filteredActivities = activities.filter((activity) => userData.user_activities.includes(activity._id));
+            const filteredFoods = foods.filter((food) => userData.user_food_choices.includes(food._id));
+            const filteredTvShows = tvShows.filter((tvShow) => userData.user_tv_shows.includes(tvShow._id));
+            const filteredMovies = movies.filter((movie) => userData.user_films.includes(movie._id));
 
-          setUserActivities(filteredActivities);
-          setUserFoods(filteredFoods);
-          setUserTvShows(filteredTvShows);
-          setUserMovies(filteredMovies);
+            setUserActivities(filteredActivities);
+            setUserFoods(filteredFoods);
+            setUserTvShows(filteredTvShows);
+            setUserMovies(filteredMovies);
 
-          setFilteredData([...filteredActivities, ...filteredFoods, ...filteredTvShows, ...filteredMovies]);
+            setFilteredData([...filteredActivities, ...filteredFoods, ...filteredTvShows, ...filteredMovies]);
+          }
+        } catch (err) {
+          console.error("Error fetching user data:", err);
+          setError(err.message);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    fetchUserData();
+      fetchUserData();
+      console.log("refreshed");
+    }
+
     // console.log(userFoods);
-    console.log("refreshed");
   }, [isModalVisible]);
 
   const handleRemoveItem = async (category, entryId) => {
@@ -147,7 +150,7 @@ export default function ActivitiesScreen() {
     } else {
       const query = searchForQuery.toLowerCase();
       const filtered = combinedData.filter((item) => {
-        const name = item.activity_name || item.food_name || item.show || item.film || "";
+        const name = item.activity_name || item.food || item.show || item.title || "";
         return name.toLowerCase().includes(query);
       });
       setFilteredData(filtered);
