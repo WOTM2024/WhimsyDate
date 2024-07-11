@@ -193,6 +193,7 @@ export default function ActivitiesScreen() {
           {/* Render the list of activities */}
           <Text className="text-xl font-bold pl-4">Activities</Text>
           {filteredData.map((item, index) => {
+            // console.log(item);
             if (item.activity_name) {
               return (
                 <View
@@ -216,13 +217,13 @@ export default function ActivitiesScreen() {
           {/* Render the list of foods */}
           <Text className="text-xl font-bold pl-4">Foods</Text>
           {filteredData.map((item, index) => {
-            if (item.food_name) {
+            if (item.food) {
               return (
                 <View
                   key={index}
                   className="flex-row items-center justify-between border-2 border-slate-500 p-3 m-2 rounded-xl"
                 >
-                  <Text className="flex-1 font-bold text-light_text text-lg">{item.food_name}</Text>
+                  <Text className="flex-1 font-bold text-light_text text-lg">{item.food}</Text>
                   <MinusIcon
                     size={30}
                     strokeWidth={3}
