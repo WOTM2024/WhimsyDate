@@ -163,6 +163,19 @@ export const addMovie = (movieName, movieGenre) => {
     });
 };
 
+export const addShow = (showName, showGenre) => {
+  return api
+    .post(`/tvshows`, JSON.stringify({ show: showName, genre: showGenre }))
+    .then(({ data }) => {
+      console.log("add tv shows response ====> ", data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("API error", error);
+      throw error;
+    });
+};
+
 export const postUserEntryToCategory = (userId, category, entryId) => {
   return api
     .post(`/users/${userId}/${category}`, { entryId })
