@@ -182,8 +182,8 @@ const DeleteAccountConfirmationModal = ({ isVisible, onConfirm, onCancel }) => {
             borderRadius: 25,
           }}
         >
-          <Text style={{ color: "black" }}>Confirm Account Deletetion?</Text>
-          <View style={{ flexDirection: "row", marginTop: 5 }}>
+          <Text style={{ color: "black", fontWeight: 600, fontSize: 20 }}>Confirm Account Deletion?</Text>
+          <View style={{ flexDirection: "row", marginTop: 30 }}>
             <Button title="Cancel" onPress={onCancel} color="#4C25A2" />
             <View style={{ margin: 10 }}></View>
             <Button title="Delete" onPress={onConfirm} color="red" />
