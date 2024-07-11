@@ -36,7 +36,7 @@ const UserProfileScreen = () => {
     const currentUser = auth.currentUser;
     const currentUserId = auth.currentUser?.uid;
     Promise.all([deleteUser(currentUser), deleteUserByUID(currentUserId)]).then((response) => {
-      console.log(response);
+      // console.log(response);
       navigation.navigate("Login");
     });
   };

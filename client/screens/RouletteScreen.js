@@ -144,7 +144,7 @@ export default function HomeScreen({route}) {
             }
             const categoryEntriesIndex = categoryEntries[index]
             return (
-              <View key={index} style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: color[index % (color.length)], borderColor: "white", borderStyle: "solid", borderWidth: 4, borderRadius: 10, padding: 4 }}>
+              <View key={index} style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: color[index % (color.length - 1)], borderColor: "white", borderStyle: "solid", borderWidth: 4, borderRadius: 10, padding: 4 }}>
                 {/* <Image
                   source={imageSource}
                   style={{

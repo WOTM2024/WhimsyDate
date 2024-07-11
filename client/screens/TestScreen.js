@@ -42,7 +42,7 @@ export default function TestScreen() {
         autoPlayInterval={100}
         scrollAnimationDuration={100}
         data={imageUris}
-        onSnapToItem={(index) => console.log("current index:", index)}
+        // onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ index }) => {
           const imageSource = imageUris[index].uri ? { uri: imageUris[index].uri } : tempImage;
           return (

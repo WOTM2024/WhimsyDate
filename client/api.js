@@ -94,7 +94,7 @@ export const fetchUserByUID = (uid) => {
 };
 
 export const fetchEntriesByUserCategory = (uid, category) => {
-  console.log("category", category, "uid", uid);
+  // console.log("category", category, "uid", uid);
   const query = [];
   if (uid) query.push(`${uid}`);
   if (category) query.push(`${category}`); // tv_shows
@@ -102,7 +102,7 @@ export const fetchEntriesByUserCategory = (uid, category) => {
   const queryString = query.length ? `${query.join("/")}` : "";
   const url = `/users/${queryString}`;
 
-  console.log("url", url);
+  // console.log("url", url);
 
   return api
     .get(url)
@@ -141,7 +141,7 @@ export const addActivity = (activity_name, category, isCollaborative, cost) => {
   return api
     .post(`/activities`, { activity_name, category, isCollaborative, cost })
     .then(({ data }) => {
-      console.log("data from api>>>>>>>>>>", data);
+      // console.log("data from api>>>>>>>>>>", data);
       return data;
     })
     .catch((err) => {
@@ -154,7 +154,7 @@ export const addMovie = (movieName, movieGenre) => {
   return api
     .post(`/movies`, JSON.stringify({ title: movieName, genre: movieGenre }))
     .then(({ data }) => {
-      console.log("add movies response ====> ", data);
+      // console.log("add movies response ====> ", data);
       return data;
     })
     .catch((error) => {
@@ -167,7 +167,7 @@ export const addShow = (showName, showGenre) => {
   return api
     .post(`/tvshows`, JSON.stringify({ show: showName, genre: showGenre }))
     .then(({ data }) => {
-      console.log("add tv shows response ====> ", data);
+      // console.log("add tv shows response ====> ", data);
       return data;
     })
     .catch((error) => {
@@ -183,7 +183,7 @@ export const addFood = (foodName, isVegetarian, isVegan, isMeat, isAllergies) =>
       JSON.stringify({ food: foodName, vegetarian: isVegetarian, vegan: isVegan, meat: isMeat, allergies: isAllergies })
     )
     .then(({ data }) => {
-      console.log("add food response ====> ", data);
+      // console.log("add food response ====> ", data);
       return data;
     })
     .catch((error) => {
@@ -196,7 +196,7 @@ export const postUserEntryToCategory = (userId, category, entryId) => {
   return api
     .post(`/users/${userId}/${category}`, { entryId })
     .then(({ data }) => {
-      console.log("data from post user blabla>>>>", data);
+      // console.log("data from post user blabla>>>>", data);
       return data;
     })
     .catch((err) => {

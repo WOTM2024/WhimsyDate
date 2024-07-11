@@ -33,7 +33,7 @@ export default function FlappyBirdScreen() {
               case "game_over":
                 setRunning(false);
                 gameEngine.stop();
-                console.log("Score: " + currentPoints);
+                // console.log("Score: " + currentPoints);
                 setGameOverHandled(true);
                 break;
               case "new_point":

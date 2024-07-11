@@ -71,7 +71,7 @@ export default function ActivitiesScreen() {
       };
 
       fetchUserData();
-      console.log("refreshed");
+      // console.log("refreshed");
     }
 
     // console.log(userFoods);
