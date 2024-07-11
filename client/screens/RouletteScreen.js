@@ -136,7 +136,7 @@ export default function HomeScreen({route}) {
                 key_name = "food";
                 break;
               case "Films":
-                key_name = "film";
+                key_name = "title";
                 break;
               case "Tv Shows":
                 key_name = "show";
