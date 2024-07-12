@@ -13,17 +13,50 @@ Ensure Node.js version 21.7.1 or higher is installed.
 
 1. Clone the repository:
 
-`git clone https://github.com/WOTM2024/WhimsyDate `
+```
+git clone https://github.com/WOTM2024/WhimsyDate
+```
 
-`cd WhimsyDate`
+```
+cd WhimsyDate
+```
 
-2. Install the dependencies:
+#### Frontend
+1. Go on to the frontend folder:
 
-` npm install `
+```
+cd client 
+```
 
-3. Run the development server
+2. Install any dependencies
 
-`npm run dev ` 
+```
+npm install 
+```
+
+3. Run the project
+
+```
+npm run start
+```
+
+#### Backend
+1. Go on to the backend folder:
+```
+cd server 
+```
+
+2. Install any dependencies
+
+```
+npm install 
+```
+
+3. Run the project
+
+```
+npm run start
+```
 
 
 ## Whalers on the Moon
