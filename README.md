@@ -40,6 +40,10 @@ npm install
 npm run start
 ```
 
+> [!NOTE]
+The frontend requires a private api key on a .env file in order to run properly. FIREBASE_APIKEY (from firebase).
+
+
 #### Backend
 1. Go on to the backend folder:
 ```
@@ -57,6 +61,10 @@ npm install
 ```
 npm run start
 ```
+
+> [!NOTE]
+The backend requires a private api key on a .env file in order to run properly. DB_CONNECTION (from mongodb).
+
 
 
 ## Whalers on the Moon
