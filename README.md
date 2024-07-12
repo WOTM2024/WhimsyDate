@@ -3,6 +3,9 @@
 ## Description
 Whimsydate is an app developed by Whalers on the Moon to allow users to generate suggestions for date night, whether that is with your partner, friend, or as a solo outing.
 
+<!-- [![Whimsy Date Demo Video](http://img.youtube.com/vi/NtNS00wZclU/0.jpg)](http://www.youtube.com/watch?v=NtNS00wZclU) -->
+[![WhimsyDate](https://markdown-videos-api.jorgenkh.no/youtube/NtNS00wZclU.gif)](https://www.youtube.com/watch?v=NtNS00wZclU)
+
 ## Getting Started
 To run the app locally:
 
