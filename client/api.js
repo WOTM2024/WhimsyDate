@@ -5,7 +5,6 @@ const api = axios.create({
   baseURL: `https://whimsydate.onrender.com/api`,
   headers: {
     "Content-Type": "application/json",
-    "api-key": API_KEY,
   },
 });
 
